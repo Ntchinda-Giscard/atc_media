@@ -11,6 +11,7 @@ import { TopUserButton } from "./user-menu";
 import Cookies from 'js-cookie';
 import { error_notification } from "../utils/notification-center";
 import {useRouter} from "next/navigation"
+import { LangaugePicker } from "@/app/(site)/components/common/header_exp";
 
 
 function TopBar() {
@@ -50,10 +51,11 @@ function TopBar() {
 
             <Group>
 
-                <Group gap={1}>
+                {/* <Group gap={1}>
                     <IconWorld width={20} height={20} stroke={1.5} />
                     <IconChevronDown width={16} height={16} stroke={1.5} />
-                </Group>
+                </Group> */}
+                <LangaugePicker c={""} />
                 
                 <Indicator color="#EE0202" size={10}>
                         <IconBell style={{ width: '70%', height: '70%' }} stroke={1.5} />

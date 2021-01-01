@@ -35,16 +35,16 @@ export default function ConnectionHistoryTable({onDelete, onEdit, elements}: {el
                 textAlign: 'center'
               }}
             >
-              Nom
+              Date
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Adresse
+              Adresse IP
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Nom du manageur
+              Navigateur
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Numero du manageur
+              Localisation
             </Table.Th>
             <Table.Th
               style={{

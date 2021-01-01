@@ -7,8 +7,16 @@ import { Button } from "@/components/ui/button"
 import { ChevronDown } from 'lucide-react';
 import logo from "@/public/assets/top_bar_logo.svg";
 import Image from "next/image";
+import { useCombobox, Combobox, Group } from '@mantine/core';
+import { IconTriangleFilled } from '@tabler/icons-react';
+
+const language = [
+  '🇫🇷 FR',
+  '🇬🇧 EN'
+]
 
 const Header = () => {
+
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -19,10 +27,11 @@ const Header = () => {
             <Image src={logo} alt="logo" width={100} height={100} />
         </div>
         <div className="flex flex-row gap-4">
-          <div className="flex md:hidden block flex-row items-center"> 
+          {/* <div className="flex md:hidden block flex-row items-center"> 
             <div>🇫🇷 FR</div>
               <ChevronDown />
-            </div>
+          </div> */}
+            <LangaugePicker  c='md:hidden block' />
             <button
               className="md:hidden text-gray-800 focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
@@ -45,26 +54,28 @@ const Header = () => {
                 home_links?.map((h) =>(
                     <Link
                         key={h?.route} 
-                        className={pathname === h?.route ? "text-red-600 text-base" : "text-base hover:text-red-600"}
+                        className={pathname === h?.route ? "font-[700] text-[18px] text-red-600 text-base" : "text-[18px] font-[700] text-base hover:text-red-600"}
                         href={h?.route}> 
                         {h?.label} 
                     </Link>
                 ))
             }
             <div className={` ${isOpen ? 'block' : 'hidden'} flex flex-col md:flex-row gap-2`} >
-          <div className="flex hidden md:block flex-row items-center"> 
+          {/* <div className="flex hidden md:block flex-row items-center"> 
               <div>🇫🇷 FR</div>
               <ChevronDown />
-          </div>
+          </div> */}
+          <LangaugePicker c={'hidden md:block'} />
           <Button asChild className="hover:bg-transparent hover:text-inherit r-2 bg-red-600 px-6 py-1 rounded-xl shadow-lg shadow-red-500/50 hover:shadow-none hover:ring-2"> 
               <Link href={"/auth/login"} > Se Connecter  </Link>
           </Button> 
         </div>
       </div>
-      <div className='flex flex-row'>
+      <div className='flex flex-row gap-5'>
         <div className="flex flex-row items-center"> 
-              <div className='hidden md:block '>🇫🇷 FR</div>
-              <ChevronDown className='hidden md:block ' />
+              {/* <div className='hidden md:block '>🇫🇷 FR</div>
+              <ChevronDown className='hidden md:block ' /> */}
+              <LangaugePicker c={'hidden md:block'} />
           </div>
           <Button asChild className=" hidden md:block hover:bg-transparent hover:text-inherit r-2 bg-red-600 px-6 py-1 rounded-xl shadow-lg shadow-red-500/50 hover:shadow-none hover:ring-2"> 
               <Link href={"/auth/login"} > Se Connecter  </Link>
@@ -79,3 +90,37 @@ const Header = () => {
 };
 
 export default Header;
+
+export function LangaugePicker({c}:{c: string}){
+  const [selectedItem, setSelectedItem] = useState<string | null>(language[0])
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  });
+
+  const options = language.map((item) =>(
+    <Combobox.Option value={item} key={item}>{item}</Combobox.Option>
+  ))
+  return(
+    <Group className={`flex flex-row ${c}`}>
+      <p  className={`text-[18px] font-[400] ${c}`} > {selectedItem} </p>
+      <Combobox
+        store={combobox}
+        width={50}
+        onOptionSubmit={(val) =>{
+          setSelectedItem(val);
+          combobox.closeDropdown();
+        }}
+      >
+        <Combobox.Target>
+          <IconTriangleFilled className={c} size={12} rotate={'90'}  onClick={() => combobox.toggleDropdown()} />
+        </Combobox.Target>
+        <Combobox.Dropdown>
+          <Combobox.Options> {options} </Combobox.Options>
+        </Combobox.Dropdown>
+
+      </Combobox>
+
+    </Group>
+  )
+
+}
