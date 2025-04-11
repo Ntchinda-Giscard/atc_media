@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
+import HomeHeader from "./components/common/home_header";
 
 const poppins_font = Poppins({
   variable: "--font-poppins",
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${poppins_font.variable} ${poppins_font.variable}`}
       >
+        <HomeHeader />
         {children}
       </body>
     </html>
