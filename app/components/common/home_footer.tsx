@@ -37,9 +37,9 @@ export default function HomeFooter(){
                         }
                     </div>
 
-                    <div className="gap-3 flex flex-col ">
+                    <div className="gap-3 flex flex-col">
                         <p className="text-white font-medium">SUIVEZ-NOUS</p>
-                        <div className="flex flex-row gap-4"> 
+                        <div className="flex flex-row gap-4 w-full justify-center"> 
                             <Facebook color="white" />
                             <TwitterIcon color="white" />
                         </div>
