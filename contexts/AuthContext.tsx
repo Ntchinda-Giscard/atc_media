@@ -1,0 +1,43 @@
+'use client';
+import { createContext, useState, useEffect, useContext } from 'react';
+import api from '@/lib/axios';
+import { useRouter } from 'next/navigation';
+
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    api.get('/user')
+      .then(res => setUser(res.data))
+      .catch(() => setUser(null));
+  }, []);
+
+  const login = async (credentials) => {
+    await api.post('/login', credentials);
+    const res = await api.get('/user');
+    setUser(res.data);
+    router.push('/dashboard');
+  };
+
+  const logout = async () => {
+    await api.post('/logout');
+    setUser(null);
+    router.push('/login');
+  };
+
+  const hasRole = (role) => user?.role === role;
+  const hasAnyRole = (roles) => roles.includes(user?.role);
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, hasRole, hasAnyRole }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
