@@ -2,6 +2,7 @@ import logo from "@/public/assets/top_bar_logo.svg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button"
 import {ChevronDown} from "lucide-react";
+import Link from "next/link";
 
 
 
@@ -17,8 +18,8 @@ export default function HomeHeader(){
                         <ChevronDown />
                     </div>
                     
-                    <Button className="hover:bg-transparent hover:text-inherit r-2 bg-red-600 px-6 py-1 rounded-xl shadow-lg shadow-red-500/50 hover:shadow-none hover:ring-2"> 
-                        Se Connecter 
+                    <Button asChild className="hover:bg-transparent hover:text-inherit r-2 bg-red-600 px-6 py-1 rounded-xl shadow-lg shadow-red-500/50 hover:shadow-none hover:ring-2"> 
+                        <Link href={"/auth/login"} > Se Connecter  </Link>
                     </Button>
                 </div>
                 
