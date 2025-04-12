@@ -4,13 +4,14 @@ import { Input } from "@/components/ui/input";
 
 import { Label } from "@/components/ui/label";
 import { SetStateAction, useState } from "react";
+import { ProfileForm } from "./components/login_form";
 
 function LoginPage() {
     const [password, setPassword] = useState("")
 	const [passwordConfirmation, setPasswordConfirmation] = useState("")
     return ( 
         <>
-            <div className="w-full justify-center flex-col">
+            <div className="w-full flex justify-center flex-col w-full">
                 
                 <div className="text-center w-full flex flex-col gap-5">
                     <h1 className=" text-xl text-neutral-950 font-medium">
@@ -20,7 +21,10 @@ function LoginPage() {
                         Accédez à votre espace et gérez vos diffusions en toute simplicité.
                     </p>
                 </div>
-                <div className="w-full flex justify-center">
+                <div className="flex justify-center w-full">
+                    <ProfileForm />
+                </div>
+                {/* <div className="w-full flex justify-center">
                     <div className="grid w-full max-w-sm items-center gap-1.5">
                         <Label htmlFor="email" className="text-sm font-thin">Email</Label>
                         <Input type="email" id="email" placeholder="Email" />
@@ -35,7 +39,7 @@ function LoginPage() {
                         />
                     </div>
                    
-                </div>
+                </div> */}
                 
             </div>
         </> 

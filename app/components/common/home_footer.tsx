@@ -7,7 +7,7 @@ export default function HomeFooter(){
 
     return(
         <>
-            <footer className="bg-stone-900 px-10 pt-5 pb-5 mt-10 h-screen">
+            <footer className="bg-stone-900 px-10 pt-5 mt-10 h-full">
                 <div className="flex flex-col lg:flex-row gap-5 md:justify-around justify-center w-full text-center ">
                     <div className="gap-3 flex flex-col ">
                         <p className="text-white font-medium">LIEN UTILES</p>
