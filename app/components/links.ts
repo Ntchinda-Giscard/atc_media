@@ -1,7 +1,10 @@
 import { Facebook } from "lucide-react"
 
 export const home_links = [
-    {label: "Accueil", route: "/"}
+    {label: "Accueil", route: "/"},
+    {label: "Fonctionnalités", route: "/fontionnalities"},
+    {label: "À propos", route: "/about-us"},
+    {label: "Contact", route: "/contact"},
 ]
 
 export const useful_links = [
