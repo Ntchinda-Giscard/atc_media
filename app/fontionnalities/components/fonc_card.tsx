@@ -10,7 +10,6 @@ type Props = {
 
 function FonctionnalitesCard({image,title, index, desc}: Props) {
     const isEven = index % 2 === 0;
-    console.log("index", isEven)
     return ( 
         <>
             <div key={title} className={`flex justify-around gap-5  ${isEven ? 'flex-row' : 'flex-row-reverse'}`}>

@@ -4,7 +4,7 @@ import SampleUseCase from "./components/login";
 
 export default function Home() {
   return (
-    <div className="min-h-full min-w-full">
+    <div className="h-dvh min-w-full">
       <HomeBody />
     </div>
   );
