@@ -57,7 +57,7 @@ export default function TemplatesPage() {
     }
   ];
 
-  const statusColor = {
+  const statusColor: { [key: string]: string } = {
     'Actif': 'text-green-600',
     'En attente': 'text-yellow-500',
     'Expiré': 'text-red-500'

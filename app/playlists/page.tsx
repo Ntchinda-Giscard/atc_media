@@ -10,7 +10,7 @@ export default function BroadcastsPage() {
 
    const statusColor: { [key: string]: string } = {
     'En cours': 'text-green-600',
-    'Planifié': 'text-yellow-500',
+    'Planifié': 'text-yellow-500', 
     'Terminé': 'text-gray-500'
   };
 
