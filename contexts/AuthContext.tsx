@@ -3,7 +3,7 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import api from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext<{ user: { role?: string } | null; login: (credentials: { email: string; password: string; }) => Promise<void>; logout: () => Promise<void>; hasRole: (role: string) => boolean; hasAnyRole: (roles: string[]) => boolean } | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<{ role?: string } | null>(null);
