@@ -104,7 +104,12 @@ export default function ContactForm() {
       
 
       <Group justify="flex-start" mt="md">
-        <Button color='#EE0202' size='compact-md' type="submit">Envoyer votre message</Button>
+        {/* <Button color='#EE0202' size='compact-md' type="submit">Envoyer votre message</Button> */}
+        <Button 
+          type="submit" 
+          className="w-full bg-red-600 hover:bg-transparent hover:text-inherit hover:shadow-none hover:ring-2">
+          Envoyer votre message
+        </Button>
       </Group>
     </form>
   );
