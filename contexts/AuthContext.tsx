@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext(null);
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState(null);
   const router = useRouter();
 
@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
       .catch(() => setUser(null));
   }, []);
 
-  const login = async (credentials) => {
+  const login = async (credentials: { email: string; password: string }) => {
     await api.post('/login', credentials);
     const res = await api.get('/user');
     setUser(res.data);
@@ -28,8 +28,8 @@ export function AuthProvider({ children }) {
     router.push('/login');
   };
 
-  const hasRole = (role) => user?.role === role;
-  const hasAnyRole = (roles) => roles.includes(user?.role);
+  const hasRole = (role: string) => user?.role === role;
+  const hasAnyRole = (roles: string[]) => roles.includes(user?.role);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, hasRole, hasAnyRole }}>
