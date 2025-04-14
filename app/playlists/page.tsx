@@ -8,7 +8,7 @@ export default function BroadcastsPage() {
     { title: 'Publicité Météo', target: 'Groupe Pharmacie', period: '01/04/2025 - 05/04/2025', type: 'Texte', status: 'Terminé' }
   ];
 
-  const statusColor = {
+   const statusColor: { [key: string]: string } = {
     'En cours': 'text-green-600',
     'Planifié': 'text-yellow-500',
     'Terminé': 'text-gray-500'
