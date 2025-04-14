@@ -1,0 +1,11 @@
+{
+    "build": {
+      "installCommand": "npm install --force",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "outputDirectory": "dist",
+    "framework": "nextjs"
+  }
+  
