@@ -11,10 +11,10 @@ function Contact() {
                 </div>
                 <div className="flex w-full justify-center">
                     <div className="white-700 p-2 shadow-xl rounded-md w-2/3 flex flex-row">
-                        <div className="w-1/3">
+                        <div className="w-1/3 h-full">
                             <ContactInfoCard />
                         </div>
-                        <div className="w-2/3">
+                        <div className="w-2/3 h-3/4">
                             <ContactForm />
                         </div>
 

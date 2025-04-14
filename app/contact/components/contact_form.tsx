@@ -1,11 +1,12 @@
 "use client";
-import { Button, Checkbox, Group, TextInput } from '@mantine/core';
+import { Button, Checkbox, Group, TextInput, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 export default function ContactForm() {
   const input_style = {
     input: {
       borderBottom: '1px solid #E4E4E4',
+      borderWidth: '0px 0px 1px 0px',
     },
     label:{
       color: "#414141",
@@ -33,7 +34,7 @@ export default function ContactForm() {
   return (
     <form onSubmit={form.onSubmit((values) => console.log(values))}>
       <p> 📧 Formulaire de Contact </p>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <div className='flex flex-row justify-between gap-4'>
 
           <TextInput
@@ -84,11 +85,26 @@ export default function ContactForm() {
             {...form.getInputProps('phone')}
           />
         </div>
+        <p className="text-sm text-stone-600"> Sujet </p>
+        <div className='flex flex-row justify-between'>
+          <Checkbox size={'10'} color={'#414141'} radius={'lg'} styles={{label:{fontSize: 'smaller'}}} label="Assistance technique"/>
+          <Checkbox size={'10'} color={'#414141'} radius={'lg'} styles={{label:{fontSize: 'smaller'}}} label="Facturation"/>
+          <Checkbox size={'10'} color={'#414141'} radius={'lg'} styles={{label:{fontSize: 'smaller'}}} label="Partenariat"/>
+          <Checkbox size={'10'} color={'#414141'} radius={'lg'} styles={{label:{fontSize: 'smaller'}}} label="Autre"/>
+
+        </div>
+        <Textarea
+          size="md"
+          styles={input_style}
+          label="Votre message"
+          placeholder=""
+          radius={0}
+        />
       </div>
       
 
-      <Group justify="flex-end" mt="md">
-        <Button type="submit">Submit</Button>
+      <Group justify="flex-start" mt="md">
+        <Button color='#EE0202' size='compact-md' type="submit">Envoyer votre message</Button>
       </Group>
     </form>
   );
