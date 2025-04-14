@@ -14,6 +14,7 @@ function AboutUs() {
                     {
                         about_us_static.map((a, index) =>(
                             <AboutUsCard
+                                key={a?.title}
                                 image={a?.img}
                                 desc={a?.desc}
                                 title={a?.title}
