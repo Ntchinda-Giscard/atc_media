@@ -1,3 +1,4 @@
+import ContactForm from "./components/contact_form";
 import ContactInfoCard from "./components/contact_info_card";
 
 function Contact() {
@@ -13,6 +14,7 @@ function Contact() {
                         <div className="w-1/2">
                             <ContactInfoCard />
                         </div>
+                        <ContactForm />
 
                     </div>
                 </div>
