@@ -16,7 +16,7 @@ function FonctionnalitesCard({image,title, index, desc}: Props) {
                 <div className="">
                     <Image src={image} width={500} height={400} alt={"image"} />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col text-justify">
                     <h2 className="font-semibold text-xl text-start mb-6"> {title} </h2>
                     <div className="flex flex-col gap-5 w-full text-start">
                         { desc?.map((t) => (

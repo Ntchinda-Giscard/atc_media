@@ -6,7 +6,7 @@ function TermsAndCondition() {
                     <h1 className="text-3xl font-semibold"> 🔒 Politique de Confidentialité </h1>
                     <p className="font-light mt-4 text-sm px-10 mb-20"> Bienvenue sur [Nom du site]. La protection de vos données personnelles est une priorité pour nous. Cette politique explique quelles informations nous collectons, comment nous les utilisons et comment vous pouvez exercer vos droits.</p>
                 </div>
-                <div className="flex flex-col px-5 ">
+                <div className="flex flex-col px-5 text-justify ">
                     <ol>
                         <li className="text-2xl font-bold">  Introduction </li>
                         <p className="mb-5"> SCAD est l’éditeur du logiciel d’affichage dynamique appelé <b> ATC média.  </b> </p>

@@ -23,7 +23,7 @@ function AboutUsCard({image, title, index, desc}: Props) {
                 </div>
                 <div className="flex flex-col w-2/5">
                     <h2 className="font-semibold text-xl text-start mb-6"> {title} </h2>
-                    <div className="flex flex-col gap-5 w-full text-start">
+                    <div className="flex flex-col gap-5 w-full text-start text-justify">
                         { desc?.map((t) => (
                             <p key={t} className="font-thin text-sm whitespace-nowrap overflow-hidden text-ellipsis"> {t} </p>
                         ))

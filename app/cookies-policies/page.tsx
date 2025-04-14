@@ -6,7 +6,7 @@ function Page() {
                     <h1 className="text-3xl font-semibold"> 🍪 Politique Relative aux Cookies </h1>
                     <p className="font-light mt-4 text-sm px-10 mb-20"> Bienvenue sur [Nom du site]. La protection de vos données personnelles est une priorité pour nous. Cette politique explique quelles informations nous collectons, comment nous les utilisons et comment vous pouvez exercer vos droits.</p>
                 </div>
-                <div className="flex flex-col gap-3 px-7">
+                <div className="flex flex-col gap-3 px-7 text-justify">
                     <p className="text-sm mb-2"> Bienvenue sur <b> ATC media </b>. Cette politique explique comment et pourquoi nous utilisons des cookies et technologies similaires sur notre plateforme. </p>
                     <p className="text-sm mb-3"> 📌 En continuant à naviguer sur notre site, vous acceptez l’utilisation des cookies conformément à cette politique. </p>
 
