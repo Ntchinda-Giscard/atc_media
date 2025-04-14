@@ -1,56 +1,95 @@
-"use client"
+"use client";
+import { Button, Checkbox, Group, TextInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+export default function ContactForm() {
+  const input_style = {
+    input: {
+      borderBottom: '1px solid #E4E4E4',
+    },
+    label:{
+      color: "#414141",
+      fontSize: 'x-small',
+    }
+  }
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      termsOfService: false,
+    },
 
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { PasswordInput } from "@/app/components/common/password-input"
-import Link from "next/link"
+    validate: {
+      lastname: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      firstname: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      email: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      phone: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
 
-const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Email must be at least 2 characters.",
-  }),
-  firstname: z.string().min(2, {
-    message: "firstname must be at least 2 characters.",
-  }),
-  lastname: z.string().min(2, {
-    message: "lastname must be at least 2 characters.",
-  }),
-})
+  return (
+    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <p> 📧 Formulaire de Contact </p>
+      <div className="flex flex-col gap-4">
+        <div className='flex flex-row justify-between gap-4'>
 
-  
+          <TextInput
+            w={"100%"}
+            variant='unstyled'
+            styles={input_style}
+            radius={0}
+            withAsterisk
+            label="Prénom"
+            placeholder="John"
+            key={form.key('lastname')}
+            {...form.getInputProps('email')}
+          />
+          <TextInput
+            w={"100%"}
+            variant='unstyled'
+            radius={0}
+            styles={input_style}
+            withAsterisk
+            label="Nom"
+            placeholder="Doe"
+            key={form.key('firstname')}
+            {...form.getInputProps('firstname')}
+          />
+        </div>
+        <div className='flex flex-row justify-between gap-4'>
 
-function ContactForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-          email: "",
-          firstname: "",
-          lastname: ""
-        },
-      })
-    
-      function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
-      }
-    return ( 
-        <>
-            <div className="">
+          <TextInput
+            w={"100%"}
+            variant='unstyled'
+            radius={0}
+            styles={input_style}
+            withAsterisk
+            label="Adresse mail"
+            placeholder="your@email.com"
+            key={form.key('email')}
+            {...form.getInputProps('email')}
+          />
+          <TextInput
+            w={"100%"}
+            variant='unstyled'
+            radius={0}
+            styles={input_style}
+            withAsterisk
+            label="Numéro de téléphone"
+            placeholder="[xxx]xxxxxxxx"
+            key={form.key('phone')}
+            {...form.getInputProps('phone')}
+          />
+        </div>
+      </div>
+      
 
-            </div>
-        </>
-    );
+      <Group justify="flex-end" mt="md">
+        <Button type="submit">Submit</Button>
+      </Group>
+    </form>
+  );
 }
-
-export default ContactForm;

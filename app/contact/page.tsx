@@ -10,11 +10,13 @@ function Contact() {
                     <p className="font-light mt-7 text-sm px-10 mb-20">Besoin d’aide ? Une question ? Notre équipe est à votre disposition pour vous accompagner.📌 Réponse sous 24h ouvrées. </p>
                 </div>
                 <div className="flex w-full justify-center">
-                    <div className="white-700 p-2 shadow-xl rounded-md w-2/3">
-                        <div className="w-1/2">
+                    <div className="white-700 p-2 shadow-xl rounded-md w-2/3 flex flex-row">
+                        <div className="w-1/3">
                             <ContactInfoCard />
                         </div>
-                        <ContactForm />
+                        <div className="w-2/3">
+                            <ContactForm />
+                        </div>
 
                     </div>
                 </div>
