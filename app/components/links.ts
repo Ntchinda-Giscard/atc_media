@@ -9,16 +9,16 @@ export const home_links = [
 
 export const useful_links = [
     {label: "Accueil", route: "/"},
-    {label: "Fonctionnalité", route: "/"},
-    {label: "A propos", route: "/"},
-    {label: "Contact", route: "/"},
-    {label: "Se connecter", route: "/"},
+    {label: "Fonctionnalité", route: "/fontionnalities"},
+    {label: "A propos", route: "/about-us"},
+    {label: "Contact", route: "/contact"},
+    {label: "Se connecter", route: "/auth/login"},
 ]
 
 export const legal_mentions = [
-    {label: "Terme et condition", route: "/terms-and-conditions"},
-    {label: "Politique de confidentialité", route: "/"},
-    {label: "Politique relative aux cookies", route: "/"},
+    {label: "Terme et condition", route: "#"},
+    {label: "Politique de confidentialité", route: "/confodential-policies"},
+    {label: "Politique relative aux cookies", route: "#"},
 ]
 
 export const follow_us = [
