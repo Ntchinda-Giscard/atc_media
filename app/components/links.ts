@@ -16,7 +16,7 @@ export const useful_links = [
 ]
 
 export const legal_mentions = [
-    {label: "Terme et condition", route: "/"},
+    {label: "Terme et condition", route: "/terms-and-conditions"},
     {label: "Politique de confidentialité", route: "/"},
     {label: "Politique relative aux cookies", route: "/"},
 ]
