@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<{ role?: string } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const hasRole = (role: string) => user?.role === role;
-  const hasAnyRole = (roles: string[]) => roles.includes(user?.role);
+  const hasAnyRole = (roles: string[]) => roles.includes(user?.role || '');
 
   return (
     <AuthContext.Provider value={{ user, login, logout, hasRole, hasAnyRole }}>
