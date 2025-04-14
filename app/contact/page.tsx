@@ -4,7 +4,7 @@ import ContactInfoCard from "./components/contact_info_card";
 function Contact() {
     return (
         <>
-            <main className="min-h-full min-w-full ">
+            <main className="min-h-svh min-w-full ">
                 <div className="w-full text-center">
                     <h1 className="text-3xl font-semibold"> 📞 Contactez-nous </h1>
                     <p className="font-light mt-7 text-sm px-10 mb-20">Besoin d’aide ? Une question ? Notre équipe est à votre disposition pour vous accompagner.📌 Réponse sous 24h ouvrées. </p>

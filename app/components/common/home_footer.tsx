@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { follow_us, legal_mentions, useful_links } from "../links";
 import { Facebook, TwitterIcon } from "lucide-react"
+import {IconBrandPinterest} from "@tabler/icons-react"
 
 
 export default function HomeFooter(){
@@ -8,7 +9,7 @@ export default function HomeFooter(){
     return(
         <>
             <footer className="bg-stone-900 px-10 pt-5 mt-10 h-full">
-                <div className="flex flex-col lg:flex-row gap-5 md:justify-around justify-center w-full text-center ">
+                <div className="flex flex-col lg:flex-row gap-5 md:justify-around justify-center w-full text-start ">
                     <div className="gap-3 flex flex-col ">
                         <p className="text-white font-medium">LIEN UTILES</p>
                         {
@@ -42,6 +43,7 @@ export default function HomeFooter(){
                         <div className="flex flex-row gap-4 w-full justify-center"> 
                             <Facebook color="white" />
                             <TwitterIcon color="white" />
+                            <IconBrandPinterest color="white" />
                         </div>
                         
                     </div>

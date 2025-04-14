@@ -11,7 +11,7 @@ function LoginPage() {
 	const [passwordConfirmation, setPasswordConfirmation] = useState("")
     return ( 
         <>
-            <div className="w-full flex justify-center flex-col w-full">
+            <div className="h-svh flex justify-center flex-col w-full">
                 
                 <div className="text-center w-full flex flex-col gap-5">
                     <h1 className=" text-xl text-neutral-950 font-medium">
