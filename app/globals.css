@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+:root {
+  --primary-color: #EE0202;
+  --app-background-color: #ffffff;
+  --text-color: #333333;
+}
+
+
 body {
   @apply bg-gray-50 text-gray-900;
 }
