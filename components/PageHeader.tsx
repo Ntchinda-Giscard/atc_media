@@ -6,7 +6,7 @@ export interface PageHeaderProps {
 
 function PageHeader({ title }: PageHeaderProps) {
   return (
-    <div className="mb-3 font-bold text-[33px]">{title}</div>
+    <div className="mb-3 font-bold text-[33px] text-[var(--title-color)]">{title}</div>
   )
 }
 

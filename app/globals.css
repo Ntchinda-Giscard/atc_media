@@ -7,10 +7,39 @@
   --primary-color: #EE0202;
   --app-background-color: #ffffff;
   --white: #ffffff;
-  --text-color: #333333;
+  --title-color: #414141;
+  --secondary-background: #F9F9F9;
+  --light-gray-background: #E4E4E4;
+  --red: #F93535;
+  --fadded-red: #F935351A;
+  --green: #34C759;
+  --fadded-green: #F0FEED;
 }
 
 
 body {
   @apply bg-gray-50 text-gray-900;
+}
+thead tr {
+  background-color: var(--secondary-background);
+} 
+thead tr th,
+tbody tr td {
+  border-top: 1.5px solid var(--light-gray-background);
+  border-bottom: 1.5px solid var(--light-gray-background);
+} 
+tbody tr:hover {
+  background-color: var(--secondary-background);
+} 
+tr td:first-child,
+tr th:first-child {
+  border-left: 1.5px solid var(--light-gray-background);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+tr td:last-child,
+tr th:last-child  {
+  border-right: 1.5px solid var(--light-gray-background);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }

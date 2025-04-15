@@ -10,7 +10,7 @@ import AppButton from './AppButton';
 function PageSectionHeader() {
   return (
     <div className="grid items-center grid-cols-2 mb-2 lg:flex lg:gap-3">
-      <div className='font-bold text-[30px] flex-1'>🗂 Dossiers</div>
+      <div className='font-bold text-[30px] flex-1  text-[var(--title-color)]'>🗂 Dossiers</div>
       <div className="flex items-center justify-end gap-2">
         <AlignJustify className="text-red-500 cursor-pointer" />
         <LayoutGrid className="text-gray-500 cursor-pointer" />
