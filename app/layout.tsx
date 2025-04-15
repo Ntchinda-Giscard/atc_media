@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </header>
 
               {/* Main content */}
-              <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+              <main className="flex-1 p-2 overflow-y-auto md:p-4 lg:p-6">{children}</main>
             </div>
           </div>
         </AuthProvider>
