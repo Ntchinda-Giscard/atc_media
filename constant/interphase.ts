@@ -12,6 +12,7 @@ export interface IMediaFolders extends ICustomTableData {
     name: string;
     content: string;
     createdAt: string;
+    items: number;
     shared: string;
 }
 

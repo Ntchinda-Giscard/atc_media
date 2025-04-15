@@ -7,6 +7,7 @@
   --primary-color: #EE0202;
   --app-background-color: #ffffff;
   --white: #ffffff;
+  --black: #000000;
   --title-color: #414141;
   --secondary-background: #F9F9F9;
   --light-gray-background: #E4E4E4;
@@ -16,6 +17,7 @@
   --fadded-green: #F0FEED;
   --fadded-icon: #D8D8D8;
   --fadded-border: #AFAFAF;
+  --card-bg: #FAFAFA;
 }
 
 

@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[var(--app-background-color)]">
         <AuthProvider>
           <div className="flex h-screen">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <div className="flex flex-col flex-1">
               {/* Topbar */}
               <header className="flex items-center justify-between px-6 py-3 bg-white border-b shadow">

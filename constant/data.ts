@@ -6,6 +6,7 @@ export const mediaFolders: IMediaFolders[] = [
         name: "Promotions Avril",
         content: "5 images, 2 vidéos",
         createdAt: "05/04/2025",
+        items: 0,
         shared: "Oui",
     },
     {
@@ -13,6 +14,7 @@ export const mediaFolders: IMediaFolders[] = [
         name: "Offres TV",
         content: "3 vidéos",
         createdAt: "01/04/2025",
+        items: 10,
         shared: "Non",
     },
     {
@@ -20,6 +22,7 @@ export const mediaFolders: IMediaFolders[] = [
         name: "Templates Vitrine",
         content: "5 images, 4 vidéos, 1 HT...",
         createdAt: "08/04/2025",
+        items: 2,
         shared: "Oui",
     },
 ]

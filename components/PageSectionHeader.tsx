@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import {
   AlignJustify,
   LayoutGrid,
@@ -7,13 +7,21 @@ import {
 import SearchBar from './SearchBar';
 import AppButton from './AppButton';
 
-function PageSectionHeader() {
+interface PageSectionHeaderProps {
+  title?: string;
+  showGrid?: boolean;
+  setShowGrid?: Dispatch<SetStateAction<boolean>>
+}
+
+function PageSectionHeader({
+  title, setShowGrid, showGrid
+}: PageSectionHeaderProps) {
   return (
     <div className="grid items-center grid-cols-2 mb-2 lg:flex lg:gap-3">
-      <div className='font-bold text-[30px] flex-1  text-[var(--title-color)]'>🗂 Dossiers</div>
+      <div className='font-bold text-[30px] flex-1  text-[var(--title-color)]'>{title}</div>
       <div className="flex items-center justify-end gap-2">
-        <AlignJustify className="text-red-500 cursor-pointer" />
-        <LayoutGrid className="text-gray-500 cursor-pointer" />
+        <AlignJustify className={` cursor-pointer ${showGrid ? 'text-gray-500' : 'text-red-500'}`} onClick={() => setShowGrid && setShowGrid(false)} />
+        <LayoutGrid className={` cursor-pointer ${!showGrid ? 'text-gray-500' : 'text-red-500'}`} onClick={() => setShowGrid && setShowGrid(true)} />
       </div>
       <div className='w-full lg:w-[400px] lg:px-3 lg:border-x'>
         <SearchBar
