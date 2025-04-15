@@ -14,6 +14,8 @@
   --fadded-red: #F935351A;
   --green: #34C759;
   --fadded-green: #F0FEED;
+  --fadded-icon: #D8D8D8;
+  --fadded-border: #AFAFAF;
 }
 
 
@@ -42,4 +44,10 @@ tr th:last-child  {
   border-right: 1.5px solid var(--light-gray-background);
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.col-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

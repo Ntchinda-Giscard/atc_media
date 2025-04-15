@@ -14,3 +14,9 @@ export interface IMediaFolders extends ICustomTableData {
     createdAt: string;
     shared: string;
 }
+
+export interface IDropdownItems {
+    name?: string;
+    icon?: React.ReactNode;
+    onClick?: () => void;
+}
