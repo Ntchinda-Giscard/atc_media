@@ -61,13 +61,15 @@ const Header = () => {
           </Button> 
         </div>
       </div>
-          <div className="flex gap-2 hidden md:block flex-row items-center"> 
-            <div>🇫🇷 FR</div>
-            <ChevronDown />
-            <Button asChild className="  hover:bg-transparent hover:text-inherit r-2 bg-red-600 px-6 py-1 rounded-xl shadow-lg shadow-red-500/50 hover:shadow-none hover:ring-2"> 
-              <Link href={"/auth/login"} > Se Connecter  </Link>
-            </Button> 
+      <div className='flex flex-row'>
+        <div className="flex flex-row items-center"> 
+              <div className='hidden md:block '>🇫🇷 FR</div>
+              <ChevronDown className='hidden md:block ' />
           </div>
+          <Button asChild className=" hidden md:block hover:bg-transparent hover:text-inherit r-2 bg-red-600 px-6 py-1 rounded-xl shadow-lg shadow-red-500/50 hover:shadow-none hover:ring-2"> 
+              <Link href={"/auth/login"} > Se Connecter  </Link>
+          </Button> 
+      </div>
           
       
        
