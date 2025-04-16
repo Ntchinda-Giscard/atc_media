@@ -9,7 +9,7 @@ export const home_links = [
 
 export const useful_links = [
     {label: "Accueil", route: "/"},
-    {label: "Fonctionnalité", route: "/fontionnalities"},
+    {label: "Fonctionnalités", route: "/fontionnalities"},
     {label: "A propos", route: "/about-us"},
     {label: "Contact", route: "/contact"},
     {label: "Se connecter", route: "/auth/login"},

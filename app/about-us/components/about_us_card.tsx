@@ -17,15 +17,15 @@ function AboutUsCard({image, title, index, desc}: Props) {
     return ( 
         <>
 
-            <div key={title} className={`flex w-full flex-row justify-center gap-8 ${isEven ? 'flex-row' : 'flex-row-reverse'} `}>
+            <div key={title} className={`flex w-full flex-col px-5 justify-center gap-8 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} `}>
                 <div className=" w-fit ">
                     <Image src={image} width={500} height={400} alt={"image"} />
                 </div>
-                <div className="flex flex-col w-2/5">
-                    <h2 className="font-semibold text-xl text-start mb-6"> {title} </h2>
-                    <div className="flex flex-col gap-5 w-full text-start text-justify">
+                <div className="flex flex-col md:w-2/5 w-full">
+                    <h2 className="font-bold text-xl text-start mb-6"> {title} </h2>
+                    <div className="flex flex-col gap-5 w-full text-start text-justify whitespace-normal">
                         { desc?.map((t) => (
-                            <p key={t} className="font-thin text-sm whitespace-nowrap overflow-hidden text-ellipsis"> {t} </p>
+                            <p key={t} className="font-light text-sm whitespace-normal text-justify"> {t} </p>
                         ))
                             
                         }

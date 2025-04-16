@@ -50,7 +50,7 @@ export default function HomeFooter(){
 
                 </div>
                 <div className="w-full text-center text-xs font-thin text-white py-4">
-                    &copy; Copyright 2019 Atc Média
+                    &copy; Copyright 2025 Atc Média
                 </div>
             </footer>
         </>
