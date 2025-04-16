@@ -41,7 +41,7 @@ export function ProfileForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5 w-1/3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5 md:w-1/3  w-2/3">
         <FormField
           control={form.control}
           name="email"
