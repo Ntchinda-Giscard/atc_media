@@ -21,3 +21,17 @@ export interface IDropdownItems {
     icon?: React.ReactNode;
     onClick?: () => void;
 }
+
+export interface IPlaylistFile {
+    id: string;
+    name: string;
+    type: 'VIDEO' | 'IMAGE' | 'WEB'
+}
+
+
+export interface IMediaPlaylist {
+    id: string;
+    name: string;
+    files: IPlaylistFile[];
+    duration: string;
+}

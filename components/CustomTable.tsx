@@ -28,7 +28,7 @@ const CustomTable: React.FC<TableProps> = ({ headers, data, renderRow }) => {
           ))}
         </tbody>
       </table>
-      <div>
+      <div className="relative">
         <div className="absolute gap-3 col-center">
           <div className="text-[var(--title-color)] font-normal text-[13px]">
             Montrer
@@ -38,7 +38,7 @@ const CustomTable: React.FC<TableProps> = ({ headers, data, renderRow }) => {
             <ChevronDown color="var(--title-color)" size={18} />
           </div>
         </div>
-        <div className="flex gap-3 col-center">
+        <div className="flex gap-3 h-14 col-center">
           <div className="bg-[var(--secondary-background)] h-[34px] w-[34px] rounded-[5px] col-center cursor-pointer">
             <ChevronLeft size={15} color="var(--fadded-icon)" />
           </div>

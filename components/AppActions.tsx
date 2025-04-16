@@ -12,7 +12,9 @@ const AppActions = ({
     <div className='flex items-center justify-center'>
       {
         actions.map((action, index) =>
-          <div key={action.name} className={`cursor-pointer font-normal text-[14px]  px-2 ${index == actions.length - 1 ? 'border-0' : 'border-1 border-r'}`}>
+          <div key={action.name} className={`cursor-pointer font-normal text-[14px] text-[var(--action-text-color)]  px-2 
+          ${index == actions.length - 1 ? 'border-0' : 'border-1 border-r border-[var(--action-text-color)]'}`}
+            onClick={() => action.onClick && action.onClick()}>
             {action.icon}
             <span className='hidden md:inline'>
               {action.name}

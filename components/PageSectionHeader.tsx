@@ -1,8 +1,7 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, ReactNode, SetStateAction } from 'react'
 import {
   AlignJustify,
   LayoutGrid,
-  PlusCircle
 } from 'lucide-react';
 import SearchBar from './SearchBar';
 import AppButton from './AppButton';
@@ -10,14 +9,17 @@ import AppButton from './AppButton';
 interface PageSectionHeaderProps {
   title?: string;
   showGrid?: boolean;
-  setShowGrid?: Dispatch<SetStateAction<boolean>>
+  setShowGrid?: Dispatch<SetStateAction<boolean>>;
+  actionButtonText: string;
+  actionButtonIcon: ReactNode;
+  actionButtonClick: () => void;
 }
 
 function PageSectionHeader({
-  title, setShowGrid, showGrid
+  title, setShowGrid, showGrid, actionButtonClick, actionButtonIcon, actionButtonText
 }: PageSectionHeaderProps) {
   return (
-    <div className="grid items-center grid-cols-2 mb-2 lg:flex lg:gap-3">
+    <div className="grid items-center grid-cols-2 mb-4 lg:flex lg:gap-3">
       <div className='font-bold text-[30px] flex-1  text-[var(--title-color)]'>{title}</div>
       <div className="flex items-center justify-end gap-2">
         <AlignJustify className={` cursor-pointer ${showGrid ? 'text-gray-500' : 'text-red-500'}`} onClick={() => setShowGrid && setShowGrid(false)} />
@@ -30,11 +32,9 @@ function PageSectionHeader({
       </div>
       <div className='flex items-center justify-end'>
         <AppButton
-          onClick={() => null}
-          icon={
-            <PlusCircle size={20} className='text-[var(--white)]' />
-          }
-          text='Nouveau dossier'
+          onClick={actionButtonClick}
+          icon={actionButtonIcon}
+          text={actionButtonText}
         />
       </div>
     </div>

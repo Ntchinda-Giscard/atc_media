@@ -37,7 +37,7 @@ function OptionDropdown({ options }: OptionDropdownProps) {
                 }}
                 className='px-4 py-1 cursor-pointer'
               >
-                <div className='flex items-center'>
+                <div className='flex items-center' onClick={() => option.onClick && option.onClick()}>
                   <div className='text-primary'>{option.icon}</div>
                   <div className="ml-3 cursor-pointer hover:text-primary">
                     {option.name}

@@ -1,0 +1,46 @@
+import { forwardRef } from 'react';
+
+
+
+interface IAppInput {
+    placeholder?: string;
+    type?: React.HTMLInputTypeAttribute | undefined;
+    label?: string;
+    error?: boolean;
+    value?: string;
+    setValue?: (e: string) => void;
+    readonly?: boolean;
+    secondary?: boolean;
+}
+
+const AppInput = forwardRef<HTMLInputElement, IAppInput>(
+    ({ label, type = 'text', placeholder, error, value, setValue, readonly, secondary, ...rest }, ref) => {
+        return (
+            <div className="relative w-full text-sm">
+                {label && <div className="mb-3 font-normal text-[16px] text-[var(--title-color)]">{label}</div>}
+                <input
+                    ref={ref}
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    readOnly={readonly}
+                    onChange={(e) => {
+                        if (setValue) {
+                            setValue(e.target.value)
+                        }
+                    }}
+                    className={`h-[48px] w-full text-[16px] text-[var(--black)] rounded-[12px]   px-4 focus:outline-0
+                        ${secondary ? 'bg-[var(--white)] border-0' : 'border bg-transparent'} 
+                        ${error ? 'border border-red-300' : 'border border-[var(--light-gray-background)]'} 
+                    `}
+                    {...rest}
+                />
+            </div>
+        );
+    }
+);
+
+AppInput.displayName = 'AppInput';
+
+export default AppInput;
+
