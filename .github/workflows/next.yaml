@@ -1,33 +1,41 @@
-name: Deploy Next.js App to EC2
+# name: Docker Image CI
+
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+
+# jobs:
+
+#   build:
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - uses: actions/checkout@v4
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag vvims-sed-dashboard:$(date +%s)
+name: ci
 
 on:
   push:
     branches:
-      - dev
+      - "dev"
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.7.0
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
-      - name: Copy files to EC2
-        run: |
-          scp -o StrictHostKeyChecking=no -r . ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/app
-
-      - name: Deploy on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/${{ secrets.EC2_USERNAME }}/app
-            docker build -t nextjs-app .
-            docker stop nextjs-container || true
-            docker rm nextjs-container || true
-            docker run -d --name nextjs-container -p 3000:3000 nextjs-app
-          EOF
+          username: ntchindagiscard
+          password: dckr_pat_l9NpvsXyYI1gkUjx5ROs7UPbc0o
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ntchindagiscard/gm_web:latest
