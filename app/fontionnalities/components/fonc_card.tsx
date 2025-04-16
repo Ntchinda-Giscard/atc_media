@@ -12,7 +12,7 @@ function FonctionnalitesCard({image,title, index, desc}: Props) {
     const isEven = index % 2 === 0;
     return ( 
         <>
-            <div key={title} className={`flex flex-row justify-center gap-15  ${isEven ? 'flex-row' : 'flex-row-reverse'}`}>
+            <div key={title} className={`flex flex-col px-5 justify-center ga-5 md:gap-15  ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
                 <div className="">
                     <Image src={image} width={500} height={400} alt={"image"} />
                 </div>

@@ -4,8 +4,8 @@ import Image from "next/image"
 function HomeBody() {
     return ( 
         <>
-            <main className="flex flex-col lg:flex-row w-full lg:py-6 py-2 lg:px-8 px-4 gap-5 items-center">
-                <div className="flex flex-col gap-3 w-1/2">
+            <main className="h-full flex flex-col lg:flex-row w-full lg:py-6 py-2 lg:px-8 px-4 gap-5 items-center">
+                <div className="flex flex-col gap-3 md:w-1/2 w-full">
                     <h1 className="font-semibold text-6xl lg:py-5 py-3 ">
                         Plateforme de gestion et diffusion de contenus multimédias
                     </h1>
@@ -18,7 +18,7 @@ function HomeBody() {
                     </p>
 
                 </div>
-                <div className="w-1/2">
+                <div className="md:w-1/2 w-full">
                     <Image src={com_img} alt={"computer image"} />
                 </div>
             </main>
