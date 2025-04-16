@@ -6,21 +6,37 @@ import {ChevronDown} from "lucide-react";
 import Link from "next/link";
 import { home_links } from "../links";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 
 
 export default function HomeHeader(){
     const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
     return(
 
-            <div className={'flex justify-between px-5 py-4 min-w-full items-center '}> 
+            <div className={'flex justify-between border-b border-gray-200 px-5 py-4 min-w-full items-center '}> 
                 <Image src={logo} alt="logo" width={100} height={100} />
-                <div className="flex justify-around gap-5 flex-row items-center">
+                <button
+                    className="md:hidden text-gray-800 focus:outline-none"
+                    onClick={() => setIsOpen(!isOpen)}
+                    >
+                    {/* Hamburger icon */}
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
+                </button>
+                <div className={`flex justify-around gap-5 md:flex-row flex-col items-center ${isOpen ? 'block' : 'hidden'} md:flex md:items-center`}>
                     {
                         home_links?.map((h) =>(
                             <Link
                                 key={h?.route} 
-                                className={pathname === h?.route ? "text-red-600 text-sm" : "text-sm"}
+                                className={pathname === h?.route ? "text-red-600 text-sm" : "text-sm hover:text-red-600"}
                                 href={h?.route}> 
                                 {h?.label} 
                             </Link>

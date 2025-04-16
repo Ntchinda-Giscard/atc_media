@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Geist, Oxygen, Poppins } from "next/font/google";
 import "./globals.css";
 import HomeHeader from "./components/common/home_header";
 import HomeFooter from "./components/common/home_footer";
 import Providers from "./providers";
+import Header from "./components/common/header_exp";
 
-const poppins_font = Poppins({
-  variable: "--font-poppins",
+const poppins_font = Oxygen({
+  variable: "--font-oxygen",
   subsets: ["latin"],
   display: "swap",
-  weight: ["100","200", "300", "400", "500", "600", "700", "800", "900" ],
+  weight: ["300", "400", "700"],
 });
 
 // const geistSans = Geist({
@@ -38,7 +39,8 @@ export default function RootLayout({
         className={`${poppins_font.variable} ${poppins_font.variable}`}
       >
         <Providers>
-          <HomeHeader />
+          {/* <HomeHeader /> */}
+          <Header />
           {children}
           <HomeFooter />
         </Providers>

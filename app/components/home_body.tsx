@@ -9,10 +9,10 @@ function HomeBody() {
                     <h1 className="font-semibold text-6xl lg:py-5 py-3 ">
                         Plateforme de gestion et diffusion de contenus multimédias
                     </h1>
-                    <p className="font-light text-base">
+                    <p className="font-light text-lg">
                         Transformez vos écrans en puissants supports de communication et engagez votre audience avec des contenus interactifs et dynamiques.
                     </p>
-                    <p className="leading-7 text-xs">
+                    <p className="leading-7 text-sm">
                         ✅ Créez & personnalisez des modèles adaptés à votre marque. <br /> ✅ Diffusez sur un réseau d’écrans en temps réel ou selon un planning défini. <br /> ✅ Ajoutez du contenu multimédia : textes, images, vidéos, flux RSS et widgets interactifs. <br />✅ Suivez les performances grâce aux statistiques détaillées et aux rapports en temps réel. <br />
                         🎯 Optimisez votre stratégie de communication et boostez votre visibilité !
                     </p>
