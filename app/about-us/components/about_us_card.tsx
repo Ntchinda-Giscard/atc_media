@@ -32,7 +32,7 @@ function AboutUsCard({image, title, index, desc}: Props) {
                         {
                             index === 2 &&
                             <Button asChild className="hover:bg-transparent w-fit hover:text-inherit r-2 bg-red-600 px-6 py-1 rounded-xl shadow-lg shadow-red-500/50 hover:shadow-none hover:ring-2"> 
-                                <Link href={"/fontionnalities"} > Découvrir nos fonctionnalités  </Link>
+                                <Link href={"/functionalities"} > Découvrir nos fonctionnalités  </Link>
                             </Button>
                         }
                     </div>
