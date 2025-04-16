@@ -20,7 +20,7 @@ export default function Providers({
         <ColorSchemeScript defaultColorScheme="light" />
       </head>
       <body>
-        <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme }}>{children}</MantineProvider>
+        <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
   );
