@@ -1,5 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { Tabs } from '@mantine/core';
+import { SetStateAction, useState } from 'react';
+import SettingsForm from './components/settings-form';
 
 export default function SettingsPage() {
   const [form, setForm] = useState({
@@ -12,6 +14,12 @@ export default function SettingsPage() {
     language: 'Français',
     timezone: 'UTC+1 (Europe/Paris)',
   });
+  const [tabs, setTabs] = useState("first")
+  const tabStyle = {
+    tabLabel: {
+      color: "#EE0202",
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -19,54 +27,30 @@ export default function SettingsPage() {
         <span className="text-blue-500 text-3xl">👤</span> Mon Compte
       </h1>
 
-      <div className="flex gap-4 text-center text-sm font-semibold text-gray-600 border-b">
-        <div className="border-b-2 border-red-500 text-red-600 px-4 py-2">⚙️ PARAMÈTRES</div>
-        <div className="px-4 py-2">👥 SOUS-COMPTES</div>
-        <div className="px-4 py-2">🔒 PROTECTION DES DONNÉES</div>
-      </div>
+        <Tabs 
+          defaultValue="first" 
+          color="#EE0202"
+          onChange={(value) => setTabs(value || "first")}
+          // styles={tabStyle}
+        >
+          <Tabs.List grow>
+            <Tabs.Tab value="first">⚙️ PARAMÈTRES</Tabs.Tab>
+            <Tabs.Tab value="second">👥 SOUS-COMPTES</Tabs.Tab>
+            <Tabs.Tab value="third">🔒 PROTECTION DES DONNÉES</Tabs.Tab>
+          </Tabs.List>
 
-      {/* Infos perso */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-700">Informations Personnelles</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" placeholder="Nom" value={form.name} className="input" />
-          <input type="email" placeholder="Adresse email" value={form.email} className="input" />
-          <input type="text" placeholder="Téléphone" value={form.phone} className="input md:col-span-2" />
-        </div>
-      </div>
+          <Tabs.Panel value="first">
+            <SettingsForm />
+          </Tabs.Panel>
 
-      {/* Mot de passe */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-700">Changer le mot de passe</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="password" placeholder="Mot de passe actuel" className="input" />
-          <div></div>
-          <input type="password" placeholder="Nouveau mot de passe" className="input" />
-          <input type="password" placeholder="Confirmer le mot de passe" className="input" />
-        </div>
-      </div>
+          <Tabs.Panel value="second">
+            Messages tab content
+          </Tabs.Panel>
 
-      {/* Préférences */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-700">Préférences</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <select className="input">
-            <option>Français</option>
-            <option>Anglais</option>
-          </select>
-          <select className="input">
-            <option>UTC+1 (Europe/Paris)</option>
-            <option>UTC+0 (Londres)</option>
-            <option>UTC-5 (New York)</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="pt-6">
-        <button className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition font-semibold">
-          Enregistrer les modifications
-        </button>
-      </div>
+          <Tabs.Panel value="third">
+            Settings tab content
+          </Tabs.Panel>
+      </Tabs>
     </div>
   );
 }
