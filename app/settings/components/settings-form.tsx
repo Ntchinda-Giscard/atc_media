@@ -12,7 +12,7 @@ function SettingsForm() {
           password: '',
           newPassword: '',
           passwordConfirmation: '',
-          language: ['Français', 'English'],
+          language: ['Français'],
           timezone: [ 'UTC+1 (Europe/Paris)'],
         },
     
