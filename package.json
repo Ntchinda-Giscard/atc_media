@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack",
     "build": "next build --no-lint",
     "start": "next start"
-    
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -30,13 +29,15 @@
     "@tiptap/pm": "^2.11.7",
     "@tiptap/react": "^2.11.7",
     "@tiptap/starter-kit": "^2.11.7",
+    "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "embla-carousel-react": "^7.1.0",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.487.0",
     "motion": "^12.6.5",
-    "next": "15.3.0",
+    "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.55.0",

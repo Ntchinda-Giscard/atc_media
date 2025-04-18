@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import Cookies from 'js-cookie';
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/app/components/common/password-input"
 import Link from "next/link"
+import axios from '@/lib/axios'; // adjust path
+
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -35,8 +37,23 @@ export function ProfileForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
+    // Perform login action
+    try{
+      const response = await axios.post('/user/login', {
+        email: 'user@example.com',
+        password: 'password123',
+      });
+      // // Example: Save token and user data in cookie
+      // const { token, user } = response.data;
+      // Cookies.set('token', token, { expires: 7 }); // expires in 7 days
+      // Cookies.set('user', JSON.stringify(user), { expires: 7 });
+      // Optional: Redirect or update UI
+      console.log('Login successful');
+    }catch (error) {
+      console.error('Login failed:', error);
+    }
   }
 
   return (
