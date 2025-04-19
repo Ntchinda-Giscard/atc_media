@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/app/components/common/password-input"
 import Link from "next/link"
 import axios from '@/lib/axios'; // adjust path
+import {useRouter} from "next/navigation"
 
 
 const formSchema = z.object({
@@ -29,6 +30,7 @@ const formSchema = z.object({
 })
 
 export function ProfileForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,15 +43,20 @@ export function ProfileForm() {
     console.log(values)
     // Perform login action
     try{
-      const response = await axios.post('/user/login', {
-        email: 'user@example.com',
-        password: 'password123',
-      });
+      await axios.get('/sanctum/csrf-cookie');
+
+      // const response = await axios.post('/user/login', {
+      //   email: 'admin@example.com',
+      //   password: 'password',
+      // },
+    // { withCredentials: true }
+  // );
       // // Example: Save token and user data in cookie
       // const { token, user } = response.data;
-      // Cookies.set('token', token, { expires: 7 }); // expires in 7 days
-      // Cookies.set('user', JSON.stringify(user), { expires: 7 });
+      // Cookies.set('gmp-token', token, { expires: 365 }); // expires in 7 days
+      // Cookies.set('gmp-user', JSON.stringify(user), { expires: 365 });
       // Optional: Redirect or update UI
+      // router.push("#")
       console.log('Login successful');
     }catch (error) {
       console.error('Login failed:', error);
