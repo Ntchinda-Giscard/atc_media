@@ -7,7 +7,7 @@ function AccountProtection() {
         <>
             <div className="flex flex-col gap-4">
                 <p className="text-2xl font-semilight my-5"> Protection des données </p>
-                <div className="border rounded-xl py-1 px-4 border-red-600 w-fit">
+                <div className="border rounded-xl py-1 px-4 border-red-600 w-fit transition cursor-pointer">
                     <div className="flex flex-row gap-5 items-center"> 
                         <span> 📥 </span>
                         <div className="flex flex-col justify-start">
