@@ -39,7 +39,7 @@ jobs:
             docker stop gmp_web|| true
             docker rm gmp_web|| true
             docker image prune -f
-            docker run -d --name gmp_web-p 3000:3000 ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
+            docker run -d --name gmp_web -p 3000:3000 ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
 
 # name: ci
 
