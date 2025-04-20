@@ -15,6 +15,7 @@ function Page() {
                     <p> Les présentes Conditions ont pour but de définir les modalités d’accès, de consultation et d’utilisation de notre plateforme d’affichage dynamique <b>ATC MEDIA</b>, ainsi que les obligations respectives de l’utilisateur (ci-après désigné <b>« l’Utilisateur »</b>) et de l’éditeur du service <b>(SCAD)</b>.</p>
 
                     <h2 className="text-2xl font-semibold mb-5"> 2. Accès au service </h2>
+                    
                         <p>
                             <b>ATC MEDIA</b> est une solution <b>SaaS </b>exclusivement réservée à un usage professionnel. L'accès est conditionné à la création d’un compte utilisateur, fourni à l’issue d’un contrat ou d’une souscription formelle. L’Utilisateur s’engage à fournir des informations exactes lors de la création de son compte, et à les tenir à jour dans son espace personnel.
                             SCAD se réserve le droit de suspendre ou de refuser l'accès à tout Utilisateur ne respectant pas les présentes conditions ou en cas d’usage frauduleux du service.
