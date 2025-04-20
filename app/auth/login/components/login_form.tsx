@@ -51,8 +51,7 @@ export function ProfileForm() {
     try{
       // await axios.get('/sanctum/csrf-cookie');
 
-      const response = await axios.post(
-        "http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/login",
+      const response = await axios.post("/user/login",
         loginData,
         {
           headers: {
