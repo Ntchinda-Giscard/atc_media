@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -86,7 +86,7 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+            render={({ field }: any) => (
             <FormItem>
               <FormLabel className="text-xs mt-3 font-thin">Mot de passe</FormLabel>
               <FormControl>
