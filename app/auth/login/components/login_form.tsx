@@ -69,7 +69,7 @@ export function ProfileForm() {
         <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
+          render={({ field }: any) => (
             <FormItem>
               <FormLabel className="text-xs font-thin">Email</FormLabel>
               <FormControl>
