@@ -4,10 +4,10 @@ import {IconBrandPinterest}  from "@tabler/icons-react";
 function ContactInfoCard() {
     return ( 
         <>
-            <div className="relative bg-red-600 w-64 min-h-100 h-full overflow-hidden rounded-md">
+            <div className="relative bg-red-600 w-full min-h-100 h-full overflow-hidden rounded-md">
                 <div className="flex flex-col text-white p-3 gap-4">
                     <p className="font-medium text-md"> 📍 Nos Coordonnées </p>
-                    <div className="flex flex-col gap-3 font-thin text-md text-xs">
+                    <div className="flex flex-col gap-3 font-light text-base">
                         <p> 📞 Téléphone : +XXX XXX XXX XXX </p>
                         <p> 📩 Email : support@votresite.com </p>
                         <p> 📍 Adresse : [Votre adresse] </p>
