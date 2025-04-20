@@ -20,7 +20,7 @@ function FonctionnalitesCard({image,title, index, desc}: Props) {
                     <h2 className="font-semibold text-xl text-start mb-6"> {title} </h2>
                     <div className="flex flex-col gap-5 w-full text-start">
                         { desc?.map((t) => (
-                            <p key={t} className="font-thin text-sm break-words text-pretty text-justify"> {t} </p>
+                            <p key={t} className="font-light text-base break-words text-pretty text-justify"> {t} </p>
                         ))
 
                             
