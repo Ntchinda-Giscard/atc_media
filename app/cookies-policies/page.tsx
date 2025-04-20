@@ -4,11 +4,11 @@ function Page() {
             <main className="min-h-screen">
                 <div className="flex flex-col text-center w-full">
                     <h1 className="text-3xl font-semibold"> 🍪 Politique Relative aux Cookies </h1>
-                    <p className="font-light mt-4 text-sm px-10 mb-20"> Bienvenue sur [Nom du site]. La protection de vos données personnelles est une priorité pour nous. Cette politique explique quelles informations nous collectons, comment nous les utilisons et comment vous pouvez exercer vos droits.</p>
+                    <p className="font-light mt-4 text-base px-10 mb-20"> Bienvenue sur ATC média. La protection de vos données personnelles est une priorité pour nous. Cette politique explique quelles informations nous collectons, comment nous les utilisons et comment vous pouvez exercer vos droits.</p>
                 </div>
                 <div className="flex flex-col gap-3 px-7 text-justify">
-                    <p className="text-sm mb-2"> Bienvenue sur <b> ATC media </b>. Cette politique explique comment et pourquoi nous utilisons des cookies et technologies similaires sur notre plateforme. </p>
-                    <p className="text-sm mb-3"> 📌 En continuant à naviguer sur notre site, vous acceptez l’utilisation des cookies conformément à cette politique. </p>
+                    <p className="text-baes mb-2"> Bienvenue sur <b> ATC media </b>. Cette politique explique comment et pourquoi nous utilisons des cookies et technologies similaires sur notre plateforme. </p>
+                    <p className="text-base mb-3"> 📌 En continuant à naviguer sur notre site, vous acceptez l’utilisation des cookies conformément à cette politique. </p>
 
                     <p>Dans le cadre de l’exploitation du site <b> tv.atcmedia.fr </b>, des cookies peuvent être déposés sur le terminal de l’utilisateur (ordinateur, tablette, smartphone), notamment lors de la première connexion. Ces cookies ont pour but d’améliorer votre expérience utilisateur, de garantir le bon fonctionnement technique du site et de recueillir des données statistiques de navigation dans le respect de la législation en vigueur, notamment le RGPD et la directive ePrivacy.</p>
 

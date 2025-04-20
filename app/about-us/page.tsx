@@ -8,7 +8,7 @@ function AboutUs() {
             <main className="h-full">
                 <div className="flex flex-col text-center w-full">
                     <h1 className="text-3xl font-semibold"> 🚀 À Propos de Nous </h1>
-                    <p className="font-light mt-4 text-sm px-10 mb-20"> Découvrez notre parcours, nos réalisations et les valeurs qui nous animent.</p>
+                    <p className="font-light mt-4 text-base px-10 mb-20"> Découvrez notre parcours, nos réalisations et les valeurs qui nous animent.</p>
                 </div>
                 <div className="flex flex-col gap-10">
                     {
