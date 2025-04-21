@@ -43,7 +43,7 @@ export function ProfileForm() {
     console.log(values)
     // Perform login action
     const loginData = {
-      first_name: "Jean",
+      // first_name: "Jean",
       email: "admin@example.com",
       password: "password",
       ip: "192.168.1.1"
