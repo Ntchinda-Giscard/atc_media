@@ -41,36 +41,29 @@ export function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    // Perform login action
-    const loginData = {
-      // first_name: "Jean",
-      email: "admin@example.com",
-      password: "password",
-      ip: "192.168.1.1"
-    };
-    try{
-      // await axios.get('/sanctum/csrf-cookie');
+    const url = 'http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/login';
+  const payload = {
+    first_name: 'Jean',
+    email:    'admin@example.com',
+    password: 'password',
+    ip:       '192.168.1.1',
+  };
 
-      const response = await axios.post("/user/login",
-        loginData,
-        {
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "" // Optional, only if needed
-          }
-        }
-      );
-      // // Example: Save token and user data in cookie
-      // const { token, user } = response.data;
-      // Cookies.set('gmp-token', token, { expires: 365 }); // expires in 7 days
-      // Cookies.set('gmp-user', JSON.stringify(user), { expires: 365 });
-      // Optional: Redirect or update UI
-      // router.push("#")
-      console.log('Login successful');
-    }catch (error) {
-      console.error('Login failed:', error);
-    }
+  try {
+    const response = await axios.post(url, payload, {
+      headers: {
+        'Accept':        'application/json',
+        'Content-Type':  'application/json',
+        'X-CSRF-TOKEN':  '',   // keep empty if your backend expects it but you’re not using it
+      },
+      withCredentials: true,   // if you need to send cookies
+    });
+    console.log('Login success:', response.data);
+    return response.data;
+  } catch (err) {
+    // console.error('Login failed:', err.response?.data || err.message);
+    throw err;
+  }
   }
 
   return (
