@@ -1,66 +1,66 @@
-name: Deploy to EC2 on Push
-
-on:
-  push:
-    branches:
-      - dev
-
-jobs:
-  deploy:
-    name: Build and Deploy to EC2
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNMAE }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest .
-          docker push ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
-
-      # - name: Deploy on EC2
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ${{ secrets.EC2_USER }}
-      #     key: ${{ secrets.SSH_EC2_KEY }}
-      #     script: |
-      #       docker pull ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
-      #       docker stop gmp_web|| true
-      #       docker rm gmp_web|| true
-      #       docker image prune -f
-      #       docker run -d --name gmp_web -p 3000:3000 ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
-
-# name: ci
+# name: Deploy to EC2 on Push
 
 # on:
 #   push:
 #     branches:
-#       - "dev"
+#       - dev
 
 # jobs:
-#   build:
+#   deploy:
+#     name: Build and Deploy to EC2
 #     runs-on: ubuntu-latest
+
 #     steps:
-#       - name: Login to Docker Hub
-#         uses: docker/login-action@v3
-#         with:
-#           username: ntchindagiscard
-#           password: dckr_pat_l9NpvsXyYI1gkUjx5ROs7UPbc0o
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
 #       - name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v3
-#       - name: Build and push
-#         uses: docker/build-push-action@v6
+#         uses: docker/setup-buildx-action@v2
+
+#       - name: Log in to DockerHub
+#         uses: docker/login-action@v2
 #         with:
-#           push: true
-#           tags: ntchindagiscard/gm_web:latest
+#           username: ${{ secrets.DOCKERHUB_USERNMAE }}
+#           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+#       - name: Build and push Docker image
+#         run: |
+#           docker build -t ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest .
+#           docker push ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
+
+#       # - name: Deploy on EC2
+#       #   uses: appleboy/ssh-action@master
+#       #   with:
+#       #     host: ${{ secrets.EC2_HOST }}
+#       #     username: ${{ secrets.EC2_USER }}
+#       #     key: ${{ secrets.SSH_EC2_KEY }}
+#       #     script: |
+#       #       docker pull ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
+#       #       docker stop gmp_web|| true
+#       #       docker rm gmp_web|| true
+#       #       docker image prune -f
+#       #       docker run -d --name gmp_web -p 3000:3000 ${{ secrets.DOCKERHUB_USERNMAE }}/gm_web:latest
+
+name: ci
+
+on:
+  push:
+    branches:
+      - "dev"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ntchindagiscard
+          password: dckr_pat_l9NpvsXyYI1gkUjx5ROs7UPbc0o
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ntchindagiscard/gm_web:latest
