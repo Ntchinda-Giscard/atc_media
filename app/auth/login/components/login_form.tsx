@@ -43,7 +43,7 @@ export function ProfileForm() {
     console.log(values)
     const url = 'http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/login';
   const payload = {
-    first_name: 'Jean',
+    // first_name: 'Jean',
     email:    'admin@example.com',
     password: 'password',
     ip:       '192.168.1.1',
@@ -56,7 +56,7 @@ export function ProfileForm() {
         'Content-Type':  'application/json',
         'X-CSRF-TOKEN':  '',   // keep empty if your backend expects it but you’re not using it
       },
-      withCredentials: true,   // if you need to send cookies
+      // withCredentials: true,   // if you need to send cookies
     });
     console.log('Login success:', response.data);
     return response.data;
