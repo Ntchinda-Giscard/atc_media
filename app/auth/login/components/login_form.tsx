@@ -44,7 +44,7 @@ export function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    const url = '('http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/login';
+    const url = '/user/login';
   const payload = {
     // first_name: 'Jean',
     email:    values?.email,
