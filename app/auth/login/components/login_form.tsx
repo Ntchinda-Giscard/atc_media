@@ -13,24 +13,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/app/components/common/password-input"
 import Link from "next/link"
 import axios from '@/lib/axios'; // adjust path
 import {useRouter} from "next/navigation"
+import { useState } from "react"
+import { Alert } from "@mantine/core"
 
 
 const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Email must be at least 2 characters.",
-  }),
-  password: z.string().min(2, {
-    message: "Password must be at least 2 characters.",
-  }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  password: z
+    .string()
+    .min(6, { message: 'Password must be at least 6 characters long' }),
 })
 
 export function ProfileForm() {
   const router = useRouter();
+  const [errMessage, setErrMessage] = useState(null)
+  const [isLoading, setIsloading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,34 +44,44 @@ export function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    const url = 'http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/login';
+    const url = '/user/login';
   const payload = {
     // first_name: 'Jean',
-    email:    'admin@example.com',
-    password: 'password',
+    email:    values?.email,
+    password: values?.password,
     ip:       '192.168.1.1',
   };
 
   try {
+    setIsloading(true)
     const response = await axios.post(url, payload, {
       headers: {
         'Accept':        'application/json',
         'Content-Type':  'application/json',
         'X-CSRF-TOKEN':  '',   // keep empty if your backend expects it but you’re not using it
       },
-      // withCredentials: true,   // if you need to send cookies
     });
     console.log('Login success:', response.data);
+    setErrMessage(null)
+    setIsloading(false)
     return response.data;
-  } catch (err) {
-    // console.error('Login failed:', err.response?.data || err.message);
-    throw err;
-  }
+  } catch (err: any) {
+    //@ts-ignore
+      console.error('Login failed:', err?.response?.data?.reason);
+      setErrMessage(err?.response?.data?.reason)
+      setIsloading(false)
+      throw err;
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5 md:w-1/3  w-2/3">
+        { errMessage &&
+          <Alert color='red'>
+            <p className="text-red-600"> {errMessage} </p>
+          </Alert>
+        }
         <FormField
           control={form.control}
           name="email"
@@ -111,9 +124,13 @@ export function ProfileForm() {
 
        
         <Button 
+          disabled = {isLoading}
           type="submit" 
           className="w-full bg-red-600 hover:bg-transparent hover:text-inherit hover:shadow-none hover:ring-2">
           Se connecter
+          { isLoading &&
+              <Loader2 className="animate-spin" />
+            }
         </Button>
         <p className="text-center">
           Vous n&apos;avez pas de compte ? <Link href={"#"} className="text-red-600"> S&apos;inscrire </Link> 
