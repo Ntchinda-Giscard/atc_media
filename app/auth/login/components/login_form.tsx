@@ -24,10 +24,10 @@ import { Alert } from "@mantine/core"
 
 
 const formSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.string().email({ message: 'Adresse e-mail invalide' }),
   password: z
     .string()
-    .min(6, { message: 'Password must be at least 6 characters long' }),
+    .min(6, { message: 'Le mot de passe doit comporter au moins 6 caractères' }),
 })
 
 export function ProfileForm() {
@@ -62,6 +62,11 @@ export function ProfileForm() {
       },
     });
     console.log('Login success:', response.data);
+    const user_data = response.data
+    const targetWindow = window.open('http://localhost:3001', '_blank')
+    setTimeout(() =>{
+      targetWindow?.postMessage({ user_data }, 'http://localhos:3001');
+    }, 1000)
     setErrMessage(null)
     setIsloading(false)
     return response.data;
