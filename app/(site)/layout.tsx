@@ -3,7 +3,7 @@ import { Geist, Oxygen, Poppins } from "next/font/google";
 import "./globals.css";
 import HomeHeader from "./components/common/home_header";
 import HomeFooter from "./components/common/home_footer";
-import Providers from "./providers";
+import Providers from "../providers";
 import Header from "./components/common/header_exp";
 
 const poppins_font = Oxygen({

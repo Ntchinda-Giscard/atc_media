@@ -1,5 +1,5 @@
 "use client"
-import { PasswordInput } from "@/app/components/common/password-input";
+import { PasswordInput } from "@/app/(site)/components/common/password-input";
 import { Input } from "@/components/ui/input";
 
 import { Label } from "@/components/ui/label";

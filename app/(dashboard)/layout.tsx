@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BasicAppShell from "./components/baseappshell";
+import Providers from "../providers";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -14,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* <BasicAppShell> */}
-          {children}
-        {/* </BasicAppShell> */}
+        <Providers>
+          <BasicAppShell>
+            {children}
+          </BasicAppShell>
+        </Providers>
       </body>
     </html>
   );
