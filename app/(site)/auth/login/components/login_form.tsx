@@ -67,7 +67,7 @@ export function ProfileForm() {
     
     setErrMessage(null)
     setIsloading(false)
-    router.push('/settings')
+    router.push('/my-account')
     return response.data;
   } catch (err: any) {
     //@ts-ignore
