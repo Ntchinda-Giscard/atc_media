@@ -63,9 +63,9 @@ export function ProfileForm() {
     });
     console.log('Login success:', response.data);
     const user_data = response.data
-    const targetWindow = window.open('http://ec2-54-147-13-74.compute-1.amazonaws.com', '_blank')
+    const targetWindow = window.open('http://ec2-54-147-13-74.compute-1.amazonaws.com:3001', '_blank')
     setTimeout(() =>{
-      targetWindow?.postMessage({ user_data }, 'http://ec2-54-147-13-74.compute-1.amazonaws.com');
+      targetWindow?.postMessage({ user_data }, 'http://ec2-54-147-13-74.compute-1.amazonaws.com:3001');
     }, 1000)
     setErrMessage(null)
     setIsloading(false)
