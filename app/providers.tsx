@@ -5,6 +5,7 @@ import '@mantine/core/styles.css';
 
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
 import { useState } from 'react';
+import '@/app/(site)/globals.css';
 
 
 export default function Providers({
