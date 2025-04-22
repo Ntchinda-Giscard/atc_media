@@ -79,7 +79,6 @@ export function ProfileForm() {
       throw err;
     }
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5 md:w-1/3  w-2/3">
