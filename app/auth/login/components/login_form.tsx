@@ -52,7 +52,7 @@ export function ProfileForm() {
     ip:       '192.168.1.1',
   };
 
-  
+
   try {
     setIsloading(true)
     const response = await axios.post(url, payload, {
@@ -70,7 +70,7 @@ export function ProfileForm() {
     }, 1000)
     setErrMessage(null)
     setIsloading(false)
-    router.push('http://ec2-54-147-13-74.compute-1.amazonaws.com:3000')
+    router.push('/dashboard')
     return response.data;
   } catch (err: any) {
     //@ts-ignore
