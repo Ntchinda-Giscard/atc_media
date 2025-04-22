@@ -69,6 +69,7 @@ export function ProfileForm() {
     }, 1000)
     setErrMessage(null)
     setIsloading(false)
+    router.push('http://ec2-54-147-13-74.compute-1.amazonaws.com:3000')
     return response.data;
   } catch (err: any) {
     //@ts-ignore
