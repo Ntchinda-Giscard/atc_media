@@ -32,9 +32,10 @@ export default function BasicAppShell({
     >
       <AppShell.Header>
         <Group h="100%" px="md">
+          <TopBar />
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
         </Group>
-        <TopBar />
+        
       </AppShell.Header>
       <AppShell.Navbar p="md">
         {side_bar_links?.map(( l, index) => (
