@@ -1,5 +1,5 @@
 "use client"
-
+import Cookies from 'js-cookie'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -63,11 +63,18 @@ export function ProfileForm() {
       },
     });
     console.log('Login success:', response.data);
-    const user_data = response.data
+    const token = response.data.token
+    const user = response.data.user
+
+    // Store token in a cookie
+    Cookies.set('auth_token', token, { expires: 7 }) // optional: set secure: true in prod
+
+    // Optionally store user data (not sensitive)
+    localStorage.setItem('user', JSON.stringify(user))
     
     setErrMessage(null)
     setIsloading(false)
-    router.push('/my-account')
+    router.push('/dashboard/my-account')
     return response.data;
   } catch (err: any) {
     //@ts-ignore

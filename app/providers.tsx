@@ -16,13 +16,9 @@ export default function Providers({
     const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
     const toggleColorScheme = (value: any) => setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
-    <html lang="en" {...mantineHtmlProps} suppressHydrationWarning>
-      <head>
-        <ColorSchemeScript defaultColorScheme="light" />
-      </head>
-      <body>
-        <MantineProvider>{children}</MantineProvider>
-      </body>
-    </html>
+    <>
+      <ColorSchemeScript defaultColorScheme="light" />
+      <MantineProvider>{children}</MantineProvider>
+    </>
   );
 }

@@ -1,9 +1,10 @@
 "use client"
 import { AppShell, Burger, Group, NavLink, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconActivity, IconChevronRight, IconHome } from '@tabler/icons-react';
+import { IconActivity, IconBell, IconChartBar, IconChevronRight, IconClipboardCheck, IconClipboardText, IconDeviceCameraPhone, IconFileInvoice, IconHome, IconLogout, IconPhoto, IconScreenShare, IconUser } from '@tabler/icons-react';
 import {usePathname} from "next/navigation";
 import TopBar from './top-bar';
+import Link from "next/link"
 
 export default function BasicAppShell({
     children,
@@ -14,15 +15,15 @@ export default function BasicAppShell({
   const pathname = usePathname();
   const side_bar_links = [
     {label: 'Accueil', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Mes écrans', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Diffusions', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Templates', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Statistiques', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Tutoriels', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Médiathèque', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Mon compte', icon: <IconHome size={16} stroke={1.5} /> , href: '/my-account'},
-    {label: 'Notifications', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Déconnexion', icon: <IconHome size={16} stroke={1.5} /> , href: '#t'},
+    {label: 'Mes écrans', icon: <IconScreenShare size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Diffusions', icon: <IconDeviceCameraPhone size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Templates', icon: <IconFileInvoice size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Statistiques', icon: <IconChartBar size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Tutoriels', icon: <IconClipboardText size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Médiathèque', icon: <IconPhoto size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Mon compte', icon: <IconUser size={16} stroke={1.5} /> , href: '/dashboard/my-account'},
+    {label: 'Notifications', icon: <IconBell size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Déconnexion', icon: <IconLogout size={16} stroke={1.5} /> , href: '#t'},
 ]
 
   return (
@@ -41,6 +42,7 @@ export default function BasicAppShell({
       <AppShell.Navbar p="md">
         {side_bar_links?.map(( l, index) => (
             <NavLink
+              component={Link}
               href= {l?.href}
               label= {l?.label}
               leftSection={l?.icon}
