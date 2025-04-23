@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import BasicAppShell from "./components/baseappshell";
 import Providers from "../providers";
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -16,6 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
+        <NextTopLoader
+                color={"#EE0202"}
+                template='<div class="bar" role="bar"><div class="peg"></div></div>'
+            />
           <BasicAppShell>
             {children}
           </BasicAppShell>

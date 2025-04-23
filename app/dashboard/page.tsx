@@ -1,12 +1,29 @@
 'use client';
 import Link from 'next/link';
 import { BarChart, Eye, MapPin, Timer, PlusCircle, LayoutDashboard } from 'lucide-react';
+import {useEffect, useState} from "react"
+import { string } from 'zod';
 // import { cookies } from "next/headers"
 
+type  User = {
+  id: number
+  name: string
+  email: string
+}
+
 export default function HomePage() {
+  const [user, setUser] = useState<User | null>(null)
+  useEffect(() =>{
+    const user = localStorage.getItem('user')
+    if (user) {
+        const parsedUser = JSON.parse(user)
+        setUser(parsedUser)
+      }
+    
+}, [])
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold text-gray-700">Bienvenue GMP TEST 👋</h1>
+      <h1 className="text-2xl font-bold text-gray-700">Bienvenue {user?.name} 👋</h1>
       <p className="text-gray-500">Gérez vos écrans et contenus multimédias en toute simplicité.</p>
 
       <div className="flex flex-wrap gap-4">
