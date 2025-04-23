@@ -18,11 +18,11 @@ export default function BasicAppShell({
     {label: 'Mes écrans', icon: <IconScreenShare size={16} stroke={1.5} /> , href: '/dashboard/screens'},
     {label: 'Diffusions', icon: <IconDeviceCameraPhone size={16} stroke={1.5} /> , href: '/dashboard/broadcast'},
     {label: 'Templates', icon: <IconFileInvoice size={16} stroke={1.5} /> , href: '/dashboard/templates'},
-    {label: 'Statistiques', icon: <IconChartBar size={16} stroke={1.5} /> , href: '/dashbaord'},
+    {label: 'Statistiques', icon: <IconChartBar size={16} stroke={1.5} /> , href: '/dashboard/statistics'},
     {label: 'Tutoriels', icon: <IconClipboardText size={16} stroke={1.5} /> , href: '/dashboard/tutorials'},
     {label: 'Médiathèque', icon: <IconPhoto size={16} stroke={1.5} /> , href: '/dashboard'},
     {label: 'Mon compte', icon: <IconUser size={16} stroke={1.5} /> , href: '/dashboard/my-account'},
-    {label: 'Notifications', icon: <IconBell size={16} stroke={1.5} /> , href: '#/dashboard'},
+    {label: 'Notifications', icon: <IconBell size={16} stroke={1.5} /> , href: '/dashboard/notifications'},
     {label: 'Déconnexion', icon: <IconLogout size={16} stroke={1.5} /> , href: '/dashboard'},
 ]
 
