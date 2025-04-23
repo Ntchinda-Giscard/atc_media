@@ -16,14 +16,14 @@ export default function BasicAppShell({
   const side_bar_links = [
     {label: 'Accueil', icon: <IconHome size={16} stroke={1.5} /> , href: '/dashboard'},
     {label: 'Mes écrans', icon: <IconScreenShare size={16} stroke={1.5} /> , href: '/dashboard/screens'},
-    {label: 'Diffusions', icon: <IconDeviceCameraPhone size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Templates', icon: <IconFileInvoice size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Statistiques', icon: <IconChartBar size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Diffusions', icon: <IconDeviceCameraPhone size={16} stroke={1.5} /> , href: '/dashboard/broadcast'},
+    {label: 'Templates', icon: <IconFileInvoice size={16} stroke={1.5} /> , href: '/dashboard/templates'},
+    {label: 'Statistiques', icon: <IconChartBar size={16} stroke={1.5} /> , href: '/dashbaord'},
     {label: 'Tutoriels', icon: <IconClipboardText size={16} stroke={1.5} /> , href: '/dashboard/tutorials'},
-    {label: 'Médiathèque', icon: <IconPhoto size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Médiathèque', icon: <IconPhoto size={16} stroke={1.5} /> , href: '/dashboard'},
     {label: 'Mon compte', icon: <IconUser size={16} stroke={1.5} /> , href: '/dashboard/my-account'},
-    {label: 'Notifications', icon: <IconBell size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Déconnexion', icon: <IconLogout size={16} stroke={1.5} /> , href: '#t'},
+    {label: 'Notifications', icon: <IconBell size={16} stroke={1.5} /> , href: '#/dashboard'},
+    {label: 'Déconnexion', icon: <IconLogout size={16} stroke={1.5} /> , href: '/dashboard'},
 ]
 
   return (
