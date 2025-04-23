@@ -26,6 +26,12 @@ function TopBar() {
                     leftSection={<IconSearch width={16} height={16} />}
                     radius={'md'}
                     color="#EE0202"
+                    styles={{
+                        input:{
+                            color: "#EE0202"
+                        }
+                    }}
+                    placeholder="Recherche"
                 />
 
             </div>
