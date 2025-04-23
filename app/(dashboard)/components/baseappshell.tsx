@@ -2,7 +2,7 @@
 import { AppShell, Burger, Group, NavLink, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconActivity, IconChevronRight, IconHome } from '@tabler/icons-react';
-import Image from "next/image";
+import {usePathname} from "next/navigation";
 import TopBar from './top-bar';
 
 export default function BasicAppShell({
@@ -11,6 +11,7 @@ export default function BasicAppShell({
     children: React.ReactNode;
   }>) {
   const [opened, { toggle }] = useDisclosure();
+  const pathname = usePathname();
   const side_bar_links = [
     {label: 'Accueil', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
     {label: 'Mes écrans', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
@@ -47,7 +48,7 @@ export default function BasicAppShell({
               //   <IconChevronRight size={12} stroke={1.5} className="mantine-rotate-rtl" />
               // }
               variant="subtle"
-              active
+              active={pathname === l?.href}
             />
           ))}
       </AppShell.Navbar>
