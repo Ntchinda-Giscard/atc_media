@@ -14,8 +14,8 @@ export default function BasicAppShell({
   const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname();
   const side_bar_links = [
-    {label: 'Accueil', icon: <IconHome size={16} stroke={1.5} /> , href: '#'},
-    {label: 'Mes écrans', icon: <IconScreenShare size={16} stroke={1.5} /> , href: '#'},
+    {label: 'Accueil', icon: <IconHome size={16} stroke={1.5} /> , href: '/dashboard'},
+    {label: 'Mes écrans', icon: <IconScreenShare size={16} stroke={1.5} /> , href: '/dashboard/screens'},
     {label: 'Diffusions', icon: <IconDeviceCameraPhone size={16} stroke={1.5} /> , href: '#'},
     {label: 'Templates', icon: <IconFileInvoice size={16} stroke={1.5} /> , href: '#'},
     {label: 'Statistiques', icon: <IconChartBar size={16} stroke={1.5} /> , href: '#'},
