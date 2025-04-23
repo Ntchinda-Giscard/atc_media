@@ -2,7 +2,8 @@
 // All packages except `@mantine/hooks` require styles imports
 "use client"
 import '@mantine/core/styles.css';
-
+import '@mantine/notifications/styles.css';
+import { Notifications } from '@mantine/notifications';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
 import { useState } from 'react';
 import '@/app/(site)/globals.css';
@@ -18,7 +19,7 @@ export default function Providers({
   return (
     <>
       <ColorSchemeScript defaultColorScheme="light" />
-      <MantineProvider>{children}</MantineProvider>
+      <MantineProvider><Notifications />{children}</MantineProvider>
     </>
   );
 }
