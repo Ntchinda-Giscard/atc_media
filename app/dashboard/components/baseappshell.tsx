@@ -33,10 +33,11 @@ export default function BasicAppShell({
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <div className='w-full h-full flex items-center fles-row'>
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" mr={10} />
           <TopBar />
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        </Group>
+          
+        </div>
         
       </AppShell.Header>
       <AppShell.Navbar p="md">
@@ -46,6 +47,7 @@ export default function BasicAppShell({
               href= {l?.href}
               label= {l?.label}
               leftSection={l?.icon}
+              color='#EE0202'
               // rightSection={
               //   <IconChevronRight size={12} stroke={1.5} className="mantine-rotate-rtl" />
               // }

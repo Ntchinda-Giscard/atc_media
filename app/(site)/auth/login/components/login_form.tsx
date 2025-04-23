@@ -1,4 +1,5 @@
 "use client"
+//@ts-ignore
 import Cookies from 'js-cookie'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -63,12 +64,13 @@ export function ProfileForm() {
       },
     });
     console.log('Login success:', response.data);
-    const token = response.data.token
-    const user = response.data.user
+    const token = response.data.data.token
+    const user = response.data.data.user
 
     // Store token in a cookie
     Cookies.set('auth_token', token, { expires: 7 }) // optional: set secure: true in prod
 
+    console.log('User:', user)
     // Optionally store user data (not sensitive)
     localStorage.setItem('user', JSON.stringify(user))
     
