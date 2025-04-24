@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BasicAppShell from "./components/baseappshell";
 import Providers from "../providers";
 import NextTopLoader from 'nextjs-toploader';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: "Dashboard",
