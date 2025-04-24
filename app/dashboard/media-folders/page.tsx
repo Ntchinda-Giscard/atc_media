@@ -5,7 +5,7 @@ import AppBadge from "@/components/AppBadge";
 import CustomTable from "@/components/CustomTable";
 import PageHeader from "@/components/PageHeader";
 import PageSectionHeader from "@/components/PageSectionHeader";
-import { mediaFolders, mediaPlaylist } from "@/constant/data";
+import { mediaPlaylist } from "@/constant/data";
 import { IDropdownItems, IMediaFolders } from "@/constant/interphase";
 import { mediaFolderHeader } from "@/constant/tableHeaders";
 import FolderGridItem from "./components/FolderGridItem";
