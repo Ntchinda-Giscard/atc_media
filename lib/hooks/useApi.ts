@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import axios from 'axios';
+//@ts-ignore
 import Cookies from 'js-cookie';
 
 const api = axios.create({

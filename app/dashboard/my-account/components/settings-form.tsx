@@ -8,24 +8,67 @@ function SettingsForm() {
         initialValues: {
           email: '',
           name: '',
-          phone: '',
-          password: '',
-          newPassword: '',
-          passwordConfirmation: '',
-          language: ['Français'],
-          timezone: [ 'UTC+1 (Europe/Paris)'],
+        //   phone: '',
+        //   password: '',
+        //   newPassword: '',
+        //   passwordConfirmation: '',
+        //   language: 'Français',
+        //   timezone: [ 'UTC+1 (Europe/Paris)'],
         },
     
         validate: {
           email: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
           name: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-          phone: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
         },
     });
     return ( 
         <>
             <p className="text-2xl font-semilight my-5"> Informations Personnelles </p>
             <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <section className="space-y-5"> 
+                    <div className="flex flex-col md:flex-row justify-between gap-4">
+                        <TextInput
+                            w={'100%'}
+                            radius="md"
+                            withAsterisk
+                            label="Nom"
+                            placeholder="GMP TEST"
+                            key={form.key('name')}
+                            {...form.getInputProps('name')}
+                        />
+                        <TextInput
+                        w={'100%'}
+                        radius="md"
+                        withAsterisk
+                        label="Adressse email"
+                        placeholder="admin@example.com"
+                        key={form.key('email')}
+                        {...form.getInputProps('email')}
+                    />
+                    </div>
+                    
+                </section>
+
+                <Button 
+                    type='submit' 
+                    color='#EE0202' 
+                    radius="md"
+                    mt={'md'}
+                >  
+                    Enregistrer les modifications
+                </Button>
+            </form>
+
+            
+
+            
+        </>
+    );
+}
+
+export default SettingsForm;
+
+{/* <form onSubmit={form.onSubmit((values) => console.log(values))}>
                 <section className="space-y-5"> 
                     <div className="flex flex-col md:flex-row justify-between gap-4">
                         <TextInput
@@ -57,7 +100,6 @@ function SettingsForm() {
                     />
                 </section>
 
-                {/* password changing */}
                 <section className="space-y-5"> 
                     <p className="text-2xl font-semilight my-5"> Changer le mot de passe </p>
                     <PasswordInput
@@ -115,11 +157,4 @@ function SettingsForm() {
                 >  
                     Enregistrer les modifications
                 </Button>
-            </form>
-
-            
-        </>
-    );
-}
-
-export default SettingsForm;
+            </form>  */}

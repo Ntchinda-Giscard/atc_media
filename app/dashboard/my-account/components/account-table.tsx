@@ -34,16 +34,13 @@ export default function AccountTable({onDelete, onEdit}: {onDelete?: () => void,
                 textAlign: 'center'
               }}
             >
-              Element position
+              Name
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Element name
+              Email
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Symbol
-            </Table.Th>
-            <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Action
+              Role
             </Table.Th>
             <Table.Th
               style={{
@@ -53,7 +50,7 @@ export default function AccountTable({onDelete, onEdit}: {onDelete?: () => void,
                 textAlign: 'center'
               }}
             >
-              Atomic mass
+              
             </Table.Th>
           </Table.Tr>
         </Table.Thead>
@@ -71,9 +68,8 @@ export default function AccountTable({onDelete, onEdit}: {onDelete?: () => void,
               <Table.Td style={{ padding: 8 }}>{element.name}</Table.Td>
               <Table.Td style={{ padding: 8 }}>{element.symbol}</Table.Td>
               <Table.Td style={{ padding: 8 }}>{element.position}</Table.Td>
-              <Table.Td style={{ padding: 8 }}>{element.mass}</Table.Td>
               <Table.Td style={{ padding: 8 }}>
-                <Group justify='between'>
+                <Group justify='center'>
                   <ActionIcon 
                   //@ts-ignore
                     onClick={() => onEdit()} variant="subtle" aria-label="Edit">

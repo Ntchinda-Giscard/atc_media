@@ -46,7 +46,7 @@ export function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    const url = 'user/login';
+    const url = '/user/login';
   const payload = {
     // first_name: 'Jean',
     email:    values?.email,
@@ -68,11 +68,9 @@ export function ProfileForm() {
     const token = response.data.data.token
     const user = response.data.data.user
 
-    // Store token in a cookie
-    Cookies.set('auth_token', token, { expires: 7 }) // optional: set secure: true in prod
+    Cookies.set('auth_token', token, { expires: 30 })
 
     console.log('User:', user)
-    // Optionally store user data (not sensitive)
     localStorage.setItem('user', JSON.stringify(user))
     
     setErrMessage(null)

@@ -4,6 +4,7 @@ import { SetStateAction, useState } from 'react';
 import SettingsForm from './components/settings-form';
 import ClientTab from './components/client-tab';
 import AccountProtection from './components/account-protection';
+import { UserInfoIcons } from './components/profile-card';
 
 export default function SettingsPage() {
   const [form, setForm] = useState({
@@ -28,6 +29,7 @@ export default function SettingsPage() {
       <h1 className="text-2xl font-bold text-gray-700 flex items-center gap-2">
         <span className="text-blue-500 text-3xl">👤</span> Mon Compte
       </h1>
+      <UserInfoIcons />
 
         <Tabs 
           defaultValue="first" 
