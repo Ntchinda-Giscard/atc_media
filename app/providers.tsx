@@ -7,6 +7,7 @@ import { Notifications } from '@mantine/notifications';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
 import { useState } from 'react';
 import '@/app/(site)/globals.css';
+import { MediaProvider } from '@/contexts/MediaContex';
 
 
 export default function Providers({
@@ -14,12 +15,17 @@ export default function Providers({
 }: {
   children: React.ReactNode;
 }) {
-    const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
-    const toggleColorScheme = (value: any) => setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+  const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
+  const toggleColorScheme = (value: any) => setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
     <>
       <ColorSchemeScript defaultColorScheme="light" />
-      <MantineProvider><Notifications />{children}</MantineProvider>
+      <MantineProvider>
+        <MediaProvider>
+          <Notifications />
+          {children}
+        </MediaProvider>
+      </MantineProvider>
     </>
   );
 }

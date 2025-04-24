@@ -18,10 +18,10 @@ import { Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/app/(site)/components/common/password-input"
 import Link from "next/link"
-import axios from '@/lib/axios'; // adjust path
 import {useRouter} from "next/navigation"
 import { useState } from "react"
 import { Alert } from "@mantine/core"
+import { useApi } from '@/lib/hooks/useApi'
 
 
 const formSchema = z.object({
@@ -33,6 +33,7 @@ const formSchema = z.object({
 
 export function ProfileForm() {
   const router = useRouter();
+  const api = useApi();
   const [errMessage, setErrMessage] = useState(null)
   const [isLoading, setIsloading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,7 +46,7 @@ export function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    const url = '/user/login';
+    const url = 'user/login';
   const payload = {
     // first_name: 'Jean',
     email:    values?.email,
@@ -56,7 +57,7 @@ export function ProfileForm() {
 
   try {
     setIsloading(true)
-    const response = await axios.post(url, payload, {
+    const response = await api.post(url, payload, {
       headers: {
         'Accept':        'application/json',
         'Content-Type':  'application/json',
