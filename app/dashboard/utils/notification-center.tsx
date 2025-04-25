@@ -15,7 +15,7 @@ type InfoNotification = {
     message?: string
 }
 
-export const info_nofication = (position?: NotificationPosition, title: string, message: string ) => {
+export const info_nofication = (title: string, message: string, position?: NotificationPosition ) => {
     notifications.show({
         title: title || '',
         message: message || '',
@@ -26,10 +26,22 @@ export function error_notification( title: string, message: string ) { // Add ty
     notifications.show({
         position: 'top-right',
         withCloseButton: true,
-        title: "You've been compromised",
-        message: 'Leave the building immediately',
+        title: title,
+        message: message,
         color: 'red',
         icon: <IconX />,
+        loading: false,
+      });
+}
+
+export function success_notification( title: string, message: string ) { // Add type annotation for the function
+    notifications.show({
+        position: 'top-right',
+        withCloseButton: true,
+        title: title,
+        message: message,
+        color: 'teal',
+        icon: <IconCheck />,
         loading: false,
       });
 }

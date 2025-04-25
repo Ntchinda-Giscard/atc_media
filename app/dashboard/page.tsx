@@ -4,6 +4,8 @@ import { BarChart, Eye, MapPin, Timer, PlusCircle, LayoutDashboard } from 'lucid
 import {useEffect, useState} from "react"
 import { string } from 'zod';
 // import { cookies } from "next/headers"
+import useStore from '@/stores/store';
+
 
 type  User = {
   id: number
@@ -12,12 +14,18 @@ type  User = {
 }
 
 export default function HomePage() {
-  const [user, setUser] = useState<User | null>(null)
+  // const [user, setUser] = useState<User | null>(null)
+  
+  const user = useStore(state => state.user);
+
+
   useEffect(() =>{
+    // initAuth();
+
     const user = localStorage.getItem('user')
     if (user) {
         const parsedUser = JSON.parse(user)
-        setUser(parsedUser)
+        // setUser(parsedUser)
       }
     
 }, [])

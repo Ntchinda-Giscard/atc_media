@@ -21,7 +21,8 @@ import Link from "next/link"
 import {useRouter} from "next/navigation"
 import { useState } from "react"
 import { Alert } from "@mantine/core"
-import { useApi } from '@/lib/hooks/useApi'
+// import { useApi } from '@/lib/hooks/useApi'
+import axios from "axios";
 
 
 const formSchema = z.object({
@@ -33,7 +34,7 @@ const formSchema = z.object({
 
 export function ProfileForm() {
   const router = useRouter();
-  const api = useApi();
+  // const api = useApi();
   const [errMessage, setErrMessage] = useState(null)
   const [isLoading, setIsloading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,7 +47,7 @@ export function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    const url = '/user/login';
+    const url = 'http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/login';
   const payload = {
     // first_name: 'Jean',
     email:    values?.email,
@@ -57,7 +58,7 @@ export function ProfileForm() {
 
   try {
     setIsloading(true)
-    const response = await api.post(url, payload, {
+    const response = await axios.post(url, payload, {
       headers: {
         'Accept':        'application/json',
         'Content-Type':  'application/json',
@@ -65,7 +66,7 @@ export function ProfileForm() {
       },
     });
     console.log('Login success:', response.data);
-    const token = response.data.data.token
+    const token = response.data.data.token.value
     const user = response.data.data.user
 
     Cookies.set('auth_token', token, { expires: 30 })
