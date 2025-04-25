@@ -44,7 +44,6 @@ function SettingsForm() {
     });
 
     async function handleSubmit(values: any){
-        const url = 'http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/updated/1'
         console.log(values)
         console.log("Token", token)
         const payload = {
@@ -55,14 +54,6 @@ function SettingsForm() {
         try{
             setLoading(true)
             await updateUser(payload, token)
-            // const response = await axios.put(url, payload, {
-            //     headers: {
-            //       'Accept':        'application/json',
-            //       'Content-Type':  'application/json',
-            //       'X-CSRF-TOKEN':  '',
-            //       'Authorization': `Bearer ${token}` 
-            //     },
-            //   });
               setLoading(false)
               success_notification("Mise a jour utilisateur", "Mise a jour effectuer avec succes")
               initAuth()

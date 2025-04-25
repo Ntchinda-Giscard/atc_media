@@ -2,12 +2,12 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import createAuthSlice from './authSlice';
-// import createCartSlice from './cartSlice';
+import createClientSlice from './clientSlice';
 // import createSettingsSlice from './settingsSlice';
 
 const useStore = create(devtools((set, get) => ({
   ...createAuthSlice(set, get),
-//   ...createCartSlice(set, get),
+  ...createClientSlice(set, get),
 //   ...createSettingsSlice(set, get),
 })));
 

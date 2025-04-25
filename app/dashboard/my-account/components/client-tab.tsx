@@ -6,39 +6,62 @@ import AddAccountForm from "./add-acount-form";
 import TableFooter from "./table-footer";
 import DeleteClientModal from "./delete-account-modal";
 import EditClientModal from "./edit-account-modat";
+import { useEffect, useState } from "react";
+import useStore from '@/stores/store';
+//@ts-ignore
+import Cookies from 'js-cookie';
 
 function ClientTab() {
     const [openedDelete, { open: openDelte, close: closeDelete }] = useDisclosure(false);
     const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
-    const handleDelete = () => {
+    const { clients, fetchClients, updateClient, deleteClient } = useStore();
+    const [itemDelete, setItemDelete] = useState()
+    const [itemEdit, setItemEdit] = useState()
+    const token = Cookies.get('auth_token');
+
+
+    const handleDelete = (item: any) => {
         // Handle delete action here
         console.log("Delete action triggered");
+        setItemDelete(item);
         openDelte();
+        
     }
 
-    const handleEdit = () => {
+    const handleEdit = (item: any) => {
         // Handle delete action here
         console.log("Delete action triggered");
+        setItemEdit(item);
         openEdit();
     }
+
+    useEffect(() =>{
+        fetchClients()
+    }, [clients])
     return ( 
         <>
             <DeleteClientModal
                 opened={openedDelete}
-                close={closeDelete} 
+                close={closeDelete}
+                //@ts-ignore
+                onDelete={() => deleteClient(itemDelete?.company?.id, token)} 
             />
             <EditClientModal
                 close={closeEdit} 
                 opened={openedEdit}
+                item={itemEdit}
             />
             <p className="text-2xl font-semilight my-5"> Liste des sous-comptes </p>
             <section className="space-y-5"> 
                 <div className="flex flex-col justify-between gap-4">
                     <AccountTable
-                        onDelete={() => handleDelete()}
-                        onEdit={() => handleEdit()}
+                    //@ts-ignore
+                        onDelete={(item: any) => handleDelete(item)}
+                        //@ts-ignore
+                        onEdit={(item: any) => handleEdit(item)}
+                        elements={clients}
                     />
-                    <TableFooter />
+                    {/* <TableFooter /> */}
                 </div>
 
                 <p className="text-2xl font-semilight my-5"> Ajouter un sous-compte </p>
