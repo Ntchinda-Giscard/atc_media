@@ -7,12 +7,23 @@ import { error_notification, success_notification } from '../../utils/notificati
 //@ts-ignore
 import Cookies from 'js-cookie';
 import axios from 'axios'
+import useStore from '@/stores/store';
 
 function SettingsForm() {
+    useEffect(() =>{
+        const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            console.log("Local storage user", parsedUser)
+            console.log("Local storage email", parsedUser?.email)
+          }
+    }, [])
     // const api = useApi();
     const token = Cookies.get('auth_token');
+    const initAuth = useStore(state => state.initAuthFromLocalStorage);
     const [loading, setLoading] = useState(false)
     const [errMessage, setErrorMessage] = useState<string | null>(null)
+    const updateUser = useStore(state => state.updateUser);
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
@@ -36,27 +47,31 @@ function SettingsForm() {
         const url = 'http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/user/updated/1'
         console.log(values)
         console.log("Token", token)
+        const payload = {
+            name: values.name,
+            email: values.email
+        }
         
         try{
-            const payload = {
-                name: values.name,
-                email: values.email
-            }
             setLoading(true)
-            const response = await axios.put(url, payload, {
-                headers: {
-                  'Accept':        'application/json',
-                  'Content-Type':  'application/json',
-                  'X-CSRF-TOKEN':  '',
-                  'Authorization': `Bearer ${token}` 
-                },
-              });
+            await updateUser(payload, token)
+            // const response = await axios.put(url, payload, {
+            //     headers: {
+            //       'Accept':        'application/json',
+            //       'Content-Type':  'application/json',
+            //       'X-CSRF-TOKEN':  '',
+            //       'Authorization': `Bearer ${token}` 
+            //     },
+            //   });
               setLoading(false)
               success_notification("Mise a jour utilisateur", "Mise a jour effectuer avec succes")
+              initAuth()
+              
         }catch(error){
-            console.log(error)
+            console.error('Login failed:', error?.response?.data?.reason);
             setLoading(false)
-            error_notification("Mise a jour utilisateur", "Echec de la mise ajour des information utilisateur")
+            setErrorMessage(error?.response?.data?.reason)
+            error_notification("Mise a jour utilisateur", `${error?.response?.data?.reason}`)
         }
     }
     return ( 
