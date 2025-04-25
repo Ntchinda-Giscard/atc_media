@@ -68,9 +68,12 @@ function SettingsForm() {
               initAuth()
               
         }catch(error){
+            //@ts-ignore
             console.error('Login failed:', error?.response?.data?.reason);
             setLoading(false)
+            //@ts-ignore
             setErrorMessage(error?.response?.data?.reason)
+            //@ts-ignore
             error_notification("Mise a jour utilisateur", `${error?.response?.data?.reason}`)
         }
     }
