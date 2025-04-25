@@ -42,13 +42,13 @@ function AddAccountForm() {
             address: values.address,
             phone: values.phone,
             manager_name: values.manager_name,
-            manager_email: values.name,
+            manager_email: values.email,
             manager_password: values.manager_password,
             screens_allowed: values.screens_allowed
           }
         try{
             setLoading(true)
-
+            console.log("token", token);
             await addClients(data, token);
             setLoading(false)
             success_notification("Mise a jour du mot de passe", "Mise a jour effectuer avec succes")

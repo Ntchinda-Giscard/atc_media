@@ -36,8 +36,9 @@ function ClientTab() {
     }
 
     useEffect(() =>{
-        fetchClients()
-    }, [clients])
+        fetchClients(token)
+        console.log("Clients", clients);
+    }, [])
     return ( 
         <>
             <DeleteClientModal

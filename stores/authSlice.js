@@ -51,6 +51,28 @@ const createAuthSlice = (set, get) => ({
         throw err
         console.error('Failed to update user:', err);
       }
+    },
+
+    deleteUser: async (token) => {
+        // /${get().user.id}
+      try {
+        const res = await axios.put(`http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/delete/profile/${get().user.id}`, updatedData,{
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+  
+        const updatedUser = res.data.data; // Assuming res.data.data contains the updated user object
+        // set({ user: updatedUser });
+
+        // Save updated user info to localStorage
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+  
+        // set({ user: updatedUser });
+      } catch (err) {
+        throw err
+      }
     }
   });
   
