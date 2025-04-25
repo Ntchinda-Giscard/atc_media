@@ -97,7 +97,7 @@ function EditAccountForm({close, item}: any) {
             <Button variant="outline" color="red" onClick={close} radius={'md'}>
                 Annuler
             </Button>
-            <Button  type="submit" color='#EE0202' radius={'md'}>
+            <Button loading={loading}  type="submit" color='#EE0202' radius={'md'}>
                 Modifier
             </Button>
         </Group>
