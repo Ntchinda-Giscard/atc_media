@@ -1,11 +1,10 @@
 import AppButton from '@/components/AppButton';
 import AppCheckbox from '@/components/AppCheckbox';
 import { AppModalContainer } from '@/components/AppModalContainer'
-import { IMediaFolders, IPlaylistFile } from '@/constant/interphase';
+import { IMediaFolders, IMediaFiles } from '@/constant/interphase';
 import { useMedia } from '@/contexts/MediaContex';
-import { getCurrentDate, getFileType } from '@/lib/utils';
-import React, { useState, DragEvent, KeyboardEvent, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { getCurrentDate } from '@/lib/utils';
+import React, { useState, DragEvent, KeyboardEvent, } from 'react';
 
 
 interface ViewFolderModalProps {
@@ -18,21 +17,21 @@ function ViewFolderModal({
   onClose,
 }: ViewFolderModalProps) {
   const { folderToView, modifyFolder, setFolderToView } = useMedia();
-  const [uploadedFiles, setUploadedFiles] = useState<IPlaylistFile[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<IMediaFiles[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [share, setShare] = useState<boolean>(false);
   const [userInput, setUserInput] = useState('');
   const [sharedUsers, setSharedUsers] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (folderToView) {
-      if (folderToView.shared.length > 0) {
-        setShare(true);
-        setSharedUsers(folderToView.shared)
-      }
-      setUploadedFiles(folderToView.content);
-    }
-  }, [folderToView])
+  // useEffect(() => {
+  //   if (folderToView) {
+  //     if (folderToView.shared.length > 0) {
+  //       setShare(true);
+  //       setSharedUsers(folderToView.shared)
+  //     }
+  //     setUploadedFiles(folderToView.content);
+  //   }
+  // }, [folderToView])
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -42,23 +41,24 @@ function ViewFolderModal({
   };
 
   const handleFiles = (files: File[]) => {
-    const validFiles: IPlaylistFile[] = [];
+    const validFiles: IMediaFiles[] = [];
+    console.log(files);
 
-    files.forEach((file) => {
-      const fileType = getFileType(file);
-      if (fileType) {
-        validFiles.push({
-          id: uuidv4(),
-          name: file.name,
-          type: fileType,
-        });
-      }
-    });
+    // files.forEach((file) => {
+    //   const fileType = getFileType(file);
+    //   if (fileType) {
+    //     validFiles.push({
+    //       id: uuidv4(),
+    //       name: file.name,
+    //       type: fileType,
+    //     });
+    //   }
+    // });
 
     setUploadedFiles((prev) => [...prev, ...validFiles]);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setUploadedFiles((prev) => prev.filter((file) => file.id !== id));
   };
 

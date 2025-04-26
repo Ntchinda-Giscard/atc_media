@@ -1,7 +1,7 @@
 'use client';
 
 import AppActions from "@/components/AppActions";
-import AppBadge from "@/components/AppBadge";
+// import AppBadge from "@/components/AppBadge";
 import CustomTable from "@/components/CustomTable";
 import PageHeader from "@/components/PageHeader";
 import PageSectionHeader from "@/components/PageSectionHeader";
@@ -26,7 +26,7 @@ type MediaFoldersPageProps = {
     params: Promise<{ slug?: string[] }>
 };
 
-export default function MediaFoldersPage({
+export default function MediaFoldersPageMediaFoldersPage({
     params: paramsPromise
 }: MediaFoldersPageProps) {
     const {
@@ -135,18 +135,13 @@ export default function MediaFoldersPage({
 
     return (
         <div>
-            {
-                loadingFolders ?
-                    <Skeleton height={40} />
-                    :
-                    <PageHeader
-                        title={currentFolder ? "📁 " + currentFolder.name : "🗃️ Médiathèque "}
-                        iconClick={() => router.back()}
-                        icon={currentFolder && <ChevronLeft size={50} />}
-                        secondaryIconClick={getFolders}
-                        secondaryIcon={<RefreshCw size={30} />}
-                    />
-            }
+            <PageHeader
+                title={currentFolder ? "📁 " + currentFolder.name : "🗃️ Médiathèque "}
+                iconClick={() => router.back()}
+                icon={currentFolder && <ChevronLeft size={50} />}
+                secondaryIconClick={getFolders}
+                secondaryIcon={<RefreshCw size={30} />}
+            />
             <PageSectionHeader
                 title="📁 Dossiers"
                 setShowGrid={setShowFolderGrid}
@@ -195,10 +190,10 @@ export default function MediaFoldersPage({
                                                 </td>
                                                 <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
                                                     <div className="flex items-center justify-center">
-                                                        <AppBadge
+                                                        {/* <AppBadge
                                                             title={folder.shared?.length == 0 ? "Non" : "Oui"}
                                                             error={folder.shared?.length == 0}
-                                                        />
+                                                        /> */}
                                                     </div>
                                                 </td>
                                                 <td className="px-2 py-3 text-[15px] font-medium text-center whitespace-nowrap">
@@ -256,10 +251,10 @@ export default function MediaFoldersPage({
                                                 </td>
                                                 <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
                                                     <div className="flex items-center justify-center">
-                                                        <AppBadge
+                                                        {/* <AppBadge
                                                             title={folder.shared?.length == 0 ? "Non" : "Oui"}
                                                             error={folder.shared?.length == 0}
-                                                        />
+                                                        /> */}
                                                     </div>
                                                 </td>
                                                 <td className="px-2 py-3 text-[15px] font-medium text-center whitespace-nowrap">

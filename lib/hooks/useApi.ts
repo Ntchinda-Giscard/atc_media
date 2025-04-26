@@ -16,7 +16,7 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     const rawToken = Cookies.get('auth_token'); // assuming the token is stored in a cookie
-    const token = rawToken ? JSON.parse(rawToken)?.value ?? "" : "";
+    const token = rawToken ?? "";
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

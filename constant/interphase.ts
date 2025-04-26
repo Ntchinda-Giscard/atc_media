@@ -6,20 +6,17 @@ export interface ICustomTableHeader {
 export type FileType = 'IMAGE' | 'VIDEO' | 'DOC' | 'WEB';
 export type FolderStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED';
 export interface ICustomTableData {
-    [key: string]: string | number | boolean | undefined | IMediaFolders | IPlaylistFile[] | string[] | IMediaFolders[];
+    [key: string]: string | number | boolean | undefined | IMediaFolders | IMediaFiles[] | string[] | IMediaFolders[];
 }
 
 export interface IMediaFolders extends ICustomTableData {
     id: number;
     name: string;
-    content: IPlaylistFile[];
     created_at: string;
     updated_at: string;
-    is_system: number;
-    owner_id: number;
-    status: FolderStatus;
-    shared: string[];
     parent_id?: number;
+    owner_id: number;
+    is_system: number;
     children: IMediaFolders[];
 }
 
@@ -29,16 +26,24 @@ export interface IDropdownItems {
     onClick?: (id?: number) => void;
 }
 
-export interface IPlaylistFile {
-    id: string;
-    name: string;
-    type: FileType
+export interface IMediaFiles {
+    id: number;
+    name: string,
+    path: string,
+    folder_id: number,
+    owner_id: number,
+    type: string,
+    duration: number,
+    url: string,
+    metadata: [],
+    created_at: string,
+    updated_at: string
 }
 
 
 export interface IMediaPlaylist {
     id: string;
     name: string;
-    files: IPlaylistFile[];
+    files: IMediaFiles[];
     duration: string;
 }

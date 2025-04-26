@@ -2,11 +2,9 @@ import AppButton from '@/components/AppButton';
 import AppCheckbox from '@/components/AppCheckbox';
 import AppInput from '@/components/AppInput';
 import { AppModalContainer } from '@/components/AppModalContainer'
-import { IMediaFolders, IPlaylistFile } from '@/constant/interphase';
+import { IMediaFolders } from '@/constant/interphase';
 import { useMedia } from '@/contexts/MediaContex';
-import { getCurrentDate } from '@/lib/utils';
 import React, { useState, KeyboardEvent } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 
 interface AddNewFolderModalProps {
@@ -20,9 +18,9 @@ function AddNewFolderModal({
   onClose,
   currentFolder,
 }: AddNewFolderModalProps) {
-  const { folders, addFolder } = useMedia();
+  const { folders } = useMedia();
   const [folderName, setFolderName] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState<IPlaylistFile[]>([]);
+  // const [uploadedFiles, setUploadedFiles] = useState<IMediaFiles[]>([]);
   const [share, setShare] = useState<boolean>(false);
   const [userInput, setUserInput] = useState('');
   const [sharedUsers, setSharedUsers] = useState<string[]>([]);
@@ -55,25 +53,25 @@ function AddNewFolderModal({
       alert("Ce nom de dossier a déjà été utilisé.");
       return
     }
-    const folder: IMediaFolders = {
-      id: uuidv4(),
-      name: folderName,
-      content: uploadedFiles,
-      createdAt: getCurrentDate(),
-      shared: sharedUsers,
-      status: "ACTIVE",
-      parentId: currentFolder?.id ?? undefined
-    }
+    // const folder: IMediaFolders = {
+    //   id: uuidv4(),
+    //   name: folderName,
+    //   content: uploadedFiles,
+    //   createdAt: getCurrentDate(),
+    //   shared: sharedUsers,
+    //   status: "ACTIVE",
+    //   parentId: currentFolder?.id ?? undefined
+    // }
 
-    const addResponse: boolean = addFolder(folder);
-    if (addResponse) {
-      setFolderName('');
-      setUploadedFiles([]);
-      setSharedUsers([]);
-      setShare(false);
-      alert("Dossier creer avec succes");
-      onClose();
-    }
+    // const addResponse: boolean = addFolder(folder);
+    // if (addResponse) {
+    //   setFolderName('');
+    //   setUploadedFiles([]);
+    //   setSharedUsers([]);
+    //   setShare(false);
+    //   alert("Dossier creer avec succes");
+    //   onClose();
+    // }
   }
 
   return (

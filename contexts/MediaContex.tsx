@@ -8,7 +8,6 @@ interface MediaContextProps {
     folders: IMediaFolders[];
     deletedfolders: IMediaFolders[];
     activefolders: IMediaFolders[];
-    sharedfolders: IMediaFolders[];
     setFolders: Dispatch<SetStateAction<IMediaFolders[]>>;
     folderToRename: IMediaFolders | null;
     setFolderToRename: Dispatch<SetStateAction<IMediaFolders | null>>;
@@ -36,14 +35,12 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     const [folderToDelete, setFolderToDelete] = useState<IMediaFolders | null>(null);
     const [activefolders, setActiveFolders] = useState<IMediaFolders[]>([]);
     const [deletedfolders, setDeletedFolders] = useState<IMediaFolders[]>([]);
-    const [sharedfolders, setSharedFolders] = useState<IMediaFolders[]>([]);
     const [loadingFolders, setLoadingFolders] = useState<boolean>(true);
     const { getFolders, getFolder, renameFolderApi } = useMediaService();
 
     useEffect(() => {
         setActiveFolders(folders.filter(f => f.status == "ACTIVE"))
         setDeletedFolders(folders.filter(f => f.status == "DELETED"))
-        setSharedFolders(folders.filter(f => f.shared?.length > 0))
     }, [folders]);
 
     const addFolder = (folder: IMediaFolders): boolean => {
@@ -56,9 +53,12 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             setLoadingFolders(true);
             const response = await getFolders();
             setLoadingFolders(false);
-
-            if (response.data?.data) {
-                setActiveFolders(response.data.data as IMediaFolders[]);
+            if (response.data?.status == "success") {
+                setFolders(response.data.data as IMediaFolders[]);
+            } else {
+                app_notification({
+                    message: response.data?.raison ?? "An error occure"
+                })
             }
         } catch (error) {
             console.log(error)
@@ -161,7 +161,6 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             folders,
             activefolders,
             deletedfolders,
-            sharedfolders,
             setFolders,
             deleteFolder,
             folderToView,

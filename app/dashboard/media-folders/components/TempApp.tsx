@@ -2,11 +2,9 @@ import AppButton from '@/components/AppButton';
 import AppCheckbox from '@/components/AppCheckbox';
 import AppInput from '@/components/AppInput';
 import { AppModalContainer } from '@/components/AppModalContainer'
-import { IMediaFolders, IPlaylistFile } from '@/constant/interphase';
+import { IMediaFiles } from '@/constant/interphase';
 import { useMedia } from '@/contexts/MediaContex';
-import { getCurrentDate, getFileType } from '@/lib/utils';
 import React, { useState, DragEvent, KeyboardEvent } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 
 interface AddNewFolderModalProps {
@@ -18,9 +16,9 @@ function AddNewFolderModal({
   isOpen,
   onClose,
 }: AddNewFolderModalProps) {
-  const { folders, addFolder } = useMedia();
+  const { folders } = useMedia();
   const [folderName, setFolderName] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState<IPlaylistFile[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<IMediaFiles[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [share, setShare] = useState<boolean>(false);
   const [userInput, setUserInput] = useState('');
@@ -34,23 +32,24 @@ function AddNewFolderModal({
   };
 
   const handleFiles = (files: File[]) => {
-    const validFiles: IPlaylistFile[] = [];
+    const validFiles: IMediaFiles[] = [];
+    console.log(files);
 
-    files.forEach((file) => {
-      const fileType = getFileType(file);
-      if (fileType) {
-        validFiles.push({
-          id: uuidv4(),
-          name: file.name,
-          type: fileType,
-        });
-      }
-    });
+    // files.forEach((file) => {
+    //   const fileType = getFileType(file);
+    //   if (fileType) {
+    //     validFiles.push({
+    //       id: uuidv4(),
+    //       name: file.name,
+    //       type: fileType,
+    //     });
+    //   }
+    // });
 
     setUploadedFiles((prev) => [...prev, ...validFiles]);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setUploadedFiles((prev) => prev.filter((file) => file.id !== id));
   };
 
@@ -87,24 +86,24 @@ function AddNewFolderModal({
       alert("Ce nom de dossier a déjà été utilisé.");
       return
     }
-    const folder: IMediaFolders = {
-      id: uuidv4(),
-      name: folderName,
-      content: uploadedFiles,
-      createdAt: getCurrentDate(),
-      shared: sharedUsers,
-      status: "ACTIVE",
-    }
+    // const folder: IMediaFolders = {
+    //   id: uuidv4(),
+    //   name: folderName,
+    //   content: uploadedFiles,
+    //   createdAt: getCurrentDate(),
+    //   shared: sharedUsers,
+    //   status: "ACTIVE",
+    // }
 
-    const addResponse: boolean = addFolder(folder);
-    if (addResponse) {
-      setFolderName('');
-      setUploadedFiles([]);
-      setSharedUsers([]);
-      setShare(false);
-      alert("Dossier creer avec succes");
-      onClose();
-    }
+    // const addResponse: boolean = addFolder(folder);
+    // if (addResponse) {
+    //   setFolderName('');
+    //   setUploadedFiles([]);
+    //   setSharedUsers([]);
+    //   setShare(false);
+    //   alert("Dossier creer avec succes");
+    //   onClose();
+    // }
   }
 
   return (
