@@ -39,6 +39,15 @@ const useMediaService = () => {
             throw error;
         }
     }
-    return { getFolders, getFolder, renameFolderApi, addFolderApi }
+    const deleteFolderApi = async (id: number) => {
+        try {
+            const response = await api.delete('folders/' + id);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi }
 }
 export default useMediaService;

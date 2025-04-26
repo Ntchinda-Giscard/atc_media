@@ -11,10 +11,10 @@ interface MediaContextProps {
     setFolderToRename: Dispatch<SetStateAction<IMediaFolders | null>>;
     folderToView: IMediaFolders | null;
     setFolderToView: Dispatch<SetStateAction<IMediaFolders | null>>;
-    deleteFolder: () => void;
+    deleteFolder: () => Promise<boolean>;
     setFolderToDelete: Dispatch<SetStateAction<IMediaFolders | null>>;
     folderToDelete: IMediaFolders | null;
-    renameFolder: (newName: string) => void;
+    renameFolder: (newName: string) => Promise<boolean>;
     addFolder: (payload: { name: string, parent_id: number | null }) => Promise<boolean>;
     modifyFolder: (folder: IMediaFolders) => boolean;
     getAllRootFolders: () => void;
@@ -30,15 +30,8 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     const [folderToRename, setFolderToRename] = useState<IMediaFolders | null>(null);
     const [folderToView, setFolderToView] = useState<IMediaFolders | null>(null);
     const [folderToDelete, setFolderToDelete] = useState<IMediaFolders | null>(null);
-    // const [activefolders, setActiveFolders] = useState<IMediaFolders[]>([]);
-    // const [deletedfolders, setDeletedFolders] = useState<IMediaFolders[]>([]);
     const [loadingFolders, setLoadingFolders] = useState<boolean>(true);
-    const { getFolders, getFolder, renameFolderApi, addFolderApi } = useMediaService();
-
-    // useEffect(() => {
-    //     setActiveFolders(folders.filter(f => f.status == "ACTIVE"))
-    //     setDeletedFolders(folders.filter(f => f.status == "DELETED"))
-    // }, [folders]);
+    const { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi } = useMediaService();
 
     const addFolder = async (payload: { name: string, parent_id: number | null }): Promise<boolean> => {
         try {
@@ -126,16 +119,30 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
         return true;
     }
 
-    const deleteFolder = () => {
-        if (folderToDelete) {
-            setFolders(folders.reduce((prev: IMediaFolders[], next) => {
-                if (next.id == folderToDelete.id) {
-                    return [...prev, { ...next, status: 'DELETED' }]
+    const deleteFolder = async () => {
+        try {
+            if (folderToDelete) {
+                const response = await deleteFolderApi(folderToDelete.id);
+                if (response.data?.status == "success") {
+                    setFolders(folders.filter(f => f.id != folderToDelete.id))
+                    app_notification({
+                        type: 'success',
+                        message: "Folder deleted successfully",
+                    });
+                    return true
+                } else {
+                    app_notification({
+                        message: response.data?.raison ?? "Could not delete folder"
+                    })
                 }
-                return [...prev, next];
-            }, []))
-            // alert('Dossier supprimé avec succès.');
-            setFolderToDelete(null);
+            }
+            return false
+        } catch (error) {
+            console.log(error)
+            app_notification({
+                message: "An error occure"
+            })
+            return false
         }
     }
     // const restoreFolder = (id: number) => {
@@ -154,8 +161,8 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     // }
 
     const renameFolder = async (newName: string) => {
-        if (folderToRename) {
-            try {
+        try {
+            if (folderToRename) {
                 const response = await renameFolderApi(folderToRename.id, newName);
                 if (response.data?.status == "success") {
                     setFolders(
@@ -166,22 +173,24 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                             return [...prev, next];
                         }, [])
                     );
-                    setFolderToRename(null);
                     app_notification({
                         type: 'success',
                         message: "Folder rename successfully",
                     });
+                    return true
                 } else {
                     app_notification({
-                        message: "Could not rename folder"
+                        message: response.data?.raison ?? "Could not rename folder"
                     })
                 }
-            } catch (error) {
-                console.log(error)
-                app_notification({
-                    message: "An error occure"
-                })
             }
+            return false
+        } catch (error) {
+            console.log(error)
+            app_notification({
+                message: "An error occure"
+            })
+            return false
         }
     }
 
