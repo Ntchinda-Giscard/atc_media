@@ -5,6 +5,7 @@ import {useEffect, useState} from "react"
 import { string } from 'zod';
 // import { cookies } from "next/headers"
 import useStore from '@/stores/store';
+import { useAutoLogout } from '@/lib/hooks/useAutoLogout';
 
 
 type  User = {
@@ -14,21 +15,10 @@ type  User = {
 }
 
 export default function HomePage() {
-  // const [user, setUser] = useState<User | null>(null)
+  useAutoLogout();
   
   const user = useStore(state => state.user);
 
-
-  useEffect(() =>{
-    // initAuth();
-
-    const user = localStorage.getItem('user')
-    if (user) {
-        const parsedUser = JSON.parse(user)
-        // setUser(parsedUser)
-      }
-    
-}, [])
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold text-gray-700">Bienvenue {user?.name} 👋</h1>

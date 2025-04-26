@@ -19,8 +19,10 @@ const createAuthSlice = (set, get) => ({
       console.log('Login success:', response.data);
       const user = response.data.data.user
       const token = response.data.data.token.value
+      const expires_at = response.data.data.token.expires_at
   
       // Save to localStorage
+      localStorage.setItem('expires_at', expires_at);
       localStorage.setItem('user', JSON.stringify(user));
       Cookies.set('auth_token', token, { expires: 30 })
       console.log("Zuzstand slice", user)
@@ -38,8 +40,10 @@ const createAuthSlice = (set, get) => ({
         }
       });
       set({ user: null, isAuthenticated: false });
+      Cookies.remove('auth_token', { path: '/' });
+
+      localStorage.removeItem('expire_at');
       localStorage.removeItem('user');
-      Cookies.remove('auth_token', { path: '/' })
       
     },
   
