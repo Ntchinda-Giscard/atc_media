@@ -19,7 +19,6 @@ function PasswordForm() {
     }, [])
     // const api = useApi();
     const token = Cookies.get('auth_token');
-    const initAuth = useStore(state => state.initAuthFromLocalStorage);
     const [loading, setLoading] = useState(false)
     const [errMessage, setErrorMessage] = useState<string | null>(null)
     const updateUser = useStore(state => state.updateUser);
@@ -35,9 +34,9 @@ function PasswordForm() {
         },
     
         validate: {
-        //   password: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Adresse e-mail invalide'),
-        //   newPassword: (value: string) => ( value?.length > 3 ? null : 'Nom invalide'),
-        //   passwordConfirmation: (value: string) => ( value !== form.getValues('newPassword') ? null : 'mot de passent ne coreecpondent pas !'),
+          password: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Adresse e-mail invalide'),
+          newPassword: (value: string) => ( value?.length > 3 ? null : 'Nom invalide'),
+          passwordConfirmation: (value: any, values: { newPassword: any; }) => ( value === values?.newPassword  ? null : 'mot de passent ne coreecpondent pas !'),
         },
     });
 
@@ -63,7 +62,6 @@ function PasswordForm() {
               });
               setLoading(false)
               success_notification("Mise a jour utilisateur", "Mise a jour effectuer avec succes")
-              initAuth()
               
         }catch(error){
             //@ts-ignore
