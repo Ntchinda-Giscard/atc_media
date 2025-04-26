@@ -2,8 +2,9 @@
 import { Bell, Globe, Menu, Search } from 'lucide-react'
 import React from 'react'
 import SearchBar from './SearchBar'
+//@ts-ignore
 import { useApp } from '@/contexts/AppContext'
-import APPIMAGES from '@/assets/images/index'
+// import APPIMAGES from '@/assets/images/index'
 import Image from 'next/image';
 
 function NavBar() {
@@ -20,7 +21,7 @@ function NavBar() {
       </div>
       <div className="flex items-center gap-4 text-sm text-gray-700 lg:gap-6">
         <div className='items-center justify-center hidden gap-2 md:flex'>
-          <Image src={APPIMAGES.FRENCH_FLAG} className='w-[20px] h-[20px]' alt='french flag' />
+          {/* <Image src={APPIMAGES.FRENCH_FLAG} className='w-[20px] h-[20px]' alt='french flag' /> */}
           <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.66671 0.689942L9.54325 0.689941C11.2026 0.689941 12.1402 2.59413 11.1285 3.90937L7.69023 8.37912C6.88964 9.41989 5.32032 9.41989 4.51973 8.37912L1.08146 3.90936C0.0697375 2.59413 1.00736 0.689942 2.66671 0.689942Z" fill="#414141" />
           </svg>

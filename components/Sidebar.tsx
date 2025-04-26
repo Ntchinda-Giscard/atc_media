@@ -8,6 +8,7 @@ import {
   Folder, Share, Trash2
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+//@ts-ignore
 import { useApp } from '@/contexts/AppContext';
 
 const menu = [

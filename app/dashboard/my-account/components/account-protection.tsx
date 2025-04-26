@@ -19,7 +19,9 @@ function AccountProtection() {
                 </div>
                
                 <p className="text-xl font-semilight my-5"> Historique des connexions </p>
-                <AccountTable />
+                <AccountTable 
+                    elements={undefined} 
+                />
                 <div className="flex flex-col text-start">
                     <p> 🔐 Suppression du compte </p>
                     <p> Cette action est irréversible. Vos données seront supprimées définitivement après validation. </p>

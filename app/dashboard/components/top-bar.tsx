@@ -4,9 +4,11 @@ import Image from "next/image"
 import { IconBell, IconChevronDown, IconSearch, IconWorld } from "@tabler/icons-react";
 import { TextInput, Avatar, Group, Indicator } from "@mantine/core";
 import { useEffect, useState } from "react";
+import useStore from '@/stores/store';
 
 function TopBar() {
-    const [user, setUser] = useState<string | null>(null)
+    // const [user, setUser] = useState<string | null>(null)
+    const user = useStore(state => state.user);
     useEffect(() =>{
         const user = localStorage.getItem('user')
         if (user) {
@@ -14,7 +16,7 @@ function TopBar() {
             console.log('User:', parsedUser)
 
             console.log("Username", parsedUser?.name)
-            setUser(parsedUser)
+            // setUser(parsedUser)
           }
         
     }, [])

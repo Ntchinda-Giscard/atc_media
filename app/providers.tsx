@@ -5,9 +5,10 @@ import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { Notifications } from '@mantine/notifications';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '@/app/(site)/globals.css';
 import { MediaProvider } from '@/contexts/MediaContex';
+import useStore from '@/stores/store';
 
 
 export default function Providers({
@@ -17,6 +18,11 @@ export default function Providers({
 }) {
   const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
   const toggleColorScheme = (value: any) => setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+  const initAuth = useStore(state => state.initAuthFromLocalStorage);
+
+  useEffect(() => {
+    initAuth();
+  }, []);
   return (
     <>
       <ColorSchemeScript defaultColorScheme="light" />
