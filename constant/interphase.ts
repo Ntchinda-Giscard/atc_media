@@ -18,6 +18,7 @@ export interface IMediaFolders extends ICustomTableData {
     owner_id: number;
     is_system: number;
     children: IMediaFolders[];
+    files: IMediaFiles[];
 }
 
 export interface IDropdownItems {

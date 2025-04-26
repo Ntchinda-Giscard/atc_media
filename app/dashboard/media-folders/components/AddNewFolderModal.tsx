@@ -5,6 +5,7 @@ import { AppModalContainer } from '@/components/AppModalContainer'
 import { IMediaFolders } from '@/constant/interphase';
 import { useMedia } from '@/contexts/MediaContex';
 import React, { useState, KeyboardEvent } from 'react';
+import { app_notification } from '../../utils/notification-center';
 
 
 interface AddNewFolderModalProps {
@@ -18,10 +19,10 @@ function AddNewFolderModal({
   onClose,
   currentFolder,
 }: AddNewFolderModalProps) {
-  const { folders } = useMedia();
+  const { folders, addFolder } = useMedia();
   const [folderName, setFolderName] = useState('');
-  // const [uploadedFiles, setUploadedFiles] = useState<IMediaFiles[]>([]);
   const [share, setShare] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userInput, setUserInput] = useState('');
   const [sharedUsers, setSharedUsers] = useState<string[]>([]);
 
@@ -44,34 +45,31 @@ function AddNewFolderModal({
     }
   };
 
-  const onCreateFolder = () => {
+  const onCreateFolder = async () => {
     if (folderName.length == 0) {
-      alert("Vous devriez ajouter un nom de dossier.");
+      app_notification({
+          message: "Vous devriez ajouter un nom de dossier."
+      })
       return
     }
     if (folders.some(folder => folder.name == folderName)) {
-      alert("Ce nom de dossier a déjà été utilisé.");
+      app_notification({
+          message: "Ce nom de dossier a déjà été utilisé."
+      })
       return
     }
-    // const folder: IMediaFolders = {
-    //   id: uuidv4(),
-    //   name: folderName,
-    //   content: uploadedFiles,
-    //   createdAt: getCurrentDate(),
-    //   shared: sharedUsers,
-    //   status: "ACTIVE",
-    //   parentId: currentFolder?.id ?? undefined
-    // }
-
-    // const addResponse: boolean = addFolder(folder);
-    // if (addResponse) {
-    //   setFolderName('');
-    //   setUploadedFiles([]);
-    //   setSharedUsers([]);
-    //   setShare(false);
-    //   alert("Dossier creer avec succes");
-    //   onClose();
-    // }
+    setIsLoading(true);
+    const addResponse: boolean = await addFolder({
+      name: folderName,
+      parent_id: currentFolder ? currentFolder.id : null
+    });
+    setIsLoading(false);
+    if (addResponse) {
+      setFolderName('');
+      setSharedUsers([]);
+      setShare(false);
+      onClose();
+    }
   }
 
   return (
@@ -129,6 +127,7 @@ function AddNewFolderModal({
             onClick={onCreateFolder}
             text='Créer le dossier'
             big
+            isLoading={isLoading}
           />
         </div>
       </div>

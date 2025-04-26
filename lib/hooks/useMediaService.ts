@@ -1,6 +1,15 @@
 import api from "./useApi";
 
 const useMediaService = () => {
+    const addFolderApi = async (payload: { name: string, parent_id: number | null }) => {
+        try {
+            const response = await api.post('folders', payload);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
     const getFolders = async () => {
         try {
             const response = await api.get('folders');
@@ -30,6 +39,6 @@ const useMediaService = () => {
             throw error;
         }
     }
-    return { getFolders, getFolder, renameFolderApi }
+    return { getFolders, getFolder, renameFolderApi, addFolderApi }
 }
 export default useMediaService;

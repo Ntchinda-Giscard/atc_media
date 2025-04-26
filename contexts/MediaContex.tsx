@@ -2,12 +2,10 @@
 import { app_notification } from '@/app/dashboard/utils/notification-center';
 import { IMediaFolders } from '@/constant/interphase';
 import useMediaService from '@/lib/hooks/useMediaService';
-import { createContext, useState, useContext, SetStateAction, Dispatch, useEffect } from 'react';
+import { createContext, useState, useContext, SetStateAction, Dispatch } from 'react';
 
 interface MediaContextProps {
     folders: IMediaFolders[];
-    deletedfolders: IMediaFolders[];
-    activefolders: IMediaFolders[];
     setFolders: Dispatch<SetStateAction<IMediaFolders[]>>;
     folderToRename: IMediaFolders | null;
     setFolderToRename: Dispatch<SetStateAction<IMediaFolders | null>>;
@@ -17,8 +15,7 @@ interface MediaContextProps {
     setFolderToDelete: Dispatch<SetStateAction<IMediaFolders | null>>;
     folderToDelete: IMediaFolders | null;
     renameFolder: (newName: string) => void;
-    restoreFolder: (id: number) => void;
-    addFolder: (folder: IMediaFolders) => boolean;
+    addFolder: (payload: { name: string, parent_id: number | null }) => Promise<boolean>;
     modifyFolder: (folder: IMediaFolders) => boolean;
     getAllRootFolders: () => void;
     getFolderById: (id: number) => any;
@@ -33,19 +30,51 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     const [folderToRename, setFolderToRename] = useState<IMediaFolders | null>(null);
     const [folderToView, setFolderToView] = useState<IMediaFolders | null>(null);
     const [folderToDelete, setFolderToDelete] = useState<IMediaFolders | null>(null);
-    const [activefolders, setActiveFolders] = useState<IMediaFolders[]>([]);
-    const [deletedfolders, setDeletedFolders] = useState<IMediaFolders[]>([]);
+    // const [activefolders, setActiveFolders] = useState<IMediaFolders[]>([]);
+    // const [deletedfolders, setDeletedFolders] = useState<IMediaFolders[]>([]);
     const [loadingFolders, setLoadingFolders] = useState<boolean>(true);
-    const { getFolders, getFolder, renameFolderApi } = useMediaService();
+    const { getFolders, getFolder, renameFolderApi, addFolderApi } = useMediaService();
 
-    useEffect(() => {
-        setActiveFolders(folders.filter(f => f.status == "ACTIVE"))
-        setDeletedFolders(folders.filter(f => f.status == "DELETED"))
-    }, [folders]);
+    // useEffect(() => {
+    //     setActiveFolders(folders.filter(f => f.status == "ACTIVE"))
+    //     setDeletedFolders(folders.filter(f => f.status == "DELETED"))
+    // }, [folders]);
 
-    const addFolder = (folder: IMediaFolders): boolean => {
-        setFolders([folder, ...folders]);
-        return true
+    const addFolder = async (payload: { name: string, parent_id: number | null }): Promise<boolean> => {
+        try {
+            const response = await addFolderApi(payload);
+            if (response.data?.status == "success" && response.data.data) {
+                setFolders(response.data.data as IMediaFolders[]);
+                const newFolder: IMediaFolders = {
+                    name: response.data.data?.name,
+                    parent_id: response.data.data?.parent_id,
+                    owner_id: response.data.data?.owner_id,
+                    updated_at: response.data.data?.updated_at,
+                    is_system: response.data.data?.is_system ?? 0,
+                    created_at: response.data.data?.created_at,
+                    id: response.data.data?.id,
+                    children: [],
+                    files: []
+                }
+                setFolders([newFolder, ...folders])
+                app_notification({
+                    type: 'success',
+                    message: "Folder added successfuly"
+                })
+                return true
+            } else {
+                app_notification({
+                    message: response.data?.raison ?? "An error occure"
+                })
+                return false
+            }
+        } catch (error) {
+            console.log(error)
+            app_notification({
+                message: "An error occure"
+            })
+            return false
+        }
     }
 
     const getAllRootFolders = async () => {
@@ -105,24 +134,24 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 }
                 return [...prev, next];
             }, []))
-            alert('Dossier supprimé avec succès.');
+            // alert('Dossier supprimé avec succès.');
             setFolderToDelete(null);
         }
     }
-    const restoreFolder = (id: number) => {
-        const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
-        if (!folder) {
-            alert("Ce dossier n'existe pas.")
-            return
-        }
-        setFolders(folders.reduce((prev: IMediaFolders[], next) => {
-            if (next.id == id) {
-                return [...prev, { ...next, status: 'ACTIVE' }]
-            }
-            return [...prev, next];
-        }, []))
-        alert('Ce dossier a été restauré avec succès.');
-    }
+    // const restoreFolder = (id: number) => {
+    //     const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
+    //     if (!folder) {
+    //         alert("Ce dossier n'existe pas.")
+    //         return
+    //     }
+    //     setFolders(folders.reduce((prev: IMediaFolders[], next) => {
+    //         if (next.id == id) {
+    //             return [...prev, { ...next, status: 'ACTIVE' }]
+    //         }
+    //         return [...prev, next];
+    //     }, []))
+    //     alert('Ce dossier a été restauré avec succès.');
+    // }
 
     const renameFolder = async (newName: string) => {
         if (folderToRename) {
@@ -159,8 +188,6 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     return (
         <MediaContext.Provider value={{
             folders,
-            activefolders,
-            deletedfolders,
             setFolders,
             deleteFolder,
             folderToView,
@@ -170,7 +197,6 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             renameFolder,
             setFolderToDelete,
             folderToDelete,
-            restoreFolder,
             addFolder,
             modifyFolder,
             getAllRootFolders,
