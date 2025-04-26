@@ -5,6 +5,9 @@ import { IconActivity, IconBell, IconChartBar, IconChevronRight, IconClipboardCh
 import { usePathname } from "next/navigation";
 import TopBar from './top-bar';
 import Link from "next/link"
+import { Menu } from '@mantine/core';
+import { useState } from 'react';
+
 
 export default function BasicAppShell({
   children,
@@ -23,7 +26,7 @@ export default function BasicAppShell({
     { label: 'Médiathèque', icon: <IconPhoto size={16} stroke={1.5} />, href: '/dashboard/media-folders' },
     { label: 'Mon compte', icon: <IconUser size={16} stroke={1.5} />, href: '/dashboard/my-account' },
     { label: 'Notifications', icon: <IconBell size={16} stroke={1.5} />, href: '/dashboard/notifications' },
-    { label: 'Déconnexion', icon: <IconLogout size={16} stroke={1.5} />, href: '#' },
+    // { label: 'Déconnexion', icon: <IconLogout size={16} stroke={1.5} />, href: '#' },
   ]
 
   return (
