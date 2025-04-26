@@ -7,3 +7,11 @@ export const mediaFolderHeader: ICustomTableHeader[] = [
     { title: "🔗 Partagé" },
     { title: "🚀 Actions" }
 ];
+
+export const mediaFileHeader: ICustomTableHeader[] = [
+    { title: "Nom" },
+    { title: "Type" },
+    { title: "Taille" },
+    { title: "Date d’ajout" },
+    { title: "Actions" }
+];

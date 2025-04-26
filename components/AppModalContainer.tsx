@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 
 interface IAppModalContainer {
     isOpen: boolean;
@@ -5,21 +6,31 @@ interface IAppModalContainer {
     title?: string;
     subtitle?: string;
     children: React.ReactNode;
+    big?: boolean;
+    iconClick?: () => void;
+    icon?: ReactNode;
 }
 
 export const AppModalContainer = ({
-    title, isOpen, onClose, children, subtitle
+    title, isOpen, onClose, children, subtitle, big, iconClick, icon
 }: IAppModalContainer) => {
     if (!isOpen) return null;
     return (
-        <div className="fixed inset-0 bg-[var(--modal-fadded-background)] z-1000 overflow-auto"
+        <div className="fixed inset-0 bg-[var(--modal-fadded-background)] z-1000 overflow-y-auto"
             onClick={onClose}
         >
-            <div className="flex items-center justify-center min-h-full p-4 text-center ">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
                 <div className={`relative transform overflow-hidden rounded-2xl  bg-[var(--modal-background)] 
-                    p-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100 w-full md:w-3/4`} onClick={(e) => e.stopPropagation()}>
+                    p-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100
+                    ${big ? 'w-full md:w-[90%]' : 'w-full md:w-3/4'}
+                    `} onClick={(e) => e.stopPropagation()}>
                     <div className='relative flex col-center'>
-                        <h1 className='font-bold text-[24px] text-[var(--title-color)]'>
+                        <h1 className='font-bold text-[24px] text-[var(--title-color)] flex justify-center items-center'>
+                            {iconClick && icon &&
+                                <span className="mr-5 cursor-pointer" onClick={iconClick}>
+                                    {icon}
+                                </span>
+                            }
                             {title}
                             <span className="text-[var(--primary-color)]">{subtitle}</span>
                         </h1>
@@ -31,7 +42,7 @@ export const AppModalContainer = ({
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10" /><path d="m15 9-6 6" /><path d="m9 9 6 6" /></svg>
                         </button>
                     </div>
-                    <div className="p-3 md:p-6 lg:p-10">
+                    <div className={` ${big ? 'p-3 md:p-6 ' : 'p-3 md:p-6 lg:p-10'} `}>
                         {children}
                     </div>
                 </div>

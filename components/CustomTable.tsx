@@ -6,9 +6,10 @@ type TableProps = {
   headers: ICustomTableHeader[];
   data: ICustomTableData[];
   renderRow: (item: ICustomTableData, index: number) => React.ReactNode;
+  onClick?: (id: number) => void;
 };
 
-const CustomTable: React.FC<TableProps> = ({ headers, data, renderRow }) => {
+const CustomTable: React.FC<TableProps> = ({ headers, data, renderRow, onClick }) => {
   return (
     <div className="w-full overflow-x-auto">
       <table className="w-full border-separate min-w-max border-spacing-y-4">
@@ -21,7 +22,7 @@ const CustomTable: React.FC<TableProps> = ({ headers, data, renderRow }) => {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <tr key={index}>
+            <tr key={index} onClick={() => onClick && onClick(Number(item?.id))}>
               {renderRow(item, index)}
             </tr>
           ))}
