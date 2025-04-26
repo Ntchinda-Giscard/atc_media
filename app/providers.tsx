@@ -18,10 +18,10 @@ export default function Providers({
 }) {
   const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
   const toggleColorScheme = (value: any) => setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
-  const initAuth = useStore(state => state.initAuthFromLocalStorage);
+  // const initAuth = useStore(state => state.initAuthFromLocalStorage);
 
   useEffect(() => {
-    initAuth();
+    // initAuth();
   }, []);
   return (
     <>
