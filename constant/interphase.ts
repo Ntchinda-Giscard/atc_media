@@ -56,9 +56,9 @@ export interface IMediaFileMetadata {
     mime_type: string;
 }
 
-export interface IAddFileToFolderApiProps{
-    file: string | null;
-    folder_id: number;
-    duration: number;
+export interface IAddFileToFolderApiProps {
+    file: File | null;
+    folder_id: number | '';
+    duration: number | '';
     url: string | null;
 }

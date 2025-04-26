@@ -62,10 +62,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 })
                 return false
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -83,11 +84,13 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                     message: response.data?.raison ?? "An error occure"
                 })
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
+            return false
         }
     }
     const getFolderById = async (id: number) => {
@@ -99,11 +102,13 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 setFolders(response.data?.data?.children);
                 return response.data?.data
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
+            return false
         }
     }
 
@@ -126,10 +131,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 }
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -161,10 +167,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 }
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -200,10 +207,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 })
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -237,10 +245,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 })
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }

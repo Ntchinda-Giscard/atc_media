@@ -5,7 +5,7 @@ import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 type TableProps = {
   headers: ICustomTableHeader[];
   data: ICustomTableData[];
-  renderRow: (item: ICustomTableData, index: number) => React.ReactNode;
+  renderRow: (item: ICustomTableData, index: number, onClick?: (id: number) => void) => React.ReactNode;
   onClick?: (id: number) => void;
 };
 
@@ -22,8 +22,8 @@ const CustomTable: React.FC<TableProps> = ({ headers, data, renderRow, onClick }
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <tr key={index} onClick={() => onClick && onClick(Number(item?.id))}>
-              {renderRow(item, index)}
+            <tr key={index}>
+              {renderRow(item, index, onClick)}
             </tr>
           ))}
         </tbody>

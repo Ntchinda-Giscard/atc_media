@@ -159,20 +159,20 @@ export default function MediaFoldersPageMediaFoldersPage({
                                     headers={mediaFolderHeader}
                                     data={filteredFolder}
                                     onClick={(id: number) => setFolderToView(folders?.find(f => f.id == id) ?? null)}
-                                    renderRow={(item) => {
+                                    renderRow={(item, index, onClick) => {
                                         const folder = item as IMediaFolders;
                                         return (
                                             <>
-                                                <td className="px-2 py-2 text-[15px] font-medium text-center">
+                                                <td className="px-2 py-2 text-[15px] font-medium text-center" onClick={() => onClick && onClick(folder.id)}>
                                                     {folder.name}
                                                 </td>
-                                                <td className="px-2 py-2 text-[15px] font-normal text-center">
+                                                <td className="px-2 py-2 text-[15px] font-normal text-center" onClick={() => onClick && onClick(folder.id)}>
                                                     {/* {convertArrayOfFilesToString(folder.content)} */}
                                                 </td>
-                                                <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
+                                                <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap" onClick={() => onClick && onClick(folder.id)}>
                                                     {formatDate(folder.created_at)}
                                                 </td>
-                                                <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
+                                                <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap" onClick={() => onClick && onClick(folder.id)}>
                                                     <div className="flex items-center justify-center">
                                                         {/* <AppBadge
                                                             title={folder.shared?.length == 0 ? "Non" : "Oui"}
@@ -181,7 +181,7 @@ export default function MediaFoldersPageMediaFoldersPage({
                                                     </div>
                                                 </td>
                                                 <td className="px-2 py-3 text-[15px] font-medium text-center whitespace-nowrap">
-                                                    <div className="flex items-center justify-center">
+                                                    <div className="flex items-center justify-center" onClick={() => null}>
                                                         <AppActions actions={folderActions} id={folder.id} />
                                                     </div>
                                                 </td>

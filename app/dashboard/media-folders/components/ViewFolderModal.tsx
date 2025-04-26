@@ -4,11 +4,11 @@ import AppButton from '@/components/AppButton';
 import AppCheckbox from '@/components/AppCheckbox';
 import { AppModalContainer } from '@/components/AppModalContainer'
 import CustomTable from '@/components/CustomTable';
-import { IMediaFolders, IMediaFiles, IDropdownItems } from '@/constant/interphase';
+import { IMediaFiles, IDropdownItems, IAddFileToFolderApiProps } from '@/constant/interphase';
 import { mediaFileHeader } from '@/constant/tableHeaders';
 import { useMedia } from '@/contexts/MediaContex';
-import { formatDate, getCurrentDate } from '@/lib/utils';
-import React, { useState, DragEvent, KeyboardEvent, useEffect, } from 'react';
+import { formatDate, isValidHttpUrl } from '@/lib/utils';
+import React, { useEffect, useState } from 'react';
 import RapidActionButton from './RapidActionButton';
 import { ChevronLeft, CirclePlus, Link, PencilLine, Trash2 } from 'lucide-react';
 import AppInput from '@/components/AppInput';
@@ -24,18 +24,58 @@ function ViewFolderModal({
     isOpen,
     onClose,
 }: ViewFolderModalProps) {
-    const { folderToView, addFileToFolder, setFolderToView, setFolderToRename, setFolderToDelete, deleteFileFromFolder } = useMedia();
-    const [uploadedFiles, setUploadedFiles] = useState<IMediaFiles[]>([]);
+    const { folderToView, addFileToFolder, setFolderToRename, setFolderToDelete, deleteFileFromFolder } = useMedia();
     const [isDragging, setIsDragging] = useState(false);
-    const [share, setShare] = useState<boolean>(false);
     const [addingFile, setAddingFile] = useState<boolean>(false);
     const [addingUrl, setAddingUrl] = useState<boolean>(false);
-    const [userInput, setUserInput] = useState('');
-    const [url, setUrl] = useState('');
-    const [duration, setDuration] = useState('');
-    const [sharedUsers, setSharedUsers] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [formData, setFormData] = useState<IAddFileToFolderApiProps>({
+        file: null,
+        folder_id: '',
+        duration: '',
+        url: '',
+    });
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, files } = e.target;
+        if (name === "file" && files) {
+            setFormData({ ...formData, file: files[0] });
+        } else if (name === "duration" || name === "folder_id") {
+            setFormData({ ...formData, [name]: value ? Number(value) : "" });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
+    };
+
+
+    const validate = () => {
+        const newErrors: { [key: string]: string } = {};
+
+        if (formData.duration === "" || isNaN(formData.duration)) {
+            newErrors.duration = "Duration is required and must be a number.";
+        }
+
+        if (addingUrl) {
+            if (!formData.url) {
+                newErrors.fileOrUrl = "You must provide a URL.";
+            }
+            if (!isValidHttpUrl(formData.url ?? "")) {
+                newErrors.fileOrUrl = "You must a vallid provide a URL.";
+            }
+        } else {
+            if (!formData.file) {
+                newErrors.fileOrUrl = "You must upload a file";
+            }
+        }
+        for (const key in newErrors) {
+            if (newErrors.hasOwnProperty(key)) {
+                app_notification({
+                    message: newErrors[key]
+                })
+            }
+        }
+        return newErrors;
+    };
 
 
     const fileAction: IDropdownItems[] = [{
@@ -47,7 +87,9 @@ function ViewFolderModal({
         icon: "❌", name: " Supprimer", onClick(id?: number) {
             const file = folderToView?.files?.find(f => f.id == id);
             if (!file) {
-                alert("Ce ficher n'existe pas.")
+                app_notification({
+                    message: "Ce ficher n'existe pas."
+                })
                 return
             }
             const isConfirmed = confirm("Are you sure you want to delete this?");
@@ -57,103 +99,33 @@ function ViewFolderModal({
         },
     }];
 
-    // useEffect(() => {
-    //   if (folderToView) {
-    //     if (folderToView.shared.length > 0) {
-    //       setShare(true);
-    //       setSharedUsers(folderToView.shared)
-    //     }
-    //     setUploadedFiles(folderToView.content);
-    //   }
-    // }, [folderToView])
 
-    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setIsDragging(false);
-        const files = Array.from(e.dataTransfer.files);
-        handleFiles(files);
-    };
-
-    const handleFiles = (files: File[]) => {
-        const validFiles: IMediaFiles[] = [];
-        console.log(files);
-
-        // files.forEach((file) => {
-        //   const fileType = getFileType(file);
-        //   if (fileType) {
-        //     validFiles.push({
-        //       id: uuidv4(),
-        //       name: file.name,
-        //       type: fileType,
-        //     });
-        //   }
-        // });
-
-        setUploadedFiles((prev) => [...prev, ...validFiles]);
-    };
-
-    const handleDelete = (id: number) => {
-        setUploadedFiles((prev) => prev.filter((file) => file.id !== id));
-    };
-
-    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files ? Array.from(e.target.files) : [];
-        handleFiles(files);
-    };
-
-
-    const addTag = () => {
-        const trimmed = userInput.trim();
-        if (trimmed && !sharedUsers.includes(trimmed)) {
-            setSharedUsers([...sharedUsers, trimmed]);
+    const handleSubmit = async () => {
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length > 0) {
+            return;
         }
-        setUserInput('');
-    };
-
-    const removeTag = (indexToRemove: number) => {
-        setSharedUsers(sharedUsers.filter((_, index) => index !== indexToRemove));
-    };
-
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            addTag();
-        }
-    };
-
-    const onAddUrl = async () => {
 
         try {
-            if (url.length == 0) {
-                app_notification({
-                    message: "Vous devriez ajouter un lien."
-                })
-                return
-            }
-            if (duration.length == 0) {
-                app_notification({
-                    message: "Vous devriez ajouter une duree."
-                })
-                return
-            }
-            if (folderToView?.files?.some(file => file.name == url)) {
-                app_notification({
-                    message: "Ce nom de dossier a déjà été utilisé."
-                })
-                return
+            const payload: IAddFileToFolderApiProps = {
+                file: !addingUrl ? formData.file : null,
+                duration: Number(formData.duration),
+                folder_id: folderToView?.id ?? 0,
+                url: addingUrl ? formData.url : null
             }
             setIsLoading(true);
-            const addResponse: boolean = await addFileToFolder({
-                duration: Number(duration),
-                folder_id: folderToView?.id ?? 1,
-                url: url,
-                file: null
-            });
+            const addResponse: boolean = await addFileToFolder(payload);
             setIsLoading(false);
+
             if (addResponse) {
+                // Clear form after successful upload
+                setFormData({
+                    file: null,
+                    folder_id: "",
+                    duration: "",
+                    url: "",
+                });
                 setAddingUrl(false);
-                setDuration('')
-                setUrl('')
                 setAddingFile(false);
             } else {
                 app_notification({
@@ -162,18 +134,11 @@ function ViewFolderModal({
             }
 
         } catch (error) {
-            console.log(error)
-            app_notification({
-                message: "An error occure"
-            })
-
+            setIsLoading(false);
+            console.error("Error uploading:", error);
         }
+    };
 
-    }
-
-    const onAddFile = () => {
-
-    }
 
     return (
         <AppModalContainer isOpen={isOpen} onClose={onClose} title={"📁 Dossier "} subtitle={folderToView?.name} big
@@ -186,13 +151,7 @@ function ViewFolderModal({
                         {
                             !addingUrl ?
                                 <div
-                                    className='border border-[var(--light-gray-background)] rounded-[10px]'
-                                    onDrop={handleDrop}
-                                    onDragOver={(e) => {
-                                        e.preventDefault();
-                                        setIsDragging(true);
-                                    }}
-                                    onDragLeave={() => setIsDragging(false)}>
+                                    className='border border-[var(--light-gray-background)] rounded-[10px]'>
                                     <div className='border-b border-[var(--light-gray-background)] px-4 py-2'>📤 Ajouter un fichier au dossier</div>
                                     <div className={`px-4 py-2  flex flex-col gap-3 rounded-b-[10px]
                                      ${isDragging ? 'bg-blue-100' : 'bg-[var(--white)]'}`}>
@@ -203,23 +162,32 @@ function ViewFolderModal({
                                             id="fileInput"
                                             type="file"
                                             accept=".jpg,.jpeg,.png,.mp4,.webm,.mp3,.pdf,.html,.rss"
-                                            multiple
                                             hidden
-                                            onChange={handleFileInputChange}
+                                            name="file"
+                                            onChange={handleChange}
                                         />
                                         <div className='border border-[var(--modal-background)] rounded-[12px] flex items-center cursor-pointer'
                                             onClick={() => document.getElementById('fileInput')?.click()}>
                                             <div className='rounded-l-[12px] bg-[var(--modal-background)] py-2 px-4 font-normal text-[var(--title-color)] text-[16px]'>
-                                                Sélect. fichiers
+                                                Sélection un fichiers
                                             </div>
                                             <div className='font-normal text-[var(--title-color)] text-[16px] flex-1 px-4'>
-                                                Aucun fichier sélectionné
+                                                {
+                                                    formData.file ? (formData.file.name) :
+                                                        " Aucun fichier sélectionné"
+                                                }
                                             </div>
                                         </div>
                                         <div className='font-normal text-[14px] text-[var(--title-color)]'>
                                             Formats acceptés : JPEG, PNG, MP4, WebM, MP3, PDF, HTML, RSS
                                         </div>
-                                        <AppInput />
+                                        <AppInput
+                                            label='Duree du media'
+                                            value={String(formData.duration)}
+                                            onChange={handleChange}
+                                            name="duration"
+                                            type='number'
+                                        />
                                         <div className='font-normal text-[14px] text-[var(--secondary-text-color)]'>
                                             OU
                                         </div>
@@ -233,33 +201,6 @@ function ViewFolderModal({
                                                 </svg>
                                             </div>
                                         </div>
-                                        {
-                                            uploadedFiles.length > 0 && (
-                                                <div className='border border-[var(--modal-background)] rounded-[10px] px-4 py-3 flex flex-col gap-3'>
-                                                    <div className='font-normal text-[20px] text-[var(--black)]'>
-                                                        🗂 Fichiers sélectionnés :
-                                                    </div>
-                                                    <div className='border rounded-[10px] w-full'>
-                                                        {uploadedFiles.map((file, index) => (
-                                                            <div
-                                                                key={file.id}
-                                                                className={`flex items-center justify-between px-4 py-2 
-                                                            ${uploadedFiles.length - 1 != index && 'border-b border-[var(--modal-background)]'}
-                                                            `}
-                                                            >
-                                                                <div className='font-bold text-[16px] text-[var(--title-color)]'>
-                                                                    {file.name} <span className="text-xs text-gray-500">({file.type})</span>
-                                                                </div>
-                                                                <div className='font-normal cursor-pointer text-[14px] text-[var(--action-text-color)]'
-                                                                    onClick={() => handleDelete(file.id)}>
-                                                                    ❌ Supprimer
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
                                     </div>
                                 </div> :
                                 <div
@@ -268,14 +209,16 @@ function ViewFolderModal({
                                     <div className='px-4 py-2  flex flex-col gap-3 rounded-b-[10px] bg-[var(--white)]'>
                                         <AppInput
                                             label='Lien de media'
-                                            value={url}
-                                            setValue={(e) => setUrl(e)}
+                                            name="url"
+                                            value={String(formData.url)}
+                                            onChange={handleChange}
                                             type='url'
                                         />
                                         <AppInput
-                                            label='Duree de media'
-                                            value={duration}
-                                            setValue={(e) => setDuration(e)}
+                                            label='Duree du media'
+                                            name="duration"
+                                            value={String(formData.duration)}
+                                            onChange={handleChange}
                                             type='number'
                                         />
                                     </div>
@@ -288,7 +231,7 @@ function ViewFolderModal({
                         </div>
                         <div className='flex items-center justify-center'>
                             <AppButton
-                                onClick={addingUrl ? onAddUrl : onAddFile}
+                                onClick={handleSubmit}
                                 text={addingUrl ? 'Ajouter le lien' : 'Ajouter le ficher'}
                                 big
                                 isLoading={isLoading}
@@ -315,7 +258,7 @@ function ViewFolderModal({
                                 </div>
                                 <div className='flex flex-col flex-shrink-0 gap-1 border-b-2 md:border-0'>
                                     <div className='text-[var(--action-text-color)] text-[16px] font-bold'>📅 Date de création</div>
-                                    <div className='text-[var(--title-color)] text-[15px] font-normal'>{folderToView?.created_at}</div>
+                                    <div className='text-[var(--title-color)] text-[15px] font-normal'>{formatDate(folderToView?.created_at ?? "")}</div>
                                 </div>
                             </div>
                         </div>
@@ -336,7 +279,7 @@ function ViewFolderModal({
                                                 {file.type}
                                             </td>
                                             <td className="px-2 py-2 text-[15px] font-normal text-center">
-                                                {(file?.size ?? 0) / 1024} Mo
+                                                {Math.round((file?.size ?? 0) / 1024)} Mo
                                             </td>
                                             <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
                                                 {formatDate(file.created_at)}

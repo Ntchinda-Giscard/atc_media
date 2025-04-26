@@ -1,20 +1,20 @@
 import { forwardRef } from 'react';
 
-
-
 interface IAppInput {
     placeholder?: string;
     type?: React.HTMLInputTypeAttribute | undefined;
     label?: string;
+    name?: string;
     error?: boolean;
     value?: string;
     setValue?: (e: string) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     readonly?: boolean;
     secondary?: boolean;
 }
 
 const AppInput = forwardRef<HTMLInputElement, IAppInput>(
-    ({ label, type = 'text', placeholder, error, value, setValue, readonly, secondary, ...rest }, ref) => {
+    ({ label, type = 'text', placeholder, error, value, setValue, readonly, secondary, onChange, name, ...rest }, ref) => {
         return (
             <div className="relative w-full text-sm">
                 {label && <div className="mb-3 font-normal text-[16px] text-[var(--title-color)]">{label}</div>}
@@ -24,9 +24,13 @@ const AppInput = forwardRef<HTMLInputElement, IAppInput>(
                     placeholder={placeholder}
                     value={value}
                     readOnly={readonly}
+                    name={name}
                     onChange={(e) => {
                         if (setValue) {
                             setValue(e.target.value)
+                        }
+                        if (onChange) {
+                            onChange(e);
                         }
                     }}
                     className={`h-[48px] w-full text-[16px] text-[var(--black)] rounded-[12px]   px-4 focus:outline-0

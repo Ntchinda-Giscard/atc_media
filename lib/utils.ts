@@ -1,4 +1,5 @@
-import { FileType, 
+import {
+  FileType,
   // IMediaFiles 
 } from "@/constant/interphase";
 import { clsx, type ClassValue } from "clsx"
@@ -69,4 +70,14 @@ export function formatDate(input: string): string {
   const year = date.getFullYear();
 
   return `${day}/${month}/${year}`;
+}
+
+export function isValidHttpUrl(url: string): boolean {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+  } catch (error) {
+    console.log(error)
+    return false;
+  }
 }
