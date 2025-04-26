@@ -1,6 +1,6 @@
 'use client';
 import { app_notification } from '@/app/dashboard/utils/notification-center';
-import { IMediaFolders } from '@/constant/interphase';
+import { IAddFileToFolderApiProps, IMediaFolders } from '@/constant/interphase';
 import useMediaService from '@/lib/hooks/useMediaService';
 import { createContext, useState, useContext, SetStateAction, Dispatch } from 'react';
 
@@ -16,11 +16,12 @@ interface MediaContextProps {
     folderToDelete: IMediaFolders | null;
     renameFolder: (newName: string) => Promise<boolean>;
     addFolder: (payload: { name: string, parent_id: number | null }) => Promise<boolean>;
-    modifyFolder: (folder: IMediaFolders) => boolean;
     getAllRootFolders: () => void;
     getFolderById: (id: number) => any;
     setLoadingFolders: (value: boolean) => void;
     loadingFolders: boolean;
+    addFileToFolder: (payload: IAddFileToFolderApiProps) => Promise<boolean>;
+    deleteFileFromFolder: (id: number) => void;
 }
 
 const MediaContext = createContext<MediaContextProps | null>(null);
@@ -31,7 +32,7 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     const [folderToView, setFolderToView] = useState<IMediaFolders | null>(null);
     const [folderToDelete, setFolderToDelete] = useState<IMediaFolders | null>(null);
     const [loadingFolders, setLoadingFolders] = useState<boolean>(true);
-    const { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi } = useMediaService();
+    const { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi } = useMediaService();
 
     const addFolder = async (payload: { name: string, parent_id: number | null }): Promise<boolean> => {
         try {
@@ -106,19 +107,6 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
-    const modifyFolder = (folder: IMediaFolders): boolean => {
-        setFolders(
-            folders.reduce((prev: IMediaFolders[], next) => {
-                if (next.id == folder.id) {
-                    return [...prev, folder]
-                }
-                return [...prev, next];
-            }, [])
-        );
-        setFolderToView(null);
-        return true;
-    }
-
     const deleteFolder = async () => {
         try {
             if (folderToDelete) {
@@ -129,6 +117,7 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                         type: 'success',
                         message: "Folder deleted successfully",
                     });
+                    setFolderToView(null);
                     return true
                 } else {
                     app_notification({
@@ -145,20 +134,6 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             return false
         }
     }
-    // const restoreFolder = (id: number) => {
-    //     const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
-    //     if (!folder) {
-    //         alert("Ce dossier n'existe pas.")
-    //         return
-    //     }
-    //     setFolders(folders.reduce((prev: IMediaFolders[], next) => {
-    //         if (next.id == id) {
-    //             return [...prev, { ...next, status: 'ACTIVE' }]
-    //         }
-    //         return [...prev, next];
-    //     }, []))
-    //     alert('Ce dossier a été restauré avec succès.');
-    // }
 
     const renameFolder = async (newName: string) => {
         try {
@@ -168,6 +143,7 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                     setFolders(
                         folders.reduce((prev: IMediaFolders[], next) => {
                             if (next.id == folderToRename.id) {
+                                setFolderToView({ ...next, name: newName });
                                 return [...prev, { ...next, name: newName }]
                             }
                             return [...prev, next];
@@ -194,6 +170,83 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
+    const addFileToFolder = async (payload: IAddFileToFolderApiProps) => {
+        try {
+            const response = await addFileToFolderApi(payload);
+            if (response.data?.status == "success") {
+                setFolders(
+                    folders.reduce((prev: IMediaFolders[], next) => {
+                        if (next.id == payload.folder_id) {
+                            const newFolder: IMediaFolders = {
+                                ...next,
+                                files: [
+                                    response.data?.data, ...next.files
+                                ]
+                            }
+                            setFolderToView(newFolder);
+                            return [...prev, newFolder]
+                        }
+                        return [...prev, next];
+                    }, [])
+                );
+                app_notification({
+                    type: 'success',
+                    message: "File added successfully successfully",
+                });
+                return true
+            } else {
+                app_notification({
+                    message: response.data?.raison ?? "Could not add file"
+                })
+            }
+            return false
+        } catch (error) {
+            console.log(error)
+            app_notification({
+                message: "An error occure"
+            })
+            return false
+        }
+    }
+
+    const deleteFileFromFolder = async (id: number) => {
+        try {
+            const response = await removeFileFromFolderApi(id);
+            if (response.data?.status == "success") {
+                setFolders(
+                    folders.reduce((prev: IMediaFolders[], next) => {
+                        if (next.id == folderToView?.id) {
+                            const newFolder: IMediaFolders = {
+                                ...next,
+                                files: next.files.filter(f => f.id != id)
+                            }
+                            setFolderToView(newFolder);
+                            return [...prev, newFolder]
+                        }
+                        return [...prev, next];
+                    }, [])
+                );
+                app_notification({
+                    type: 'success',
+                    message: "File deleted successfully",
+                });
+                return true
+            } else {
+                app_notification({
+                    message: response.data?.raison ?? "Could not delete File"
+                })
+            }
+            return false
+        } catch (error) {
+            console.log(error)
+            app_notification({
+                message: "An error occure"
+            })
+            return false
+        }
+    }
+
+
     return (
         <MediaContext.Provider value={{
             folders,
@@ -207,11 +260,12 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             setFolderToDelete,
             folderToDelete,
             addFolder,
-            modifyFolder,
             getAllRootFolders,
             getFolderById,
             loadingFolders,
             setLoadingFolders,
+            addFileToFolder,
+            deleteFileFromFolder
         }}>
             {children}
         </MediaContext.Provider>

@@ -1,3 +1,4 @@
+import { IAddFileToFolderApiProps } from "@/constant/interphase";
 import api from "./useApi";
 
 const useMediaService = () => {
@@ -48,6 +49,24 @@ const useMediaService = () => {
             throw error;
         }
     }
-    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi }
+    const addFileToFolderApi = async (payload: IAddFileToFolderApiProps) => {
+        try {
+            const response = await api.post('files/upload', payload);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    const removeFileFromFolderApi = async (id: number) => {
+        try {
+            const response = await api.delete('files/' + id);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi }
 }
 export default useMediaService;

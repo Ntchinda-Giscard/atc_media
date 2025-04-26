@@ -15,7 +15,7 @@ export const mediaPlaylist: IMediaPlaylist[] = [
                 "type": "url",
                 "duration": 5,
                 "url": "https://tv-atcmedia.adyn.tv/",
-                "metadata": [],
+                "metadata": null,
                 "created_at": "2025-04-21T22:03:05.000000Z",
                 "updated_at": "2025-04-21T22:03:05.000000Z"
             }
@@ -35,7 +35,7 @@ export const mediaPlaylist: IMediaPlaylist[] = [
                 "type": "url",
                 "duration": 5,
                 "url": "https://tv-atcmedia.adyn.tv/",
-                "metadata": [],
+                "metadata": null,
                 "created_at": "2025-04-21T22:03:05.000000Z",
                 "updated_at": "2025-04-21T22:03:05.000000Z"
             }

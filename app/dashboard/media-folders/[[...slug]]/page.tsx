@@ -18,9 +18,9 @@ import RenameFolderModal from "../components/RenameFolderModal";
 import DeleteFolderModal from "../components/DeleteFolderModal";
 import { useRouter } from "next/navigation";
 import { useMedia } from "@/contexts/MediaContex";
-import ViewFolderModal from "../components/ViewFolderModal";
 import { Skeleton } from "@mantine/core";
-import FileGridDisplay from "@/components/FileGridDisplay";
+import ViewFolderModal from "../components/ViewFolderModal";
+import { formatDate } from "@/lib/utils";
 
 type MediaFoldersPageProps = {
     params: Promise<{ slug?: string[] }>
@@ -47,7 +47,6 @@ export default function MediaFoldersPageMediaFoldersPage({
     const params = use(paramsPromise);
 
     const [showFolderGrid, setShowFolderGrid] = useState<boolean>(false);
-    const [showFilesGrid, setShowFilesGrid] = useState<boolean>(false);
     const [showPlayListGrid, setShowPlayListGrid] = useState<boolean>(false);
     const [addNewFolder, setAddNewFolder] = useState<boolean>(false);
     const filteredFolder = folders?.filter((item) =>
@@ -80,7 +79,7 @@ export default function MediaFoldersPageMediaFoldersPage({
 
     const folderActions: IDropdownItems[] = [{
         icon: "👁️",
-        name: "Aperçu", onClick(id?: number) {
+        name: " Ovrire", onClick(id?: number) {
             const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
             if (!folder) {
                 alert("Ce dossier n'existe pas.")
@@ -89,7 +88,7 @@ export default function MediaFoldersPageMediaFoldersPage({
             router.push('/dashboard/media-folders/' + folder.id)
         },
     }, {
-        icon: "🖊", name: "Renommer", onClick(id?: number) {
+        icon: "🖊", name: " Renommer", onClick(id?: number) {
             const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
             if (!folder) {
                 alert("Ce dossier n'existe pas.")
@@ -98,29 +97,13 @@ export default function MediaFoldersPageMediaFoldersPage({
             setFolderToRename(folder);
         },
     }, {
-        icon: "❌", name: "Supprimer", onClick(id?: number) {
+        icon: "❌", name: " Supprimer", onClick(id?: number) {
             const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
             if (!folder) {
                 alert("Ce dossier n'existe pas.")
                 return
             }
             setFolderToDelete(folder);
-        },
-    }];
-    const fileAcation: IDropdownItems[] = [{
-        icon: "👁️",
-        onClick(id?: number) {
-            console.log(id)
-        },
-    }, {
-        icon: "🖊",
-        onClick(id?: number) {
-            console.log(id)
-        },
-    }, {
-        icon: "❌",
-        onClick(id?: number) {
-            console.log(id)
         },
     }];
     const plalistActions: IDropdownItems[] = [{
@@ -175,6 +158,7 @@ export default function MediaFoldersPageMediaFoldersPage({
                                 <CustomTable
                                     headers={mediaFolderHeader}
                                     data={filteredFolder}
+                                    onClick={(id: number) => setFolderToView(folders?.find(f => f.id == id) ?? null)}
                                     renderRow={(item) => {
                                         const folder = item as IMediaFolders;
                                         return (
@@ -186,68 +170,7 @@ export default function MediaFoldersPageMediaFoldersPage({
                                                     {/* {convertArrayOfFilesToString(folder.content)} */}
                                                 </td>
                                                 <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
-                                                    {folder.created_at}
-                                                </td>
-                                                <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
-                                                    <div className="flex items-center justify-center">
-                                                        {/* <AppBadge
-                                                            title={folder.shared?.length == 0 ? "Non" : "Oui"}
-                                                            error={folder.shared?.length == 0}
-                                                        /> */}
-                                                    </div>
-                                                </td>
-                                                <td className="px-2 py-3 text-[15px] font-medium text-center whitespace-nowrap">
-                                                    <div className="flex items-center justify-center">
-                                                        <AppActions actions={folderActions} id={folder.id} />
-                                                    </div>
-                                                </td>
-                                            </>
-                                        )
-                                    }}
-                                />
-                        }
-                    </div>
-            }
-
-
-            <PageSectionHeader
-                title="📑 Ficher"
-                setShowGrid={setShowFilesGrid}
-                showGrid={showFilesGrid}
-                actionButtonText="New File"
-                actionButtonIcon={
-                    <PlusCircle size={20} className='text-[var(--white)]' />
-                }
-                actionButtonClick={() => null}
-            />
-            {
-                loadingFolders ?
-                    <>
-                        <Skeleton height={150} />
-                    </>
-                    :
-                    <div className="mb-5">
-                        {
-                            showFilesGrid ?
-                                <FileGridDisplay
-                                    fileAcation={fileAcation}
-                                />
-                                :
-                                <CustomTable
-                                    headers={mediaFolderHeader}
-                                    data={filteredFolder}
-                                    renderRow={(item) => {
-                                        const folder = item as IMediaFolders;
-                                        return (
-                                            <>
-                                                <td className="px-2 py-2 text-[15px] font-medium text-center">
-                                                    {folder.name}
-                                                </td>
-                                                <td className="px-2 py-2 text-[15px] font-normal text-center">
-                                                    {/* {convertArrayOfFilesToString(folder.content)} */}
-                                                </td>
-                                                <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
-                                                    {folder.created_at}
+                                                    {formatDate(folder.created_at)}
                                                 </td>
                                                 <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
                                                     <div className="flex items-center justify-center">
