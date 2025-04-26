@@ -1,6 +1,5 @@
 import AppButton from '@/components/AppButton';
 import AppCheckbox from '@/components/AppCheckbox';
-import AppInput from '@/components/AppInput';
 import { AppModalContainer } from '@/components/AppModalContainer'
 import { useMedia } from '@/contexts/MediaContex';
 import React, { useState } from 'react'
@@ -31,7 +30,10 @@ function DeleteFolderModal({
           confirm &&
           <div className='flex items-center justify-center'>
             <AppButton
-              onClick={deleteFolder}
+              onClick={() => {
+                deleteFolder()
+                setConfirm(false)
+              }}
               text='Supprimer'
               big
             />

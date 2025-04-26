@@ -4,24 +4,29 @@ export interface ICustomTableHeader {
 }
 
 export type FileType = 'IMAGE' | 'VIDEO' | 'DOC' | 'WEB';
-export type FoderStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED';
+export type FolderStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED';
 export interface ICustomTableData {
-    [key: string]: string | number | boolean | undefined | IMediaFolders | IPlaylistFile[] | string[];
+    [key: string]: string | number | boolean | undefined | IMediaFolders | IPlaylistFile[] | string[] | IMediaFolders[];
 }
 
 export interface IMediaFolders extends ICustomTableData {
-    id: string;
+    id: number;
     name: string;
     content: IPlaylistFile[];
-    createdAt: string;
-    status: FoderStatus;
+    created_at: string;
+    updated_at: string;
+    is_system: number;
+    owner_id: number;
+    status: FolderStatus;
     shared: string[];
+    parent_id?: number;
+    children: IMediaFolders[];
 }
 
 export interface IDropdownItems {
     name?: string;
     icon?: React.ReactNode;
-    onClick?: (id?: string) => void;
+    onClick?: (id?: number) => void;
 }
 
 export interface IPlaylistFile {

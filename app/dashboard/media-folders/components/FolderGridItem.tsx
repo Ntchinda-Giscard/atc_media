@@ -21,11 +21,12 @@ function FolderGridItem({ folder, options }: FolderGridItemProp) {
           />
         </div>
         <div className='font-normal text-[13px] text-[var(--title-color)]'>
-          {folder.content.length} élément(s)
+          {folder.children?.length ?? 0} élément(s)
         </div>
       </div>
       <div className='font-normal text-[16px] text-[var(--primary-color)]'>
-        {folder.shared.length > 0 ? '🔗 Partagé' : '🔒 Privé'}
+        {/* {folder.shared.length > 0 ? '🔗 Partagé' : '🔒 Privé'} */}
+        {'🔒 Privé'}
       </div>
     </div>
   )

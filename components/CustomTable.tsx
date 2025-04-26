@@ -1,6 +1,5 @@
 import { ICustomTableData, ICustomTableHeader } from "@/constant/interphase";
 import React from "react";
-import AppButton from "./AppButton";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 type TableProps = {

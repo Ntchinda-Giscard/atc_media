@@ -21,7 +21,7 @@ import Link from "next/link"
 import {useRouter} from "next/navigation"
 import { useState } from "react"
 import { Alert } from "@mantine/core"
-import { useApi } from '@/lib/hooks/useApi'
+import api from '@/lib/hooks/useApi'
 
 
 const formSchema = z.object({
@@ -33,7 +33,6 @@ const formSchema = z.object({
 
 export function ProfileForm() {
   const router = useRouter();
-  const api = useApi();
   const [errMessage, setErrMessage] = useState(null)
   const [isLoading, setIsloading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -57,19 +56,13 @@ export function ProfileForm() {
 
   try {
     setIsloading(true)
-    const response = await api.post(url, payload, {
-      headers: {
-        'Accept':        'application/json',
-        'Content-Type':  'application/json',
-        'X-CSRF-TOKEN':  '',   // keep empty if your backend expects it but you’re not using it
-      },
-    });
+    const response = await api.post(url, payload);
     console.log('Login success:', response.data);
     const token = response.data.data.token
     const user = response.data.data.user
 
     // Store token in a cookie
-    Cookies.set('auth_token', token, { expires: 7 }) // optional: set secure: true in prod
+    Cookies.set('auth_token', JSON.stringify(token), { expires: 7 }) // optional: set secure: true in prod
 
     console.log('User:', user)
     // Optionally store user data (not sensitive)
@@ -89,7 +82,7 @@ export function ProfileForm() {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5 md:w-1/3  w-2/3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 mt-5 space-y-8 md:w-1/3">
         { errMessage &&
           <Alert color='red'>
             <p className="text-red-600"> {errMessage} </p>
@@ -117,7 +110,7 @@ export function ProfileForm() {
           name="password"
             render={({ field }: any) => (
             <FormItem>
-              <FormLabel className="text-xs mt-3 font-thin">Mot de passe</FormLabel>
+              <FormLabel className="mt-3 text-xs font-thin">Mot de passe</FormLabel>
               <FormControl>
                 <PasswordInput
                   {...field}
@@ -127,7 +120,7 @@ export function ProfileForm() {
               <FormMessage />
               <Link 
                 href={"#"} 
-                className="text-end text-sm text-red-600 font-light">
+                className="text-sm font-light text-red-600 text-end">
                 Mot de passe oublié ?
             </Link>
             </FormItem>

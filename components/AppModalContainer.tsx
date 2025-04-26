@@ -12,7 +12,7 @@ export const AppModalContainer = ({
 }: IAppModalContainer) => {
     if (!isOpen) return null;
     return (
-        <div className="fixed inset-0 bg-[var(--modal-fadded-background)] z-50 overflow-auto"
+        <div className="fixed inset-0 bg-[var(--modal-fadded-background)] z-1000 overflow-auto"
             onClick={onClose}
         >
             <div className="flex items-center justify-center min-h-full p-4 text-center ">
