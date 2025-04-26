@@ -1,5 +1,5 @@
 import { notifications } from '@mantine/notifications';
-import {IconCheck, IconX} from '@tabler/icons-react';
+import { IconCheck, IconX } from '@tabler/icons-react';
 
 
 // Most used notification props
@@ -12,15 +12,22 @@ type InfoNotification = {
     message?: string
 }
 
-export const info_nofication = (title: string, message: string, position?: NotificationPosition ) => {
+type AppNotificationType = {
+    position?: NotificationPosition
+    title?: string
+    message?: string,
+    type?: "error" | "success",
+}
+
+export const info_nofication = (title: string, message: string, position?: NotificationPosition) => {
     notifications.show({
         withBorder: true,
         title: title || '',
         message: message || '',
         position: position || 'top-right',
-      })
+    })
 }
-export function error_notification( title: string, message: string ) { // Add type annotation for the function
+export function error_notification(title: string, message: string) { // Add type annotation for the function
     notifications.show({
         withBorder: true,
         position: 'top-right',
@@ -30,10 +37,20 @@ export function error_notification( title: string, message: string ) { // Add ty
         color: 'red',
         icon: <IconX />,
         loading: false,
-      });
+    });
 }
 
-export function success_notification( title: string, message: string ) { // Add type annotation for the function
+export const app_notification = ({ message, position, title, type = 'error' }: AppNotificationType) => {
+    notifications.show({
+        withCloseButton: true,
+        title: title || '',
+        message: message || '',
+        position: position || 'top-right',
+        color: type == 'error' ? 'red' : 'green',
+    })
+}
+
+export function success_notification(title: string, message: string) { // Add type annotation for the function
     notifications.show({
         withBorder: true,
         position: 'top-right',
@@ -43,5 +60,5 @@ export function success_notification( title: string, message: string ) { // Add 
         color: 'teal',
         icon: <IconCheck />,
         loading: false,
-      });
+    });
 }

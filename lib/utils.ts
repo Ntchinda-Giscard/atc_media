@@ -1,4 +1,6 @@
-import { FileType, IPlaylistFile } from "@/constant/interphase";
+import { FileType, 
+  // IMediaFiles 
+} from "@/constant/interphase";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -6,32 +8,32 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function convertArrayOfFilesToString(files: IPlaylistFile[]) {
-  const counts = {
-    VIDEO: 0,
-    IMAGE: 0,
-    WEB: 0,
-    DOC: 0,
-  };
+// export function convertArrayOfFilesToString(files: IPlaylistFile[]) {
+//   const counts = {
+//     VIDEO: 0,
+//     IMAGE: 0,
+//     WEB: 0,
+//     DOC: 0,
+//   };
 
-  for (const file of files) {
-    counts[file.type]++;
-  }
+//   for (const file of files) {
+//     counts[file.type]++;
+//   }
 
-  const labels: { [key in keyof typeof counts]: string } = {
-    VIDEO: 'video',
-    IMAGE: 'image',
-    WEB: 'web',
-    DOC: 'doc'
-  };
+//   const labels: { [key in keyof typeof counts]: string } = {
+//     VIDEO: 'video',
+//     IMAGE: 'image',
+//     WEB: 'web',
+//     DOC: 'doc'
+//   };
 
-  const result = Object.entries(counts)
-    .filter(([, count]) => count > 0)
-    .map(([key, count]) => `${count} ${labels[key as keyof typeof counts]}`)
-    .join(', ');
+//   const result = Object.entries(counts)
+//     .filter(([, count]) => count > 0)
+//     .map(([key, count]) => `${count} ${labels[key as keyof typeof counts]}`)
+//     .join(', ');
 
-  return result;
-}
+//   return result;
+// }
 
 export const getFileType = (file: File): FileType | null => {
   const ext = file.name.split('.').pop()?.toLowerCase();

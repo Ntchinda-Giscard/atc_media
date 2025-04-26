@@ -1,6 +1,6 @@
 import AppActions from '@/components/AppActions'
 import { IDropdownItems, IMediaPlaylist } from '@/constant/interphase'
-import { convertArrayOfFilesToString } from '@/lib/utils'
+// import { convertArrayOfFilesToString } from '@/lib/utils'
 import React from 'react'
 
 interface PlayListListItemProps {
@@ -17,7 +17,8 @@ function PlayListListItem({
       <div className='flex-1'>
         <div className='font-normal text-[20px] text-[var(--black)]'>{playlist.name}</div>
         <div className='font-normal text-[16px] text-[var(--action-text-color)]'>
-          {convertArrayOfFilesToString(playlist.files)} · Durée totale :
+          {/* {convertArrayOfFilesToString(playlist.files)} · Durée totale : */}
+           Durée totale :
           <span className='text-[var(--primary-color)] ml-2'>{playlist.duration}</span>
         </div>
       </div>

@@ -88,7 +88,7 @@ export function ProfileForm() {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5 md:w-1/3  w-2/3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 mt-5 space-y-8 md:w-1/3">
         { errMessage &&
           <Alert color='red'>
             <p className="text-red-600"> {errMessage} </p>
@@ -116,7 +116,7 @@ export function ProfileForm() {
           name="password"
             render={({ field }: any) => (
             <FormItem>
-              <FormLabel className="text-xs mt-3 font-thin">Mot de passe</FormLabel>
+              <FormLabel className="mt-3 text-xs font-thin">Mot de passe</FormLabel>
               <FormControl>
                 <PasswordInput
                   {...field}
@@ -126,7 +126,7 @@ export function ProfileForm() {
               <FormMessage />
               <Link 
                 href={"#"} 
-                className="text-end text-sm text-red-600 font-light">
+                className="text-sm font-light text-red-600 text-end">
                 Mot de passe oublié ?
             </Link>
             </FormItem>

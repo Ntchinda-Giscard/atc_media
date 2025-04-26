@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 interface OptionDropdownProps {
   options: IDropdownItems[],
-  id?: string;
+  id?: number;
 }
 
 function OptionDropdown({ options, id }: OptionDropdownProps) {
@@ -33,7 +33,9 @@ function OptionDropdown({ options, id }: OptionDropdownProps) {
               <li
                 key={index}
                 onClick={() => {
-                  option.onClick && option.onClick(id)
+                  if (option.onClick) {
+                    option.onClick(id);
+                  }
                   setIsOpen(false)
                 }}
                 className='px-4 py-1 cursor-pointer'

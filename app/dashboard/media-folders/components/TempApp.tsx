@@ -1,37 +1,28 @@
 import AppButton from '@/components/AppButton';
 import AppCheckbox from '@/components/AppCheckbox';
+import AppInput from '@/components/AppInput';
 import { AppModalContainer } from '@/components/AppModalContainer'
-import { IMediaFolders, IMediaFiles } from '@/constant/interphase';
+import { IMediaFiles } from '@/constant/interphase';
 import { useMedia } from '@/contexts/MediaContex';
-import { getCurrentDate } from '@/lib/utils';
-import React, { useState, DragEvent, KeyboardEvent, } from 'react';
+import React, { useState, DragEvent, KeyboardEvent } from 'react';
 
 
-interface ViewFolderModalProps {
+interface AddNewFolderModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-function ViewFolderModal({
+function AddNewFolderModal({
   isOpen,
   onClose,
-}: ViewFolderModalProps) {
-  const { folderToView, modifyFolder, setFolderToView } = useMedia();
+}: AddNewFolderModalProps) {
+  const { folders } = useMedia();
+  const [folderName, setFolderName] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<IMediaFiles[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [share, setShare] = useState<boolean>(false);
   const [userInput, setUserInput] = useState('');
   const [sharedUsers, setSharedUsers] = useState<string[]>([]);
-
-  // useEffect(() => {
-  //   if (folderToView) {
-  //     if (folderToView.shared.length > 0) {
-  //       setShare(true);
-  //       setSharedUsers(folderToView.shared)
-  //     }
-  //     setUploadedFiles(folderToView.content);
-  //   }
-  // }, [folderToView])
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -67,7 +58,6 @@ function ViewFolderModal({
     handleFiles(files);
   };
 
-
   const addTag = () => {
     const trimmed = userInput.trim();
     if (trimmed && !sharedUsers.includes(trimmed)) {
@@ -87,27 +77,45 @@ function ViewFolderModal({
     }
   };
 
-  const onModifyFolder = () => {
-    if (folderToView) {
-      const folder: IMediaFolders = {
-        ...folderToView,
-        content: uploadedFiles,
-        createdAt: getCurrentDate(),
-        shared: sharedUsers,
-      }
-      const modifyResponse: boolean = modifyFolder(folder);
-      if (modifyResponse) {
-        setFolderToView(null);
-        alert("Dossier modifier avec succes");
-        onClose();
-      }
+  const onCreateFolder = () => {
+    if (folderName.length == 0) {
+      alert("Vous devriez ajouter un nom de dossier.");
+      return
     }
+    if (folders.some(folder => folder.name == folderName)) {
+      alert("Ce nom de dossier a déjà été utilisé.");
+      return
+    }
+    // const folder: IMediaFolders = {
+    //   id: uuidv4(),
+    //   name: folderName,
+    //   content: uploadedFiles,
+    //   createdAt: getCurrentDate(),
+    //   shared: sharedUsers,
+    //   status: "ACTIVE",
+    // }
+
+    // const addResponse: boolean = addFolder(folder);
+    // if (addResponse) {
+    //   setFolderName('');
+    //   setUploadedFiles([]);
+    //   setSharedUsers([]);
+    //   setShare(false);
+    //   alert("Dossier creer avec succes");
+    //   onClose();
+    // }
   }
 
   return (
-    <AppModalContainer isOpen={isOpen} onClose={onClose} title={folderToView?.name}>
+    <AppModalContainer isOpen={isOpen} onClose={onClose} title="Créer un nouveau dossier">
       <div className='flex flex-col gap-6'>
         <div>
+          <AppInput
+            label='Nom du dossier'
+            secondary
+            value={folderName}
+            setValue={(e) => setFolderName(e)}
+          />
           <div className='flex flex-col items-start justify-center mt-2'>
             <div className='flex items-center justify-start gap-2'>
               <AppCheckbox isChecked={share} check={setShare} />
@@ -226,8 +234,8 @@ function ViewFolderModal({
         </div>
         <div className='flex items-center justify-center'>
           <AppButton
-            onClick={onModifyFolder}
-            text='Modifier le dossier'
+            onClick={onCreateFolder}
+            text='Créer le dossier'
             big
           />
         </div>
@@ -236,4 +244,4 @@ function ViewFolderModal({
   )
 }
 
-export default ViewFolderModal
+export default AddNewFolderModal

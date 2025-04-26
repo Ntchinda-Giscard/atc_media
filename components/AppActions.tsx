@@ -3,7 +3,7 @@ import { IDropdownItems } from '@/constant/interphase'
 
 interface AppActionPops {
   actions: IDropdownItems[],
-  id?: string;
+  id?: number;
 }
 
 const AppActions = ({
@@ -13,7 +13,7 @@ const AppActions = ({
     <div className='flex items-center justify-center'>
       {
         actions.map((action, index) =>
-          <div key={action.name} className={`cursor-pointer font-normal text-[14px] text-[var(--action-text-color)]  px-2 
+          <div key={index} className={`cursor-pointer font-normal text-[14px] text-[var(--action-text-color)]  px-2 
           ${index == actions.length - 1 ? 'border-0' : 'border-r border-[var(--action-text-color)]'}`}
             onClick={() => action.onClick && action.onClick(id)}>
             {action.icon}

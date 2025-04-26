@@ -22,7 +22,7 @@ function PageSectionHeader({
   title, setShowGrid, showGrid, actionButtonClick, actionButtonIcon, actionButtonText, hideActionButton = false, onChangeSearch, searchQuery
 }: PageSectionHeaderProps) {
   return (
-    <div className="grid items-center grid-cols-2 mb-4 lg:flex lg:gap-3">
+    <div className="grid items-center grid-cols-2 mt-2 mb-4 lg:flex lg:gap-3">
       <div className='font-bold text-[30px] flex-1  text-[var(--title-color)]'>{title}</div>
       <div className="flex items-center justify-end gap-2">
         <AlignJustify className={` cursor-pointer ${showGrid ? 'text-[var(--gray-icon)]' : 'text-[var(--primary-color)]'}`} onClick={() => setShowGrid && setShowGrid(false)} />

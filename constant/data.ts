@@ -7,19 +7,17 @@ export const mediaPlaylist: IMediaPlaylist[] = [
         duration: "3m:20s",
         files: [
             {
-                id: "1",
-                name: "pub_1.mp4",
-                type: "VIDEO",
-            },
-            {
-                id: "2",
-                name: "pub_2.mp4",
-                type: "VIDEO",
-            },
-            {
-                id: "3",
-                name: "pub_3.mp4",
-                type: "VIDEO",
+                "id": 1,
+                "name": "tv-atcmedia.adyn.tv",
+                "path": "https://tv-atcmedia.adyn.tv/",
+                "folder_id": 1,
+                "owner_id": 1,
+                "type": "url",
+                "duration": 5,
+                "url": "https://tv-atcmedia.adyn.tv/",
+                "metadata": [],
+                "created_at": "2025-04-21T22:03:05.000000Z",
+                "updated_at": "2025-04-21T22:03:05.000000Z"
             }
         ]
     },
@@ -29,19 +27,17 @@ export const mediaPlaylist: IMediaPlaylist[] = [
         duration: "2m:30s",
         files: [
             {
-                id: "1",
-                name: "promo_avril.mp4",
-                type: "VIDEO",
-            },
-            {
-                id: "2",
-                name: "promo_banniere.png.png",
-                type: "IMAGE",
-            },
-            {
-                id: "3",
-                name: "pub.html",
-                type: "WEB",
+                "id": 1,
+                "name": "tv-atcmedia.adyn.tv",
+                "path": "https://tv-atcmedia.adyn.tv/",
+                "folder_id": 1,
+                "owner_id": 1,
+                "type": "url",
+                "duration": 5,
+                "url": "https://tv-atcmedia.adyn.tv/",
+                "metadata": [],
+                "created_at": "2025-04-21T22:03:05.000000Z",
+                "updated_at": "2025-04-21T22:03:05.000000Z"
             }
         ]
     },
