@@ -9,13 +9,16 @@ import useStore from '@/stores/store';
 function TopBar() {
     // const [user, setUser] = useState<string | null>(null)
     const user = useStore(state => state.user);
+    const [parsedUser, setUser] = useState()
     useEffect(() =>{
-        const user = localStorage.getItem('user')
+        console.log('User zustand:', user)
+        // const user = localStorage.getItem('user')
         if (user) {
-            const parsedUser = JSON.parse(user)
-            console.log('User:', parsedUser)
+            const parseduser = JSON.parse(user)
+            setUser(parseduser)
+            console.log('User zustand:', user)
 
-            console.log("Username", parsedUser?.name)
+            console.log("Username", parseduser?.name)
             // setUser(parsedUser)
           }
         
@@ -51,7 +54,9 @@ function TopBar() {
                     {/* </ActionIcon> */}
                 </Indicator>
                 <div className="flex flex-col">
-                    <p className="font-semibold text-base"> GMP TEST </p>
+                    <p className="font-semibold text-base"> {
+                        //@ts-ignore
+                        user?.name} </p>
                     <p className="font-semibold text-xs text-red-600"> 0.5 Mo / 20Go - 0% </p>
                 </div>
                 <Group gap={1}>

@@ -1,8 +1,23 @@
 import { Button } from "@mantine/core";
 import AccountTable from "./account-table";
 import { Download } from "lucide-react";
+import useStore from '@/stores/store';
+//@ts-ignore
+import Cookies from 'js-cookie'
+import {useRouter} from 'next/navigation';
 
 function AccountProtection() {
+    const router  = useRouter()
+    const deleteUser  = useStore(state => state.deleteUser)
+    const token = Cookies.get('auth_token');
+    const handleDelete = async () =>{
+        await deleteUser(token);
+        Cookies.remove('auth_token', { path: '/' })
+        localStorage.removeItem('user');
+        router.push("/auth/login")
+
+    }
+    
     return ( 
         <>
             <div className="flex flex-col gap-4">

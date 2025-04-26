@@ -10,13 +10,11 @@ import { useEffect, useState } from "react";
 import useStore from '@/stores/store';
 //@ts-ignore
 import Cookies from 'js-cookie';
-import { shallow} from 'zustand/shallow'
 
 function ClientTab() {
     const [openedDelete, { open: openDelte, close: closeDelete }] = useDisclosure(false);
     const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
-    const fullState = useStore((s) => s);
-  console.log('⚙️ Zustand full state:', fullState);
+    const { clients, fetchClients, updateClient, deleteClient } = useStore();
     const [itemDelete, setItemDelete] = useState()
     const [itemEdit, setItemEdit] = useState()
     const token = Cookies.get('auth_token');
@@ -37,32 +35,10 @@ function ClientTab() {
         openEdit();
     }
 
-    const {
-        clients,
-        fetchClients,
-        addClients,
-        updateClient,
-        deleteClient,
-      } = useStore(
-        (state) => ({
-          clients:       state.clients,
-          fetchClients:  state.fetchClients,
-          addClients:    state.addClients,
-          updateClient:  state.updateClient,
-          deleteClient:  state.deleteClient,
-        }),
-        shallow
-      );
-    
-      // 5) Double-check that this really is a function
-      console.log('⏺ fetchClients is a:', typeof fetchClients);
-    
-      // 6) Only call it once the token is available and it’s indeed a function
-      useEffect(() => {
-        if (token && typeof fetchClients === 'function') {
-          fetchClients(token);
-        }
-      }, [])
+    useEffect(() =>{
+        fetchClients(token)
+        console.log("Clients", clients);
+    }, [])
     return ( 
         <>
             <DeleteClientModal

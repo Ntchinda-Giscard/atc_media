@@ -3,9 +3,23 @@ import { IconAt, IconPhoneCall } from '@tabler/icons-react';
 import { Avatar, Group, Text } from '@mantine/core';
 // import classes from './UserInfoIcons.module.css';
 import useStore from '@/stores/store';
+import { useState, useEffect } from 'react';
 
 export function UserInfoIcons() {
   const user = useStore(state => state.user);
+  const [parsedUser, setUser] = useState()
+  useEffect(() =>{
+    // const user = localStorage.getItem('user')
+    if (user) {
+        const parseduser = JSON.parse(user)
+        setUser(parseduser)
+        console.log('User zustand:', user)
+
+        console.log("Username", parseduser?.name)
+        // setUser(parsedUser)
+      }
+    
+}, [])
   return (
     <div>
       <Group wrap="nowrap">
