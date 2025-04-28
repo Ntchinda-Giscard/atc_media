@@ -2,7 +2,7 @@
 import logo from "@/public/assets/top_bar_logo.svg";
 import Image from "next/image"
 import { IconBell, IconChevronDown, IconLogout, IconSearch, IconUser, IconWorld } from "@tabler/icons-react";
-import { TextInput, Avatar, Group, Indicator, Menu } from "@mantine/core";
+import { TextInput, Avatar, Group, Indicator, Menu, Skeleton } from "@mantine/core";
 import { useEffect, useState } from "react";
 import useStore from '@/stores/store';
 import Link from "next/link"
@@ -61,9 +61,12 @@ function TopBar() {
                         <IconBell style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </Indicator>
                 <div className="flex flex-col">
-                    <p className="font-semibold text-base"> {
+                    {
+                        user?.name ?
+                        <p className="font-semibold text-base"> {
                         //@ts-ignore
-                        user?.name} </p>
+                        user?.name} </p> : <Skeleton h={15} w={50} />
+                    }
                     <p className="font-semibold text-xs text-red-600"> 0.5 Mo / 20Go - 0% </p>
                 </div>
                 <Group gap={1}>

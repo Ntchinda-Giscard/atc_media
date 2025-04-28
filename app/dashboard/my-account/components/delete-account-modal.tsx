@@ -16,7 +16,9 @@ export default function DeleteClientModal({opened, close, item}: any) {
       setLoading(true)
       await deleteClient(item?.id, token)
       setLoading(false)
+      close()
       success_notification("Suppression d'entreprise", "Entreprise supprimer avec succès")
+      
     }catch(error){
       setLoading(false)
       close()

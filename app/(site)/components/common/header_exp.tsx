@@ -105,14 +105,14 @@ export function LangaugePicker({c}:{c: string}){
       <p  className={`text-[18px] font-[400] ${c}`} > {selectedItem} </p>
       <Combobox
         store={combobox}
-        width={50}
+        width={100}
         onOptionSubmit={(val) =>{
           setSelectedItem(val);
           combobox.closeDropdown();
         }}
       >
         <Combobox.Target>
-          <IconTriangleFilled className={c} size={12} rotate={'90'}  onClick={() => combobox.toggleDropdown()} />
+          <IconTriangleFilled className={'rotate-180'} size={12}  onClick={() => combobox.toggleDropdown()} />
         </Combobox.Target>
         <Combobox.Dropdown>
           <Combobox.Options> {options} </Combobox.Options>

@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import useOtherStore from '@/stores/clientStore';
 //@ts-ignore
 import Cookies from 'js-cookie';
+import { Skeleton } from "@mantine/core";
 
 function ClientTab() {
     const [openedDelete, { open: openDelte, close: closeDelete }] = useDisclosure(false);
@@ -56,13 +57,16 @@ function ClientTab() {
             <p className="text-2xl font-semilight my-5"> Liste des sous-comptes </p>
             <section className="space-y-5"> 
                 <div className="flex flex-col justify-between gap-4">
-                    <AccountTable
+                    {
+                        clients?.length > 1 ?
+                        <AccountTable
                     //@ts-ignore
                         onDelete={(item: any) => handleDelete(item)}
                         //@ts-ignore
                         onEdit={(item: any) => handleEdit(item)}
                         elements={clients}
-                    />
+                    /> : <Skeleton w={'100%'} h={300} />
+                }
                     {/* <TableFooter /> */}
                 </div>
 
