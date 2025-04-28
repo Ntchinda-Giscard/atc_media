@@ -11,7 +11,7 @@ import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, Key } from
 //   { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
 // ];
 
-export default function AccountTable({onDelete, onEdit, elements}: {elements: any, onDelete?: () => void, onEdit?: () => void}) {
+export default function ConnectionHistoryTable({onDelete, onEdit, elements}: {elements: any, onDelete?: () => void, onEdit?: () => void}) {
   return (
     <ScrollArea type="auto" style={{ width: '100%', borderRadius: 8 }}>
       <Table

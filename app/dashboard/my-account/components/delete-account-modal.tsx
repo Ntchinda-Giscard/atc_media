@@ -26,9 +26,9 @@ export default function DeleteClientModal({opened, close, item}: any) {
   }
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Supprimer ce sous-compte">
+      <Modal opened={opened} onClose={close} title="Supprimer">
         {/* Modal content */}
-        <p> Voulez vous continuer ? </p>
+        <p> Êtes vous sûr de vouloir supprimer cet élément ? </p>
         <Group grow gap={5} mt="md">
             <Button variant="outline" color="red" onClick={close}>
                 Annuler

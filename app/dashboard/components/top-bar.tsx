@@ -56,9 +56,7 @@ function TopBar() {
                 </Group>
                 
                 <Indicator color="#EE0202" size={10}>
-                    {/* <ActionIcon variant="subtle">  */}
                         <IconBell style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                    {/* </ActionIcon> */}
                 </Indicator>
                 <div className="flex flex-col">
                     <p className="font-semibold text-base"> {
@@ -91,6 +89,16 @@ function TopBar() {
 
                             <Menu.Item color="red" onClick={handleLogout} leftSection={<IconLogout size={14} />}>
                                 Déconnexion
+                            </Menu.Item>
+
+                            <Menu.Divider></Menu.Divider>
+                            <Menu.Item>
+                                <div className="flex flex-col">
+                                    <p className="font-semibold text-base"> {
+                                        //@ts-ignore
+                                        user?.name} </p>
+                                    <p className="font-semibold text-xs text-red-600"> 0.5 Mo / 20Go - 0% </p>
+                                </div>
                             </Menu.Item>
 
                               </Menu.Dropdown>

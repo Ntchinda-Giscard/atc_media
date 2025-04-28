@@ -7,6 +7,7 @@ import Cookies from 'js-cookie'
 import {useRouter} from 'next/navigation';
 import { useState } from "react";
 import { error_notification } from "../../utils/notification-center";
+import ConnectionHistoryTable from "./connection-history-table";
 
 function AccountProtection() {
     const router  = useRouter()
@@ -46,7 +47,7 @@ function AccountProtection() {
                 </div>
                
                 <p className="text-xl font-semilight my-5"> Historique des connexions </p>
-                <AccountTable 
+                <ConnectionHistoryTable 
                     elements={undefined} 
                 />
                 <div className="flex flex-col text-start">
