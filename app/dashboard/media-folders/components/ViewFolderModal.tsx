@@ -84,6 +84,10 @@ function ViewFolderModal({
             console.log(id)
         },
     }, {
+        icon: "🖊", name: " Renommer", onClick(id?: number) {
+
+        },
+    }, {
         icon: "❌", name: " Supprimer", onClick(id?: number) {
             const file = folderToView?.files?.find(f => f.id == id);
             if (!file) {
@@ -242,14 +246,14 @@ function ViewFolderModal({
 
                     <div className='flex flex-col gap-6'>
                         <div>
-                            <div className='text-[var(--black)] text-[18px] font-bold mb-2'>📝 Informations sur le dossier</div>
+                            <div className='text-[var(--black)] text-[18px] font-bold mb-2'> Informations sur le dossier</div>
                             <div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4'>
                                 <div className='flex flex-col flex-shrink-0 gap-1 border-b-2 md:border-0'>
                                     <div className='text-[var(--action-text-color)] text-[16px] font-bold'>🗂 Nom</div>
                                     <div className='text-[var(--title-color)] text-[15px] font-normal'>{folderToView?.name}</div>
                                 </div>
                                 <div className='flex flex-col flex-shrink-0 gap-1 border-b-2 md:border-0'>
-                                    <div className='text-[var(--action-text-color)] text-[16px] font-bold'>📂 Nombre de fichiers</div>
+                                    <div className='text-[var(--action-text-color)] text-[16px] font-bold'>📝 Nombre de fichiers</div>
                                     <div className='text-[var(--title-color)] text-[15px] font-normal'>{folderToView?.files?.length ?? 0}</div>
                                 </div>
                                 <div className='flex flex-col flex-shrink-0 gap-1 border-b-2 md:border-0' >

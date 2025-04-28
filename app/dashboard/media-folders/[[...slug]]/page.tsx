@@ -1,7 +1,6 @@
 'use client';
 
 import AppActions from "@/components/AppActions";
-// import AppBadge from "@/components/AppBadge";
 import CustomTable from "@/components/CustomTable";
 import PageHeader from "@/components/PageHeader";
 import PageSectionHeader from "@/components/PageSectionHeader";
@@ -20,7 +19,9 @@ import { useRouter } from "next/navigation";
 import { useMedia } from "@/contexts/MediaContex";
 import { Skeleton } from "@mantine/core";
 import ViewFolderModal from "../components/ViewFolderModal";
-import { formatDate } from "@/lib/utils";
+import { convertArrayOfFilesToString, formatDate } from "@/lib/utils";
+import AppBadge from "@/components/AppBadge";
+import AddPlaylistModal from "../components/AddPlaylistModal";
 
 type MediaFoldersPageProps = {
     params: Promise<{ slug?: string[] }>
@@ -49,6 +50,7 @@ export default function MediaFoldersPageMediaFoldersPage({
     const [showFolderGrid, setShowFolderGrid] = useState<boolean>(false);
     const [showPlayListGrid, setShowPlayListGrid] = useState<boolean>(false);
     const [addNewFolder, setAddNewFolder] = useState<boolean>(false);
+    const [addPlaylist, setAddPlaylist] = useState<boolean>(false);
     const filteredFolder = folders?.filter((item) =>
         item.name.toLowerCase().includes(query.toLowerCase())
     );
@@ -150,7 +152,7 @@ export default function MediaFoldersPageMediaFoldersPage({
                                 <div className="grid grid-cols-1 gap-5 mt-5 md:grid-cols-2 xl:grid-cols-3">
                                     {
                                         filteredFolder.map(folder => (
-                                            <FolderGridItem key={folder.id} folder={folder} options={folderActions} />
+                                            <FolderGridItem key={folder.id} folder={folder} options={folderActions} onClick={() => setFolderToView(folders?.find(f => f.id == folder.id) ?? null)} />
                                         ))
                                     }
                                 </div>
@@ -167,17 +169,17 @@ export default function MediaFoldersPageMediaFoldersPage({
                                                     {folder.name}
                                                 </td>
                                                 <td className="px-2 py-2 text-[15px] font-normal text-center" onClick={() => onClick && onClick(folder.id)}>
-                                                    {/* {convertArrayOfFilesToString(folder.content)} */}
+                                                    {convertArrayOfFilesToString(folder)}
                                                 </td>
                                                 <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap" onClick={() => onClick && onClick(folder.id)}>
                                                     {formatDate(folder.created_at)}
                                                 </td>
                                                 <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap" onClick={() => onClick && onClick(folder.id)}>
                                                     <div className="flex items-center justify-center">
-                                                        {/* <AppBadge
-                                                            title={folder.shared?.length == 0 ? "Non" : "Oui"}
-                                                            error={folder.shared?.length == 0}
-                                                        /> */}
+                                                        <AppBadge
+                                                            title={"Non"}
+                                                            error
+                                                        />
                                                     </div>
                                                 </td>
                                                 <td className="px-2 py-3 text-[15px] font-medium text-center whitespace-nowrap">
@@ -200,7 +202,11 @@ export default function MediaFoldersPageMediaFoldersPage({
                 actionButtonIcon={
                     <PlusCircle size={20} className='text-[var(--white)]' />
                 }
-                actionButtonClick={() => null}
+                actionButtonClick={() => {
+                    console.log("fasdfsd")
+                    setAddPlaylist(true)
+                }
+                }
             />
             {
                 loadingFolders ?
@@ -241,6 +247,10 @@ export default function MediaFoldersPageMediaFoldersPage({
             <DeleteFolderModal
                 isOpen={!!folderToDelete}
                 onClose={() => setFolderToDelete(null)}
+            />
+            <AddPlaylistModal
+                isOpen={addPlaylist}
+                onClose={() => setAddPlaylist(false)}
             />
         </div>
     );

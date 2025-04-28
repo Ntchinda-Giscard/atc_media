@@ -12,7 +12,7 @@ export default function AppCheckbox({
 }: CheckboxProps) {
 
   return (
-    <div className="">
+    <div className="rounded border-1">
       <label className="flex flex-row items-center w-full text-sm cursor-pointer">
         <input
           type="checkbox"

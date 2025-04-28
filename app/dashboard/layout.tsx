@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BasicAppShell from "./components/baseappshell";
 import Providers from "../providers";
 import NextTopLoader from 'nextjs-toploader';
+import { ToastContainer } from 'react-toastify';
 import './globals.css';
 
 
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
+        <ToastContainer />
         <NextTopLoader
                 color={"#EE0202"}
                 template='<div class="bar" role="bar"><div class="peg"></div></div>'
