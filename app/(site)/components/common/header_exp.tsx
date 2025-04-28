@@ -112,7 +112,7 @@ export function LangaugePicker({c}:{c: string}){
         }}
       >
         <Combobox.Target>
-          <IconTriangleFilled className={'rotate-180'} size={12}  onClick={() => combobox.toggleDropdown()} />
+          <IconTriangleFilled className={`rotate-180 ${c}`} size={12}  onClick={() => combobox.toggleDropdown()} />
         </Combobox.Target>
         <Combobox.Dropdown>
           <Combobox.Options> {options} </Combobox.Options>
