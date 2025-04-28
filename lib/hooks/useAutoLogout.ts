@@ -34,6 +34,6 @@ export function useAutoLogout() {
     localStorage.removeItem('expire_at');
     localStorage.removeItem('user');
 
-    router.replace('/auth/login');
+    router.push('/auth/login');
   };
 }

@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import createAuthSlice from './authSlice';
-import createClientSlice from './clientSlice';
+// import createClientSlice from './clientSlice';
 
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -12,7 +12,7 @@ const useStore = create(
   persist(
     (...a) => ({
   ...createAuthSlice(...a),
-  ...createClientSlice(...a),
+  // ...createClientSlice(...a),
 //   ...createSettingsSlice(set, get),
 }),
   {

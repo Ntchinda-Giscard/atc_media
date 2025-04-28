@@ -34,9 +34,9 @@ function PasswordForm() {
         },
     
         validate: {
-          password: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Adresse e-mail invalide'),
-          newPassword: (value: string) => ( value?.length > 3 ? null : 'Nom invalide'),
-          passwordConfirmation: (value: any, values: { newPassword: any; }) => ( value === values?.newPassword  ? null : 'mot de passent ne coreecpondent pas !'),
+          password: (value: string) => ( value?.length > 6 ? null : 'Le mot de passe doit contenir 6 caractères.'),
+          newPassword: (value: string) => ( value?.length > 6 ? null : 'Le mot de passe doit contenir 6 caractères.'),
+          passwordConfirmation: (value: any, values: { newPassword: any; }) => ( value === values?.newPassword  ? null : 'La confirmation du mot de passe ne correspond pas. '),
         },
     });
 

@@ -13,6 +13,7 @@ const createClientSlice = (set) => ({
           },
         }
       );
+      console.log("Print results", res.data)
       set({ clients: res.data.data.data });
     } catch (error) {
       throw error;
@@ -30,7 +31,8 @@ const createClientSlice = (set) => ({
           },
         }
       );
-      set((state) => ({ clients: [...state.clients, res.data.data] }));
+      console.log(res.data.data)
+      set((state) => ({ clients: [...state.clients, res.data.data.company] }));
     } catch (error) {
       throw error;
     }
@@ -47,10 +49,10 @@ const createClientSlice = (set) => ({
           },
         }
       );
-
+      console.log( "updated data", res.data.data.company)
       set((state) => ({
         clients: state.clients.map((client) =>
-          client.id === id ? res.data.data : client
+          client.id === id ? res.data.data.company : client
         ),
       }));
     } catch (error) {

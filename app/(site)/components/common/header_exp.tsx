@@ -40,12 +40,12 @@ const Header = () => {
         </div>
         
       </div>
-      <div className={`${isOpen ? 'block' : 'hidden'} md:flex md:items-center flex md:flex-row gap-3 flex-col`}>
+      <div className={`${isOpen ? 'block' : 'hidden'} md:flex md:items-center flex md:flex-row gap-8 flex-col`}>
             {
                 home_links?.map((h) =>(
                     <Link
                         key={h?.route} 
-                        className={pathname === h?.route ? "text-red-600 text-sm" : "text-sm hover:text-red-600"}
+                        className={pathname === h?.route ? "text-red-600 text-base" : "text-base hover:text-red-600"}
                         href={h?.route}> 
                         {h?.label} 
                     </Link>

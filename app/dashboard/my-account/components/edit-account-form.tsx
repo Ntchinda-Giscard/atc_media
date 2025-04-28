@@ -1,57 +1,67 @@
 "use client";
 import { useForm } from '@mantine/form';
 import { Button, Select, Group, TextInput, NumberInput } from '@mantine/core';
-import useStore from '@/stores/store';
+import useOtherStore from '@/stores/clientStore';
 //@ts-ignore
 import Cookies from 'js-cookie';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { error_notification, success_notification } from '../../utils/notification-center';
 
 function EditAccountForm({close, item}: any) {
-    const updateClient = useStore(state => state.updateClient)
+    const updateClient = useOtherStore(state => state.updateClient)
+    const fetchClients = useOtherStore(state => state.fetchClients)
     const [loading, setLoading] = useState(false)
     const token = Cookies.get('auth_token');
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
-          name: '',
-          phone: '',
-          address: '',
+          name: null,
+          phone: null,
+          address: null,
         screens_allowed: 5
 
         },
     
         validate: {
-          name: (value: string) => ( value.length > 3 ? null : 'Nom invalide'),
-          address: (value: string) => ( value.length > 3 ? null : 'Adresse invalide'),
-          screens_allowed: (value: number) => (value >= 1 ? null : "Nombre d'écran invalide"),
+        //   name: (value: string) => ( value.length > 3 ? null : 'Nom invalide'),
+        //   address: (value: string) => ( value.length > 3 ? null : 'Adresse invalide'),
+        //   screens_allowed: (value: number) => (value >= 1 ? null : "Nombre d'écran invalide"),
 
         },
       });
 
-      const handleSubmit = async (values: any) =>{
-        console.log(values)
-        const data = {
-                name: values.name,
-                address: values.address,
-                phone: values.phone,
-                screens_allowed: values.creens_allowed,
-                active: true
-        }
-        try{
-            setLoading(true)
-            await updateClient(data, item?.company?.id, token)
-            close()
-            setLoading(false)
-            success_notification("Mise a jour sous-compte", "Mise a jour effectuer avec succes")
-            
-        }catch(error){
-            setLoading(false)
-            //@ts-ignore
-            error_notification("Mise a jour sous-compte", `${error?.response?.data?.reason}`)
+    const handleSubmit = async (values: any) =>{
+    console.log(values)
+    const data = {
+            name: values.name,
+            address: values.address,
+            phone: values.phone,
+            screens_allowed: values.creens_allowed,
+            active: true
+    }
+    try{
+        setLoading(true)
+        await updateClient(data, item?.id, token)
+        close()
+        setLoading(false)
+        success_notification("Mise a jour sous-compte", "Entreprise mise à jour avec succès")
+        // await fetchClients(token)
+        
+    }catch(error){
+        console.log(error)
+        setLoading(false)
+        //@ts-ignore
+        error_notification("Mise a jour sous-compte", `${error?.response?.data?.reason}`)
 
-        }
-      }
+    }
+    }
+
+    useEffect(() =>{
+        form.setFieldValue('name', item?.name)
+        form.setFieldValue('address', item?.address)
+        form.setFieldValue('phone', item?.phone)
+        form.setFieldValue('screens_allowed', item?.screens_allowed)
+    }, [])
     return ( 
         <>
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>

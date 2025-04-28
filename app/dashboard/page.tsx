@@ -15,7 +15,7 @@ type  User = {
 }
 
 export default function HomePage() {
-  useAutoLogout();
+  
   
   const user = useStore(state => state.user);
 

@@ -3,6 +3,8 @@ import BasicAppShell from "./components/baseappshell";
 import Providers from "../providers";
 import NextTopLoader from 'nextjs-toploader';
 import './globals.css';
+import AutoLayoutClient from "./components/AutoLogoutClient";
+
 
 
 export const metadata: Metadata = {
@@ -20,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
+          {/* <AutoLayoutClient /> */}
         <NextTopLoader
                 color={"#EE0202"}
                 template='<div class="bar" role="bar"><div class="peg"></div></div>'

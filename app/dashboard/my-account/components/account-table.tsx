@@ -35,13 +35,16 @@ export default function AccountTable({onDelete, onEdit, elements}: {elements: an
                 textAlign: 'center'
               }}
             >
-              Name
+              Nom
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Email
+              Adresse
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Role
+              Nome du manageur
+            </Table.Th>
+            <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
+              Numero du manageur
             </Table.Th>
             <Table.Th
               style={{
@@ -57,7 +60,12 @@ export default function AccountTable({onDelete, onEdit, elements}: {elements: an
         </Table.Thead>
 
         <Table.Tbody>
-          {elements?.map((element: { name: boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | Key | null | undefined; address: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; manager: { name: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }; }) => (
+          {elements?.map((element: {
+            company: any; name: boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | Key | null | undefined; address: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; manager: {
+              phone: ReactNode;
+              manager: any; name: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; 
+}; 
+}) => (
             <Table.Tr
             //@ts-ignore
               key={element?.name}
@@ -70,19 +78,32 @@ export default function AccountTable({onDelete, onEdit, elements}: {elements: an
               <Table.Td style={{ padding: 8 }}>{element?.name}</Table.Td>
               <Table.Td style={{ padding: 8 }}>{element?.address}</Table.Td>
               <Table.Td style={{ padding: 8 }}>{element?.manager?.name}</Table.Td>
+              <Table.Td style={{ padding: 8 }}>{element?.manager?.phone}</Table.Td>
               <Table.Td style={{ padding: 8 }}>
-                <Group justify='center'>
-                  <ActionIcon 
+                <div className='flex flex-row gap-1 justify-center items-center font-light'>
+                  <span 
                   //@ts-ignore
-                    onClick={() => onEdit(element)} variant="subtle" aria-label="Edit">
-                    <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                  </ActionIcon>
-                  <ActionIcon 
+                    onClick={() => onEdit(element)} 
+                    className='cursor-pointer'
+                    // variant="subtle" 
+                    aria-label="Edit"
+                    >
+                    {/* <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} /> */}
+                    <span> ✏️ Modifier    </span>
+                  </span>
+                  <span> | </span>
+                  <span 
                   //@ts-ignore
-                    onClick={() => onDelete(element)} color="#EE0202" variant="subtle" aria-label="Delete">
-                    <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                  </ActionIcon>
-                </Group>
+                    onClick={() => onDelete(element)} 
+                    className='cursor-pointer'
+                    // color="#EE0202" 
+                    // variant="subtle"
+                    aria-label="Delete"
+                    >
+                    {/* <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} /> */}
+                    <span>   ❌ Supprimer </span>
+                  </span>
+                </div>
               </Table.Td>
             </Table.Tr>
           ))}
