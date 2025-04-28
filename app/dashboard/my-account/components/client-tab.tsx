@@ -58,7 +58,7 @@ function ClientTab() {
             <section className="space-y-5"> 
                 <div className="flex flex-col justify-between gap-4">
                     {
-                        clients?.length > 1 ?
+                        clients?.length >= 1 ?
                         <AccountTable
                     //@ts-ignore
                         onDelete={(item: any) => handleDelete(item)}
