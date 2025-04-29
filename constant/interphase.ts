@@ -59,6 +59,7 @@ export interface IMediaFileMetadata {
 export interface IAddFileToFolderApiProps {
     file: File | null;
     folder_id: number | '';
+    name: string | '';
     duration: number | '';
     url: string | null;
 }

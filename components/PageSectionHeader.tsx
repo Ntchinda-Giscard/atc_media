@@ -10,9 +10,9 @@ interface PageSectionHeaderProps {
   title?: string;
   showGrid?: boolean;
   setShowGrid?: Dispatch<SetStateAction<boolean>>;
-  actionButtonText: string;
-  actionButtonIcon: ReactNode;
-  actionButtonClick: () => void;
+  actionButtonText?: string;
+  actionButtonIcon?: ReactNode;
+  actionButtonClick?: () => void;
   hideActionButton?: boolean;
   searchQuery?: string;
   onChangeSearch?: Dispatch<SetStateAction<string>>;
@@ -28,15 +28,18 @@ function PageSectionHeader({
         <AlignJustify className={` cursor-pointer ${showGrid ? 'text-[var(--gray-icon)]' : 'text-[var(--primary-color)]'}`} onClick={() => setShowGrid && setShowGrid(false)} />
         <LayoutGrid className={` cursor-pointer ${!showGrid ? 'text-[var(--gray-icon)]' : 'text-[var(--primary-color)]'}`} onClick={() => setShowGrid && setShowGrid(true)} />
       </div>
-      <div className='w-full lg:w-[400px] lg:px-3 lg:border-x'>
-        <SearchBar
-          placeholder="Rechercher un dossier ou un fichier..."
-          searchQuery={searchQuery}
-          onChangeSearch={onChangeSearch}
-        />
-      </div>
       {
-        !hideActionButton &&
+        searchQuery && onChangeSearch &&
+        <div className='w-full lg:w-[400px] lg:px-3 lg:border-x'>
+          <SearchBar
+            placeholder="Rechercher un dossier ou un fichier..."
+            searchQuery={searchQuery}
+            onChangeSearch={onChangeSearch}
+          />
+        </div>
+      }
+      {
+        !hideActionButton && actionButtonClick && actionButtonText &&
         <div className='flex items-center justify-end'>
           <AppButton
             onClick={actionButtonClick}

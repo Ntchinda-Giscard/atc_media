@@ -7,27 +7,27 @@ import PageSectionHeader from "@/components/PageSectionHeader";
 import { mediaPlaylist } from "@/constant/data";
 import { IDropdownItems, IMediaFolders } from "@/constant/interphase";
 import { mediaFolderHeader } from "@/constant/tableHeaders";
-import FolderGridItem from "../components/FolderGridItem";
+import FolderGridItem from "../../components/FolderGridItem";
 import { use, useCallback, useEffect, useState } from "react";
-import PlayListGridItem from "../components/PlayListGridItem";
-import PlayListListItem from "../components/PlayListListItem";
-import AddNewFolderModal from "../components/AddNewFolderModal";
+import PlayListGridItem from "../../components/PlayListGridItem";
+import PlayListListItem from "../../components/PlayListListItem";
+import AddNewFolderModal from "../../components/AddNewFolderModal";
 import { ChevronLeft, PlusCircle, RefreshCw } from "lucide-react";
-import RenameFolderModal from "../components/RenameFolderModal";
-import DeleteFolderModal from "../components/DeleteFolderModal";
+import RenameFolderModal from "../../components/RenameFolderModal";
+import DeleteFolderModal from "../../components/DeleteFolderModal";
 import { useRouter } from "next/navigation";
 import { useMedia } from "@/contexts/MediaContex";
 import { Skeleton } from "@mantine/core";
-import ViewFolderModal from "../components/ViewFolderModal";
+import ViewFolderModal from "../../components/ViewFolderModal";
 import { convertArrayOfFilesToString, formatDate } from "@/lib/utils";
 import AppBadge from "@/components/AppBadge";
-import AddPlaylistModal from "../components/AddPlaylistModal";
+import AddPlaylistModal from "../../components/AddPlaylistModal";
 
 type MediaFoldersPageProps = {
     params: Promise<{ slug?: string[] }>
 };
 
-export default function MediaFoldersPageMediaFoldersPage({
+export default function MediaFolderProjects({
     params: paramsPromise
 }: MediaFoldersPageProps) {
     const {

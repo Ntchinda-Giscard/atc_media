@@ -13,7 +13,7 @@ const AppActions = ({
     <div className='flex items-center justify-center'>
       {
         actions.map((action, index) =>
-          <div key={index} className={`cursor-pointer font-normal text-[14px] text-[var(--action-text-color)]  px-2 
+          <div key={index} className={`cursor-pointer font-normal text-[14px] text-[var(--action-text-color)] flex-shrink-0  px-2 
           ${index == actions.length - 1 ? 'border-0' : 'border-r border-[var(--action-text-color)]'}`}
             onClick={() => action.onClick && action.onClick(id)}>
             {action.icon}

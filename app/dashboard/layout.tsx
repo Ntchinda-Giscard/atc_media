@@ -16,16 +16,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   return (
     <html lang="en">
       <body>
         <Providers>
-        <ToastContainer />
-        <NextTopLoader
-                color={"#EE0202"}
-                template='<div class="bar" role="bar"><div class="peg"></div></div>'
-            />
+          <ToastContainer />
+          <NextTopLoader
+            color={"#EE0202"}
+            template='<div class="bar" role="bar"><div class="peg"></div></div>'
+          />
           <BasicAppShell>
             {children}
           </BasicAppShell>

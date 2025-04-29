@@ -34,6 +34,7 @@ function ViewFolderModal({
         folder_id: '',
         duration: '',
         url: '',
+        name: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +51,10 @@ function ViewFolderModal({
 
     const validate = () => {
         const newErrors: { [key: string]: string } = {};
+
+        if (formData.name === "") {
+            newErrors.name = "The name of the file is required";
+        }
 
         if (formData.duration === "" || isNaN(formData.duration)) {
             newErrors.duration = "Duration is required and must be a number.";
@@ -115,7 +120,8 @@ function ViewFolderModal({
                 file: !addingUrl ? formData.file : null,
                 duration: Number(formData.duration),
                 folder_id: folderToView?.id ?? 0,
-                url: addingUrl ? formData.url : null
+                url: addingUrl ? formData.url : null,
+                name: formData.name,
             }
             setIsLoading(true);
             const addResponse: boolean = await addFileToFolder(payload);
@@ -128,6 +134,7 @@ function ViewFolderModal({
                     folder_id: "",
                     duration: "",
                     url: "",
+                    name: "",
                 });
                 setAddingUrl(false);
                 setAddingFile(false);
@@ -152,11 +159,19 @@ function ViewFolderModal({
             {
                 addingFile ?
                     <div className='flex flex-col gap-6'>
+                        <AppInput
+                            label='File name'
+                            value={String(formData.name)}
+                            onChange={handleChange}
+                            name="name"
+                            secondary
+                        />
                         {
                             !addingUrl ?
                                 <div
                                     className='border border-[var(--light-gray-background)] rounded-[10px]'>
                                     <div className='border-b border-[var(--light-gray-background)] px-4 py-2'>📤 Ajouter un fichier au dossier</div>
+
                                     <div className={`px-4 py-2  flex flex-col gap-3 rounded-b-[10px]
                                      ${isDragging ? 'bg-blue-100' : 'bg-[var(--white)]'}`}>
                                         <div className='font-normal text-[16px] text-[var(--title-color)]'>
