@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from '@mantine/form';
 import { Button, Select, Group, TextInput, PasswordInput, NumberInput } from '@mantine/core';
-import useStore from '@/stores/store';
+import useOtherStore from '@/stores/clientStore';
 //@ts-ignore
 import Cookies from 'js-cookie';
 import {useState} from "react";
@@ -9,7 +9,7 @@ import { error_notification, success_notification } from '../../utils/notificati
 
 
 function AddAccountForm() {
-    const addClients = useStore(state => state.addClients)
+    const addClients = useOtherStore(state => state.addClients)
     const [loading, setLoading] = useState(false)
     const token = Cookies.get('auth_token');
     const form = useForm({
@@ -51,7 +51,7 @@ function AddAccountForm() {
             console.log("token", token);
             await addClients(data, token);
             setLoading(false)
-            success_notification("Mise a jour du mot de passe", "Mise a jour effectuer avec succes")
+            success_notification("Creation d'entreprise", "Entreprise créée avec succès")
 
         }catch(error){
             setLoading(false)
@@ -129,7 +129,7 @@ function AddAccountForm() {
             </div>
 
             <Group justify="flex-start" mt="md">
-                <Button type="submit" color='#EE0202' radius={'md'} > Ajouter </Button>
+                <Button loading={loading} type="submit" color='#EE0202' radius={'md'} > Ajouter </Button>
             </Group>
         </form>
         </>
@@ -137,3 +137,4 @@ function AddAccountForm() {
 }
 
 export default AddAccountForm;
+

@@ -11,7 +11,7 @@ import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, Key } from
 //   { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
 // ];
 
-export default function AccountTable({onDelete, onEdit, elements}: {elements: any, onDelete?: () => void, onEdit?: () => void}) {
+export default function ConnectionHistoryTable({onDelete, onEdit, elements}: {elements: any, onDelete?: () => void, onEdit?: () => void}) {
   return (
     <ScrollArea type="auto" style={{ width: '100%', borderRadius: 8 }}>
       <Table
@@ -35,16 +35,16 @@ export default function AccountTable({onDelete, onEdit, elements}: {elements: an
                 textAlign: 'center'
               }}
             >
-              Nom
+              Date
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Adresse
+              Adresse IP
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Nom du manageur
+              Navigateur
             </Table.Th>
             <Table.Th style={{ backgroundColor: '#f8f9fa', padding: 5, textAlign: 'center' }}>
-              Numero du manageur
+              Localisation
             </Table.Th>
             <Table.Th
               style={{

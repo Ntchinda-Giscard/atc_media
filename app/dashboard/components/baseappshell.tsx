@@ -1,11 +1,11 @@
 "use client"
 import { AppShell, Burger, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconBell, IconChartBar, IconClipboardText, IconDeviceCameraPhone, IconFileInvoice, IconHome, IconLogout, IconScreenShare, IconUser } from '@tabler/icons-react';
+import { IconBell, IconChartBar, IconClipboardText, IconDeviceCameraPhone, IconFileInvoice, IconHome, IconScreenShare, IconUser } from '@tabler/icons-react';
 import { usePathname, useSearchParams } from "next/navigation";
 import TopBar from './top-bar';
 import Link from "next/link"
-import { Folder, ImageIcon, Share, Trash2 } from 'lucide-react';
+import { Folder, ImageIcon, Import, Share, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -21,7 +21,7 @@ const side_bar_links = [
     label: 'Médiathèque',
     icon: <ImageIcon size={18} />,
     children: [
-      { href: '/dashboard/media-folders/imports', label: 'Importations', icon: <Folder size={16} /> },
+      { href: '/dashboard/media-folders/imports', label: 'Importations', icon: <Import size={16} /> },
       { href: '/dashboard/media-folders/projects', label: 'Projets', icon: <Folder size={16} /> },
       {
         href: '/dashboard/media-folders/shared',
@@ -37,7 +37,6 @@ const side_bar_links = [
   },
   { label: 'Mon compte', icon: <IconUser size={16} stroke={1.5} />, href: '/dashboard/my-account' },
   { label: 'Notifications', icon: <IconBell size={16} stroke={1.5} />, href: '/dashboard/notifications' },
-  { label: 'Déconnexion', icon: <IconLogout size={16} stroke={1.5} />, href: '#' },
 ]
 
 
@@ -89,7 +88,7 @@ export default function BasicAppShell({
                 <button
                   onClick={() => toggleMenu(item.label)}
                   className={cn(
-                    'flex items-center w-full justify-between px-3 py-2 rounded-[10px] transition text-left text-[13px]',
+                    'flex items-center w-full justify-between px-3 py-2 rounded-[10px] transition text-left text-[13px] cursor-pointer',
                     isActive
                       ? 'bg-[var(--card-bg)] text-[var(--primary-color)] font-bold'
                       : 'text-[var(--title-color)] hover:text-[var(--primary-color)] hover:bg-[var(--card-bg)] font-normal'

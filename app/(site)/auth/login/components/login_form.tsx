@@ -23,6 +23,7 @@ import { useState } from "react"
 import { Alert } from "@mantine/core"
 // import { useApi } from '@/lib/hooks/useApi'
 import axios from "axios";
+import useStore from '@/stores/store'
 
 
 const formSchema = z.object({
@@ -34,6 +35,7 @@ const formSchema = z.object({
 
 export function ProfileForm() {
   const router = useRouter();
+  const login  = useStore(state => state.login)
   // const api = useApi();
   const [errMessage, setErrMessage] = useState(null)
   const [isLoading, setIsloading] = useState(false);
@@ -58,26 +60,27 @@ export function ProfileForm() {
 
   try {
     setIsloading(true)
-    const response = await axios.post(url, payload, {
-      headers: {
-        'Accept':        'application/json',
-        'Content-Type':  'application/json',
-        'X-CSRF-TOKEN':  '',   // keep empty if your backend expects it but you’re not using it
-      },
-    });
-    console.log('Login success:', response.data);
-    const token = response.data.data.token.value
-    const user = response.data.data.user
+    await login(payload)
+    // const response = await axios.post(url, payload, {
+    //   headers: {
+    //     'Accept':        'application/json',
+    //     'Content-Type':  'application/json',
+    //     'X-CSRF-TOKEN':  '',   // keep empty if your backend expects it but you’re not using it
+    //   },
+    // });
+    // console.log('Login success:', response.data);
+    // const token = response.data.data.token.value
+    // const user = response.data.data.user
 
-    Cookies.set('auth_token', token, { expires: 30 })
+    // Cookies.set('auth_token', token, { expires: 30 })
 
-    console.log('User:', user)
-    localStorage.setItem('user', JSON.stringify(user))
+    // console.log('User:', user)
+    // localStorage.setItem('user', JSON.stringify(user))
     
     setErrMessage(null)
     setIsloading(false)
     router.push('/dashboard/my-account')
-    return response.data;
+    // return response.data;
   } catch (err: any) {
     //@ts-ignore
       console.error('Login failed:', err?.response?.data?.reason);

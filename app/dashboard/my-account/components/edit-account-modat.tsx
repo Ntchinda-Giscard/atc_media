@@ -8,9 +8,8 @@ export default function EditClientModal({opened, close, item, updateClient}: any
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Supprimer ce sous-compte">
+      <Modal opened={opened} onClose={close} title="Modifier le compte">
         {/* Modal content */}
-        <p> Vouler vous continuer ? </p>
         <EditAccountForm 
             close = {close}
             item = {item}
