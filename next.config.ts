@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ['ec2-54-147-13-74.compute-1.amazonaws.com'],
+  },
   // Add other Next.js configuration options here
 };
 

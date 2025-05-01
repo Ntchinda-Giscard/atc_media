@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import BasicAppShell from "./components/baseappshell";
 import Providers from "../providers";
 import NextTopLoader from 'nextjs-toploader';
+import { ToastContainer } from 'react-toastify';
 import './globals.css';
-import AutoLayoutClient from "./components/AutoLogoutClient";
 
 
 
@@ -17,16 +17,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   return (
     <html lang="en">
       <body>
         <Providers>
-          {/* <AutoLayoutClient /> */}
-        <NextTopLoader
-                color={"#EE0202"}
-                template='<div class="bar" role="bar"><div class="peg"></div></div>'
-            />
+          <ToastContainer />
+          <NextTopLoader
+            color={"#EE0202"}
+            template='<div class="bar" role="bar"><div class="peg"></div></div>'
+          />
           <BasicAppShell>
             {children}
           </BasicAppShell>

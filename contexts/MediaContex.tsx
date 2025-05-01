@@ -1,12 +1,15 @@
 'use client';
 import { app_notification } from '@/app/dashboard/utils/notification-center';
-import { IAddFileToFolderApiProps, IMediaFolders } from '@/constant/interphase';
+import { IAddFileToFolderApiProps, IAddPlaylistToFolderApiProps, IMediaFiles, IMediaFolders, IMediaPlaylist } from '@/constant/interphase';
 import useMediaService from '@/lib/hooks/useMediaService';
 import { createContext, useState, useContext, SetStateAction, Dispatch } from 'react';
+import { useFile } from './FileContex';
 
 interface MediaContextProps {
     folders: IMediaFolders[];
     setFolders: Dispatch<SetStateAction<IMediaFolders[]>>;
+    currentFolder: IMediaFolders | undefined;
+    setCurrentFolder: Dispatch<SetStateAction<IMediaFolders | undefined>>;
     folderToRename: IMediaFolders | null;
     setFolderToRename: Dispatch<SetStateAction<IMediaFolders | null>>;
     folderToView: IMediaFolders | null;
@@ -17,10 +20,12 @@ interface MediaContextProps {
     renameFolder: (newName: string) => Promise<boolean>;
     addFolder: (payload: { name: string, parent_id: number | null }) => Promise<boolean>;
     getAllRootFolders: () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getFolderById: (id: number) => any;
     setLoadingFolders: (value: boolean) => void;
     loadingFolders: boolean;
-    addFileToFolder: (payload: IAddFileToFolderApiProps) => Promise<boolean>;
+    addFileToFolder: (payload: IAddFileToFolderApiProps) => Promise<boolean | IMediaFiles>;
+    addPlaylistToFolder: (payload: IAddPlaylistToFolderApiProps) => Promise<boolean>;
     deleteFileFromFolder: (id: number) => void;
 }
 
@@ -32,7 +37,9 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     const [folderToView, setFolderToView] = useState<IMediaFolders | null>(null);
     const [folderToDelete, setFolderToDelete] = useState<IMediaFolders | null>(null);
     const [loadingFolders, setLoadingFolders] = useState<boolean>(true);
-    const { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi } = useMediaService();
+    const [currentFolder, setCurrentFolder] = useState<IMediaFolders | undefined>(undefined);
+    const { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi } = useMediaService();
+    const { setFiles } = useFile();
 
     const addFolder = async (payload: { name: string, parent_id: number | null }): Promise<boolean> => {
         try {
@@ -48,7 +55,8 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                     created_at: response.data.data?.created_at,
                     id: response.data.data?.id,
                     children: [],
-                    files: []
+                    files: [],
+                    playlists: []
                 }
                 setFolders([newFolder, ...folders])
                 app_notification({
@@ -62,10 +70,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 })
                 return false
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -74,6 +83,7 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     const getAllRootFolders = async () => {
         try {
             setLoadingFolders(true);
+            setCurrentFolder(undefined);
             const response = await getFolders();
             setLoadingFolders(false);
             if (response.data?.status == "success") {
@@ -83,11 +93,13 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                     message: response.data?.raison ?? "An error occure"
                 })
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
+            return false
         }
     }
     const getFolderById = async (id: number) => {
@@ -99,11 +111,13 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 setFolders(response.data?.data?.children);
                 return response.data?.data
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
+            return false
         }
     }
 
@@ -126,10 +140,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 }
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -161,10 +176,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 }
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -174,13 +190,14 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
         try {
             const response = await addFileToFolderApi(payload);
             if (response.data?.status == "success") {
+                const newFile: IMediaFiles = response.data?.data;
                 setFolders(
                     folders.reduce((prev: IMediaFolders[], next) => {
                         if (next.id == payload.folder_id) {
                             const newFolder: IMediaFolders = {
                                 ...next,
                                 files: [
-                                    response.data?.data, ...next.files
+                                    newFile, ...next.files
                                 ]
                             }
                             setFolderToView(newFolder);
@@ -189,21 +206,60 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                         return [...prev, next];
                     }, [])
                 );
+                setFiles((prevFiles) => [newFile, ...prevFiles])
                 app_notification({
                     type: 'success',
                     message: "File added successfully successfully",
                 });
-                return true
+                return newFile
             } else {
                 app_notification({
                     message: response.data?.raison ?? "Could not add file"
                 })
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
+            })
+            return false
+        }
+    }
+
+
+    const addPlaylistToFolder = async (payload: IAddPlaylistToFolderApiProps) => {
+        try {
+            const response = await addPlaylistToFolderApi(payload);
+            if (response.data?.status == "success") {
+                const newPlaylist: IMediaPlaylist = response.data?.data;
+                if (currentFolder?.id == payload.folder_id) {
+                    setCurrentFolder(
+                        {
+                            ...currentFolder,
+                            playlists: [
+                                newPlaylist, ...currentFolder.playlists
+                            ]
+                        }
+                    )
+                }
+                app_notification({
+                    type: 'success',
+                    message: "Playlist added successfully successfully",
+                });
+                return true
+            } else {
+                app_notification({
+                    message: response.data?.raison ?? "Could not add playlist"
+                })
+            }
+            return false
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            console.log(error)
+            app_notification({
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -237,10 +293,11 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                 })
             }
             return false
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.log(error)
             app_notification({
-                message: "An error occure"
+                message: error?.response?.data?.reason ?? "An error occure"
             })
             return false
         }
@@ -265,7 +322,10 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             loadingFolders,
             setLoadingFolders,
             addFileToFolder,
-            deleteFileFromFolder
+            deleteFileFromFolder,
+            addPlaylistToFolder,
+            setCurrentFolder,
+            currentFolder
         }}>
             {children}
         </MediaContext.Provider>

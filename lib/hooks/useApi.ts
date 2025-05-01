@@ -8,7 +8,7 @@ const api = axios.create({
   timeout: 10000,
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    // 'Content-Type': 'multipart/form-data',
   },
 });
 
@@ -25,6 +25,12 @@ api.interceptors.request.use(
       config.headers.Authorization = "Bearer ";
     }
 
+    if (config?.data?.multipart) {
+      config.headers['Content-Type'] = 'multipart/form-data'
+    }
+
+    console.log("payload", config.data);
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -35,8 +41,6 @@ api.interceptors.response.use(
     console.log('Response headers:', response?.headers);
     console.log('Content-Type:', response?.headers['content-type']);
     console.log('Raw data:', response?.data);
-    response.data = response.data;
-
     return response
   },
   (error) => {

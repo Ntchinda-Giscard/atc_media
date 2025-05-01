@@ -32,7 +32,7 @@ export const AppModalContainer = ({
                                 </span>
                             }
                             {title}
-                            <span className="text-[var(--primary-color)]">{subtitle}</span>
+                            <span className="text-[var(--primary-color)] ml-1">{subtitle}</span>
                         </h1>
 
                         <button

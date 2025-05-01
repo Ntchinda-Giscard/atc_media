@@ -1,4 +1,7 @@
-import { FileType, 
+import {
+  FileType,
+  IMediaFiles,
+  IMediaFolders,
   // IMediaFiles 
 } from "@/constant/interphase";
 import { clsx, type ClassValue } from "clsx"
@@ -8,32 +11,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// export function convertArrayOfFilesToString(files: IPlaylistFile[]) {
-//   const counts = {
-//     VIDEO: 0,
-//     IMAGE: 0,
-//     WEB: 0,
-//     DOC: 0,
-//   };
-
-//   for (const file of files) {
-//     counts[file.type]++;
-//   }
-
-//   const labels: { [key in keyof typeof counts]: string } = {
-//     VIDEO: 'video',
-//     IMAGE: 'image',
-//     WEB: 'web',
-//     DOC: 'doc'
-//   };
-
-//   const result = Object.entries(counts)
-//     .filter(([, count]) => count > 0)
-//     .map(([key, count]) => `${count} ${labels[key as keyof typeof counts]}`)
-//     .join(', ');
-
-//   return result;
-// }
+export function convertArrayOfFilesToString(folder: IMediaFolders) {
+  return `${folder.children.length} dossier(s), ${folder.files.length} fichier(s)`;
+}
 
 export const getFileType = (file: File): FileType | null => {
   const ext = file.name.split('.').pop()?.toLowerCase();
@@ -69,4 +49,30 @@ export function formatDate(input: string): string {
   const year = date.getFullYear();
 
   return `${day}/${month}/${year}`;
+}
+
+export function isValidHttpUrl(url: string): boolean {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+  } catch (error) {
+    console.log(error)
+    return false;
+  }
+}
+
+export function convertBToMb(value: number): string {
+  return ((value / (1024 * 1024)).toFixed(2)).toString() + " Mo";
+}
+
+
+export function formatTotalDuration(items: IMediaFiles[]): string {
+  const totalSeconds = items.reduce((sum, item) => sum + item.duration, 0);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const minutePart = minutes > 0 ? `${minutes} min` : '';
+  const secondPart = `${seconds} s`;
+
+  return `${minutePart} ${secondPart}`.trim();
 }
