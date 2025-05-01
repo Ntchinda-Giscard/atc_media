@@ -1,4 +1,4 @@
-import { IAddFileToFolderApiProps, IAddPlaylistToFolderApiProps } from "@/constant/interphase";
+import { IAddFileToFolderApiProps, IAddPlaylistToFolderApiProps, IUpdateFileInFolderApiProps } from "@/constant/interphase";
 import api from "./useApi";
 
 const useMediaService = () => {
@@ -76,6 +76,15 @@ const useMediaService = () => {
             throw error;
         }
     }
-    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi }
+    const updateFileInFolderApi = async (payload: IUpdateFileInFolderApiProps) => {
+        try {
+            const response = await api.put('files/' + payload.file_id.toString(), payload);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi, updateFileInFolderApi }
 }
 export default useMediaService;

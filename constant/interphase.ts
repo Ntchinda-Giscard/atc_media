@@ -77,3 +77,10 @@ export interface IAddPlaylistToFolderApiProps {
     description: string,
     media_file_ids: number[] 
 }
+
+export interface IUpdateFileInFolderApiProps {
+    name: string, 
+    file_id: number, 
+    duration: number,
+    url: string 
+}

@@ -1,10 +1,9 @@
 import { Ban, BookText, Link, Play } from 'lucide-react'
-import React, { useState } from 'react'
+import React from 'react'
 import AppActions from './AppActions'
 import { IDropdownItems, IMediaFiles } from '@/constant/interphase'
 import Image from 'next/image'
 import { AppImage } from '@/assets/images'
-import PreviewFileModal from './PreviewFileModal'
 import { useFile } from '@/contexts/FileContex'
 import { app_notification } from '@/app/dashboard/utils/notification-center'
 
@@ -13,8 +12,10 @@ interface FileGridDisplayProps {
 }
 
 const FileGridDisplay = ({ file }: FileGridDisplayProps) => {
-    const [fileToPreview, setFileToPreview] = useState<IMediaFiles | null>(null);
-    const { files } = useFile()
+    const {
+        files,
+        setFileToPreview
+    } = useFile()
     const fileAction: IDropdownItems[] = [{
         icon: "👁️",
         onClick: (id?: number) => {
@@ -59,14 +60,6 @@ const FileGridDisplay = ({ file }: FileGridDisplayProps) => {
             <div className='absolute top-0 w-full bg-[#ffffff90] rounded-t-[40px] p-2 text-center'>
                 {file.name}
             </div>
-            {
-                fileToPreview &&
-                <PreviewFileModal
-                    file={fileToPreview}
-                    isOpen={!!fileToPreview}
-                    onClose={() => setFileToPreview(null)}
-                />
-            }
         </div>
 
     )

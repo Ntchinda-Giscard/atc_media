@@ -12,6 +12,8 @@ interface FileContextProps {
     setIsLoadingFiles: Dispatch<SetStateAction<boolean>>;
     files: IMediaFiles[];
     setFiles: Dispatch<SetStateAction<IMediaFiles[]>>;
+    fileToPreview: IMediaFiles | null;
+    setFileToPreview: Dispatch<SetStateAction<IMediaFiles | null>>;
     getAllProjectFiles: () => void;
 }
 
@@ -22,7 +24,7 @@ export function FileProvider({ children }: { children: ReactNode }) {
     const [hasLoaded, setHasLoaded] = useState<boolean>(false);
     const [files, setFiles] = useState<IMediaFiles[]>([]);
     const { getFiles } = useFileService();
-
+    const [fileToPreview, setFileToPreview] = useState<IMediaFiles | null>(null);
 
 
     const getAllProjectFiles = async () => {
@@ -55,7 +57,9 @@ export function FileProvider({ children }: { children: ReactNode }) {
             setIsLoadingFiles,
             files,
             setFiles,
-            getAllProjectFiles,
+            getAllProjectFiles, 
+            fileToPreview, 
+            setFileToPreview
         }}>
             {children}
         </FileContext.Provider>

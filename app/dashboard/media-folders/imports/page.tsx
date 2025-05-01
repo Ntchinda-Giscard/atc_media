@@ -7,6 +7,7 @@ import PageHeader from "@/components/PageHeader";
 import { useFile } from "@/contexts/FileContex";
 import { Skeleton } from "@mantine/core";
 import { RefreshCw } from "lucide-react";
+import PreviewFileModal from "@/components/PreviewFileModal";
 
 export default function MediaFolderImports() {
 
@@ -14,7 +15,9 @@ export default function MediaFolderImports() {
         files,
         getAllProjectFiles,
         isLoadingFiles,
-        hasLoaded
+        hasLoaded,
+        fileToPreview,
+        setFileToPreview
     } = useFile();
     const [showFilesGrid, setShowFilesGrid] = useState<boolean>(false);
     const [query, setQuery] = useState('');
@@ -23,10 +26,10 @@ export default function MediaFolderImports() {
         if (!hasLoaded) {
             getAllProjectFiles();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    
+
     const filteredFiles = files?.filter((item) =>
         item.name.toLowerCase().includes(query.toLowerCase())
     );
@@ -63,6 +66,16 @@ export default function MediaFolderImports() {
                             }
                         </div>
                     </div>
+            }
+
+
+            {
+                fileToPreview &&
+                <PreviewFileModal
+                    file={fileToPreview}
+                    isOpen={!!fileToPreview}
+                    onClose={() => setFileToPreview(null)}
+                />
             }
         </div>
     );

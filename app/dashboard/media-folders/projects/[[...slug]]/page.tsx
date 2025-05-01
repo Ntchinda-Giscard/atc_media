@@ -21,6 +21,9 @@ import ViewFolderModal from "../../components/ViewFolderModal";
 import { convertArrayOfFilesToString, formatDate } from "@/lib/utils";
 import AppBadge from "@/components/AppBadge";
 import AddPlaylistModal from "../../components/AddPlaylistModal";
+import PreviewFileModal from "@/components/PreviewFileModal";
+import { useFile } from "@/contexts/FileContex";
+import UpdateFileModal from "../../components/UpdateFileModal";
 
 type MediaFoldersPageProps = {
     params: Promise<{ slug?: string[] }>
@@ -41,8 +44,14 @@ export default function MediaFolderProjects({
         folderToView,
         loadingFolders,
         setCurrentFolder,
-        currentFolder
+        currentFolder,
+        fileToUpdate, 
+        setFileToUpdate
     } = useMedia();
+    const {
+        fileToPreview,
+        setFileToPreview
+    } = useFile()
     const [query, setQuery] = useState('');
     const router = useRouter();
     const params = use(paramsPromise);
@@ -259,6 +268,23 @@ export default function MediaFolderProjects({
                     isOpen={addPlaylist}
                     onClose={() => setAddPlaylist(false)}
                     folder={currentFolder}
+                />
+            }
+            
+            {
+                fileToPreview &&
+                <PreviewFileModal
+                    file={fileToPreview}
+                    isOpen={!!fileToPreview}
+                    onClose={() => setFileToPreview(null)}
+                />
+            }
+            
+            {
+                fileToUpdate &&
+                <UpdateFileModal
+                    isOpen={!!fileToUpdate}
+                    onClose={() => setFileToUpdate(null)}
                 />
             }
         </div>
