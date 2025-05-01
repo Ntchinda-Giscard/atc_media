@@ -27,10 +27,6 @@ export default function RootLayout({
             color={"#EE0202"}
             template='<div class="bar" role="bar"><div class="peg"></div></div>'
           />
-          <NextTopLoader
-            color={"#EE0202"}
-            template='<div class="bar" role="bar"><div class="peg"></div></div>'
-          />
           <BasicAppShell>
             {children}
           </BasicAppShell>

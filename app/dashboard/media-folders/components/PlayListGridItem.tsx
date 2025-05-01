@@ -17,7 +17,7 @@ function PlayListGridItem({ options, playlist }: PlayListGridItemProps) {
         />
       </div>
       <div className='border rounded-[10px] w-full'>
-        {
+        {/* {
           playlist.files.map((file, index) => {
             let icon = '🎬'
             switch (file.type) {
@@ -32,7 +32,7 @@ function PlayListGridItem({ options, playlist }: PlayListGridItemProps) {
             }
             return (<div key={file.id} className={`p-4 ${index != playlist.files.length - 1 ? ' border-b' : ''}`}>{icon} {file.name}</div>)
           })
-        }
+        } */}
       </div>
     </div>
   )

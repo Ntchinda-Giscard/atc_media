@@ -1,5 +1,6 @@
 import {
   FileType,
+  IMediaFiles,
   IMediaFolders,
   // IMediaFiles 
 } from "@/constant/interphase";
@@ -11,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function convertArrayOfFilesToString(folder: IMediaFolders) {
-  return `${folder.children.length} dossier(s), ${folder.files.length} fichier(s)` ;
+  return `${folder.children.length} dossier(s), ${folder.files.length} fichier(s)`;
 }
 
 export const getFileType = (file: File): FileType | null => {
@@ -58,4 +59,20 @@ export function isValidHttpUrl(url: string): boolean {
     console.log(error)
     return false;
   }
+}
+
+export function convertBToMb(value: number): string {
+  return ((value / (1024 * 1024)).toFixed(2)).toString() + " Mo";
+}
+
+
+export function formatTotalDuration(items: IMediaFiles[]): string {
+  const totalSeconds = items.reduce((sum, item) => sum + item.duration, 0);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const minutePart = minutes > 0 ? `${minutes} min` : '';
+  const secondPart = `${seconds} s`;
+
+  return `${minutePart} ${secondPart}`.trim();
 }

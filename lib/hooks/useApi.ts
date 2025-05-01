@@ -8,7 +8,7 @@ const api = axios.create({
   timeout: 10000,
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'multipart/form-data',
+    // 'Content-Type': 'multipart/form-data',
   },
 });
 
@@ -23,6 +23,10 @@ api.interceptors.request.use(
     } else {
       // fallback hardcoded token for testing
       config.headers.Authorization = "Bearer ";
+    }
+
+    if (config?.data?.multipart) {
+      config.headers['Content-Type'] = 'multipart/form-data'
     }
 
     console.log("payload", config.data);

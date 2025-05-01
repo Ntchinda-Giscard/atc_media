@@ -7,8 +7,8 @@ import CustomTable from '@/components/CustomTable';
 import { IMediaFiles, IDropdownItems, IAddFileToFolderApiProps } from '@/constant/interphase';
 import { mediaFileHeader } from '@/constant/tableHeaders';
 import { useMedia } from '@/contexts/MediaContex';
-import { formatDate, isValidHttpUrl } from '@/lib/utils';
-import React, { useEffect, useState } from 'react';
+import { convertBToMb, formatDate, isValidHttpUrl } from '@/lib/utils';
+import React, { useState } from 'react';
 import RapidActionButton from './RapidActionButton';
 import { ChevronLeft, CirclePlus, Link, PencilLine, Trash2 } from 'lucide-react';
 import AppInput from '@/components/AppInput';
@@ -25,7 +25,7 @@ function ViewFolderModal({
     onClose,
 }: ViewFolderModalProps) {
     const { folderToView, addFileToFolder, setFolderToRename, setFolderToDelete, deleteFileFromFolder } = useMedia();
-    const [isDragging, setIsDragging] = useState(false);
+    const [isDragging] = useState(false);
     const [addingFile, setAddingFile] = useState<boolean>(false);
     const [addingUrl, setAddingUrl] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -90,7 +90,7 @@ function ViewFolderModal({
         },
     }, {
         icon: "🖊", name: " Renommer", onClick(id?: number) {
-
+            console.log("id", id)
         },
     }, {
         icon: "❌", name: " Supprimer", onClick(id?: number) {
@@ -124,7 +124,7 @@ function ViewFolderModal({
                 name: formData.name,
             }
             setIsLoading(true);
-            const addResponse: boolean = await addFileToFolder(payload);
+            const addResponse = await addFileToFolder(payload);
             setIsLoading(false);
 
             if (addResponse) {
@@ -298,7 +298,7 @@ function ViewFolderModal({
                                                 {file.type}
                                             </td>
                                             <td className="px-2 py-2 text-[15px] font-normal text-center">
-                                                {Math.round((file?.size ?? 0) / 1024)} Mo
+                                                {convertBToMb(file.size ?? 0)}
                                             </td>
                                             <td className="px-2 py-2 text-[15px] font-normal text-center whitespace-nowrap">
                                                 {formatDate(file.created_at)}

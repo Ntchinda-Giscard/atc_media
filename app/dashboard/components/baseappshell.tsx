@@ -2,7 +2,7 @@
 import { AppShell, Burger, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconBell, IconChartBar, IconClipboardText, IconDeviceCameraPhone, IconFileInvoice, IconHome, IconScreenShare, IconUser } from '@tabler/icons-react';
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import TopBar from './top-bar';
 import Link from "next/link"
 import { Folder, ImageIcon, Import, Share, Trash2 } from 'lucide-react';
@@ -47,9 +47,6 @@ export default function BasicAppShell({
 }>) {
   const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentTab = searchParams.get('tab');
-  const fullPath = currentTab ? `${pathname}?tab=${currentTab}` : pathname;
 
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
 
@@ -79,7 +76,7 @@ export default function BasicAppShell({
         {side_bar_links?.map((item, index) => {
           if (item.children) {
             const isActive = item.children.some(
-              child => fullPath === child.href
+              child => pathname === child.href
             );
             const isOpen = openMenus[item.label];
 
@@ -110,7 +107,7 @@ export default function BasicAppShell({
                         href={child.href}
                         className={cn(
                           'flex items-center gap-2 px-3 py-1 rounded text-[13px]',
-                          fullPath === child.href
+                          pathname === child.href
                             ? 'text-[var(--primary-color)] font-semibold'
                             : 'text-gray-600 hover:text-[var(--primary-color)]'
                         )}

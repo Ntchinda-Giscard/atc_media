@@ -4,11 +4,10 @@ import AppActions from "@/components/AppActions";
 import CustomTable from "@/components/CustomTable";
 import PageHeader from "@/components/PageHeader";
 import PageSectionHeader from "@/components/PageSectionHeader";
-import { mediaPlaylist } from "@/constant/data";
-import { IDropdownItems, IMediaFolders } from "@/constant/interphase";
+import { IDropdownItems, IMediaFolders, IMediaPlaylist } from "@/constant/interphase";
 import { mediaFolderHeader } from "@/constant/tableHeaders";
 import FolderGridItem from "../../components/FolderGridItem";
-import { use, useCallback, useEffect, useState } from "react";
+import React, { use, useCallback, useEffect, useState } from "react";
 import PlayListGridItem from "../../components/PlayListGridItem";
 import PlayListListItem from "../../components/PlayListListItem";
 import AddNewFolderModal from "../../components/AddNewFolderModal";
@@ -41,8 +40,9 @@ export default function MediaFolderProjects({
         setFolderToView,
         folderToView,
         loadingFolders,
+        setCurrentFolder,
+        currentFolder
     } = useMedia();
-    const [currentFolder, setCurrentFolder] = useState<IMediaFolders | undefined>(undefined);
     const [query, setQuery] = useState('');
     const router = useRouter();
     const params = use(paramsPromise);
@@ -51,12 +51,13 @@ export default function MediaFolderProjects({
     const [showPlayListGrid, setShowPlayListGrid] = useState<boolean>(false);
     const [addNewFolder, setAddNewFolder] = useState<boolean>(false);
     const [addPlaylist, setAddPlaylist] = useState<boolean>(false);
+    const [playlists, setPlaylists] = useState<IMediaPlaylist[]>([]);
     const filteredFolder = folders?.filter((item) =>
         item.name.toLowerCase().includes(query.toLowerCase())
     );
 
     const goBack = useCallback(() => {
-        router.push('/dashboard/media-folders');
+        router.push('/dashboard/media-folders/projects');
     }, [router]);
 
     const getFolders = async () => {
@@ -65,6 +66,7 @@ export default function MediaFolderProjects({
             const response = await getFolderById(Number(slug));
             if (response) {
                 setCurrentFolder(response)
+                setPlaylists(response?.playlists ?? [])
             } else {
                 goBack();
             }
@@ -75,9 +77,8 @@ export default function MediaFolderProjects({
 
     useEffect(() => {
         getFolders();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-
 
     const folderActions: IDropdownItems[] = [{
         icon: "👁️",
@@ -87,7 +88,7 @@ export default function MediaFolderProjects({
                 alert("Ce dossier n'existe pas.")
                 return
             }
-            router.push('/dashboard/media-folders/' + folder.id)
+            router.push('/dashboard/media-folders/projects/' + folder.id)
         },
     }, {
         icon: "🖊", name: " Renommer", onClick(id?: number) {
@@ -194,41 +195,45 @@ export default function MediaFolderProjects({
                         }
                     </div>
             }
-            <PageSectionHeader
-                title="🎵 Playlists"
-                setShowGrid={setShowPlayListGrid}
-                showGrid={showPlayListGrid}
-                actionButtonText="Nouvelle playlist"
-                actionButtonIcon={
-                    <PlusCircle size={20} className='text-[var(--white)]' />
-                }
-                actionButtonClick={() => {
-                    console.log("fasdfsd")
-                    setAddPlaylist(true)
-                }
-                }
-            />
+            
             {
-                loadingFolders ?
-                    <>
-                        <Skeleton height={150} />
-                    </>
-                    :
-                    <div>
-                        {
-                            showPlayListGrid ?
-                                mediaPlaylist.map(playlist =>
-                                    <PlayListGridItem key={playlist.id} options={plalistActions}
-                                        playlist={playlist}
-                                    />
-                                )
-                                :
-                                mediaPlaylist.map(playlist =>
-                                    <PlayListListItem key={playlist.id} actions={plalistActions}
-                                        playlist={playlist} />
-                                )
+                currentFolder &&
+                <React.Fragment>
+                    <PageSectionHeader
+                        title="🎵 Playlists"
+                        setShowGrid={setShowPlayListGrid}
+                        showGrid={showPlayListGrid}
+                        actionButtonText="Nouvelle playlist"
+                        actionButtonIcon={
+                            <PlusCircle size={20} className='text-[var(--white)]' />
                         }
-                    </div>
+                        actionButtonClick={() => {
+                            setAddPlaylist(true)
+                        }}
+                    />
+                    {
+                        loadingFolders ?
+                            <>
+                                <Skeleton height={150} />
+                            </>
+                            :
+                            <div>
+                                {
+                                    showPlayListGrid ?
+                                        playlists.map(playlist =>
+                                            <PlayListGridItem key={playlist.id} options={plalistActions}
+                                                playlist={playlist}
+                                            />
+                                        )
+                                        :
+                                        playlists.map(playlist =>
+                                            <PlayListListItem key={playlist.id} actions={plalistActions}
+                                                playlist={playlist} />
+                                        )
+                                }
+                            </div>
+                    }
+                </React.Fragment>
             }
 
             <AddNewFolderModal
@@ -248,10 +253,14 @@ export default function MediaFolderProjects({
                 isOpen={!!folderToDelete}
                 onClose={() => setFolderToDelete(null)}
             />
-            <AddPlaylistModal
-                isOpen={addPlaylist}
-                onClose={() => setAddPlaylist(false)}
-            />
+            {
+                currentFolder &&
+                <AddPlaylistModal
+                    isOpen={addPlaylist}
+                    onClose={() => setAddPlaylist(false)}
+                    folder={currentFolder}
+                />
+            }
         </div>
     );
 }
