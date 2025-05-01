@@ -1,19 +1,11 @@
 import AppActions from '@/components/AppActions';
-import AppBadge from '@/components/AppBadge';
-import AppButton from '@/components/AppButton';
-import AppCheckbox from '@/components/AppCheckbox';
 import { AppModalContainer } from '@/components/AppModalContainer'
-import CustomTable from '@/components/CustomTable';
-import { IMediaFiles, IDropdownItems, IAddFileToFolderApiProps } from '@/constant/interphase';
-import { mediaFileHeader } from '@/constant/tableHeaders';
+import { IDropdownItems } from '@/constant/interphase';
 import { useMedia } from '@/contexts/MediaContex';
-import { convertBToMb, formatDate, formatTotalDuration, isValidHttpUrl } from '@/lib/utils';
+import { formatDate, formatTotalDuration } from '@/lib/utils';
 import React, { useState } from 'react';
 import RapidActionButton from './RapidActionButton';
-import { ChevronLeft, CirclePlus, Download, Link, PencilLine, Trash2 } from 'lucide-react';
-import AppInput from '@/components/AppInput';
-import { app_notification } from '../../utils/notification-center';
-import { useFile } from '@/contexts/FileContex';
+import { ChevronLeft, CirclePlus, Download, PencilLine, Trash2 } from 'lucide-react';
 
 
 interface ViewPlaylistModalProps {
@@ -31,146 +23,8 @@ function ViewPlaylistModal({
     isOpen,
     onClose,
 }: ViewPlaylistModalProps) {
-    const { folderToView, addFileToFolder, setFolderToRename, setFolderToDelete, deleteFileFromFolder, setFileToUpdate, playlistToView } = useMedia();
-    const { setFileToPreview } = useFile()
-    const [isDragging] = useState(false);
+    const { folderToView, setFolderToRename, setFolderToDelete, playlistToView } = useMedia();
     const [addingFile, setAddingFile] = useState<boolean>(false);
-    const [addingUrl, setAddingUrl] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [formData, setFormData] = useState<IAddFileToFolderApiProps>({
-        file: null,
-        folder_id: '',
-        duration: '',
-        url: '',
-        name: '',
-    });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, files } = e.target;
-        if (name === "file" && files) {
-            setFormData({ ...formData, file: files[0] });
-        } else if (name === "duration" || name === "folder_id") {
-            setFormData({ ...formData, [name]: value ? Number(value) : "" });
-        } else {
-            setFormData({ ...formData, [name]: value });
-        }
-    };
-
-
-    const validate = () => {
-        const newErrors: { [key: string]: string } = {};
-
-        if (formData.name === "") {
-            newErrors.name = "The name of the file is required";
-        }
-
-        if (formData.duration === "" || isNaN(formData.duration)) {
-            newErrors.duration = "Duration is required and must be a number.";
-        }
-
-        if (addingUrl) {
-            if (!formData.url) {
-                newErrors.fileOrUrl = "You must provide a URL.";
-            }
-            if (!isValidHttpUrl(formData.url ?? "")) {
-                newErrors.fileOrUrl = "You must a vallid provide a URL.";
-            }
-        } else {
-            if (!formData.file) {
-                newErrors.fileOrUrl = "You must upload a file";
-            }
-        }
-        for (const key in newErrors) {
-            if (newErrors.hasOwnProperty(key)) {
-                app_notification({
-                    message: newErrors[key]
-                })
-            }
-        }
-        return newErrors;
-    };
-
-
-    const fileAction: IDropdownItems[] = [{
-        icon: "👁️",
-        name: " Aperçu", onClick(id?: number) {
-            const file: IMediaFiles | undefined = folderToView?.files.find(f => f.id == id);
-            if (!file) {
-                app_notification({
-                    message: "this file doesn't exist"
-                })
-                return
-            }
-            setFileToPreview(file);
-        },
-    }, {
-        icon: "🖊", name: " Modifier", onClick(id?: number) {
-            const file: IMediaFiles | undefined = folderToView?.files.find(f => f.id == id);
-            if (!file) {
-                app_notification({
-                    message: "this file doesn't exist"
-                })
-                return
-            }
-            setFileToUpdate(file);
-        },
-    }, {
-        icon: "❌", name: " Supprimer", onClick(id?: number) {
-            const file = folderToView?.files?.find(f => f.id == id);
-            if (!file) {
-                app_notification({
-                    message: "Ce ficher n'existe pas."
-                })
-                return
-            }
-            const isConfirmed = confirm("Are you sure you want to delete this?");
-            if (isConfirmed) {
-                deleteFileFromFolder(id ?? 0);
-            }
-        },
-    }];
-
-
-    const handleSubmit = async () => {
-        const validationErrors = validate();
-        if (Object.keys(validationErrors).length > 0) {
-            return;
-        }
-
-        try {
-            const payload: IAddFileToFolderApiProps = {
-                file: !addingUrl ? formData.file : null,
-                duration: Number(formData.duration),
-                folder_id: folderToView?.id ?? 0,
-                url: addingUrl ? formData.url : null,
-                name: formData.name,
-            }
-            setIsLoading(true);
-            const addResponse = await addFileToFolder(payload);
-            setIsLoading(false);
-
-            if (addResponse) {
-                // Clear form after successful upload
-                setFormData({
-                    file: null,
-                    folder_id: "",
-                    duration: "",
-                    url: "",
-                    name: "",
-                });
-                setAddingUrl(false);
-                setAddingFile(false);
-            } else {
-                app_notification({
-                    message: "Could not add file"
-                })
-            }
-
-        } catch (error) {
-            setIsLoading(false);
-            console.error("Error uploading:", error);
-        }
-    };
 
     const fileActions: IDropdownItems[] = [{
         icon: "⏱️",
