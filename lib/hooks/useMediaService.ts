@@ -85,6 +85,15 @@ const useMediaService = () => {
             throw error;
         }
     }
-    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi, updateFileInFolderApi }
+    const deletePlaylistApi = async (id: number) => {
+        try {
+            const response = await api.delete('playlists/' + id);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, deletePlaylistApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi, updateFileInFolderApi }
 }
 export default useMediaService;

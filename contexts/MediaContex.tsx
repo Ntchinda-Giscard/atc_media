@@ -16,9 +16,14 @@ interface MediaContextProps {
     setFileToUpdate: Dispatch<SetStateAction<IMediaFiles | null>>;
     folderToView: IMediaFolders | null;
     setFolderToView: Dispatch<SetStateAction<IMediaFolders | null>>;
+    playlistToView: IMediaPlaylist | null;
+    setPlaylistToView: Dispatch<SetStateAction<IMediaPlaylist | null>>;
     deleteFolder: () => Promise<boolean>;
+    deletePlaylist: () => Promise<boolean>;
     setFolderToDelete: Dispatch<SetStateAction<IMediaFolders | null>>;
     folderToDelete: IMediaFolders | null;
+    setPlaylistToDelete: Dispatch<SetStateAction<IMediaPlaylist | null>>;
+    playlistToDelete: IMediaPlaylist | null;
     renameFolder: (newName: string) => Promise<boolean>;
     addFolder: (payload: { name: string, parent_id: number | null }) => Promise<boolean>;
     getAllRootFolders: () => void;
@@ -38,10 +43,12 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     const [folderToRename, setFolderToRename] = useState<IMediaFolders | null>(null);
     const [fileToUpdate, setFileToUpdate] = useState<IMediaFiles | null>(null);
     const [folderToView, setFolderToView] = useState<IMediaFolders | null>(null);
+    const [playlistToView, setPlaylistToView] = useState<IMediaPlaylist | null>(null);
     const [folderToDelete, setFolderToDelete] = useState<IMediaFolders | null>(null);
+    const [playlistToDelete, setPlaylistToDelete] = useState<IMediaPlaylist | null>(null);
     const [loadingFolders, setLoadingFolders] = useState<boolean>(true);
     const [currentFolder, setCurrentFolder] = useState<IMediaFolders | undefined>(undefined);
-    const { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi, updateFileInFolderApi } = useMediaService();
+    const { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, deletePlaylistApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi, updateFileInFolderApi } = useMediaService();
     const { setFiles, files } = useFile();
 
     const addFolder = async (payload: { name: string, parent_id: number | null }): Promise<boolean> => {
@@ -161,7 +168,7 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
                     setFolders(
                         folders.reduce((prev: IMediaFolders[], next) => {
                             if (next.id == folderToRename.id) {
-                                    return [...prev, { ...next, name: newName }]
+                                return [...prev, { ...next, name: newName }]
                             }
                             return [...prev, next];
                         }, [])
@@ -271,19 +278,18 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
         try {
             const response = await removeFileFromFolderApi(id);
             if (response.data?.status == "success") {
-                setFolders(
-                    folders.reduce((prev: IMediaFolders[], next) => {
-                        if (next.id == folderToView?.id) {
-                            const newFolder: IMediaFolders = {
-                                ...next,
-                                files: next.files.filter(f => f.id != id)
-                            }
-                            setFolderToView(newFolder);
-                            return [...prev, newFolder]
-                        }
-                        return [...prev, next];
-                    }, [])
-                );
+                const updatedFolders = folders.map((folder) => {
+                    if (folder.id === folderToView?.id) {
+                        const updatedFiles = folder.files.filter((f) => f.id !== id);
+                        const updatedFolder = { ...folder, files: updatedFiles };
+
+                        setFolderToView(updatedFolder);
+                        return updatedFolder;
+                    }
+                    return folder;
+                });
+
+                setFolders(updatedFolders);
                 app_notification({
                     type: 'success',
                     message: "File deleted successfully",
@@ -363,6 +369,39 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     }
 
 
+    const deletePlaylist = async () => {
+        try {
+            if (playlistToDelete && currentFolder) {
+                const response = await deletePlaylistApi(playlistToDelete.id);
+                if (response.data?.status == "success") {
+                    const updatedPlaylist: IMediaPlaylist[] = currentFolder?.playlists.filter((f) => f.id !== playlistToDelete.id);
+
+
+                    setCurrentFolder({ ...currentFolder, playlists: updatedPlaylist });
+                    setPlaylistToView(null);
+                    setPlaylistToDelete(null);
+                    app_notification({
+                        type: 'success',
+                        message: "Playlist deleted successfully",
+                    });
+                    return true
+                } else {
+                    app_notification({
+                        message: response.data?.raison ?? "Could not delete folder"
+                    })
+                }
+            }
+            return false
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            console.log(error)
+            app_notification({
+                message: error?.response?.data?.reason ?? "An error occure"
+            })
+            return false
+        }
+    }
+
     return (
         <MediaContext.Provider value={{
             folders,
@@ -375,6 +414,8 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             renameFolder,
             setFolderToDelete,
             folderToDelete,
+            setPlaylistToDelete,
+            playlistToDelete,
             addFolder,
             getAllRootFolders,
             getFolderById,
@@ -387,7 +428,10 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
             currentFolder,
             fileToUpdate,
             setFileToUpdate,
-            updateFileInFolder
+            updateFileInFolder,
+            playlistToView,
+            setPlaylistToView,
+            deletePlaylist
         }}>
             {children}
         </MediaContext.Provider>
