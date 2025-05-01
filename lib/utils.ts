@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function convertArrayOfFilesToString(folder: IMediaFolders) {
-  return `${folder.children.length} dossier(s), ${folder.files.length} fichier(s)`;
+  return `${folder.children.length} dossier(s), ${folder.files.length} fichier(s), ${folder.playlists.length} playlist(s)`;
 }
 
 export const getFileType = (file: File): FileType | null => {

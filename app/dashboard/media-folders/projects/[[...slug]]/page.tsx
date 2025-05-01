@@ -21,6 +21,12 @@ import ViewFolderModal from "../../components/ViewFolderModal";
 import { convertArrayOfFilesToString, formatDate } from "@/lib/utils";
 import AppBadge from "@/components/AppBadge";
 import AddPlaylistModal from "../../components/AddPlaylistModal";
+import PreviewFileModal from "@/components/PreviewFileModal";
+import { useFile } from "@/contexts/FileContex";
+import UpdateFileModal from "../../components/UpdateFileModal";
+import ViewPlaylistModal from "../../components/ViewPlaylistModal";
+import { app_notification } from "@/app/dashboard/utils/notification-center";
+import DeletePlaylistModal from "../../components/DeletePlaylistModal";
 
 type MediaFoldersPageProps = {
     params: Promise<{ slug?: string[] }>
@@ -41,9 +47,20 @@ export default function MediaFolderProjects({
         folderToView,
         loadingFolders,
         setCurrentFolder,
-        currentFolder
+        currentFolder,
+        fileToUpdate,
+        setFileToUpdate,
+        playlistToView,
+        setPlaylistToView,
+        playlistToDelete,
+        setPlaylistToDelete,
     } = useMedia();
+    const {
+        fileToPreview,
+        setFileToPreview
+    } = useFile()
     const [query, setQuery] = useState('');
+    const [queryPlaylist, setQueryPlaylist] = useState('');
     const router = useRouter();
     const params = use(paramsPromise);
 
@@ -54,6 +71,9 @@ export default function MediaFolderProjects({
     const [playlists, setPlaylists] = useState<IMediaPlaylist[]>([]);
     const filteredFolder = folders?.filter((item) =>
         item.name.toLowerCase().includes(query.toLowerCase())
+    );
+    const filteredPlaylist = playlists?.filter((item) =>
+        item.name.toLowerCase().includes(queryPlaylist.toLowerCase())
     );
 
     const goBack = useCallback(() => {
@@ -66,7 +86,6 @@ export default function MediaFolderProjects({
             const response = await getFolderById(Number(slug));
             if (response) {
                 setCurrentFolder(response)
-                setPlaylists(response?.playlists ?? [])
             } else {
                 goBack();
             }
@@ -80,12 +99,20 @@ export default function MediaFolderProjects({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        if (currentFolder) {
+            setPlaylists(currentFolder?.playlists ?? [])
+        }
+    }, [currentFolder])
+
     const folderActions: IDropdownItems[] = [{
         icon: "👁️",
         name: " Ovrire", onClick(id?: number) {
             const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
             if (!folder) {
-                alert("Ce dossier n'existe pas.")
+                app_notification({
+                    message: "Ce dossier n'existe pas."
+                })
                 return
             }
             router.push('/dashboard/media-folders/projects/' + folder.id)
@@ -94,7 +121,9 @@ export default function MediaFolderProjects({
         icon: "🖊", name: " Renommer", onClick(id?: number) {
             const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
             if (!folder) {
-                alert("Ce dossier n'existe pas.")
+                app_notification({
+                    message: "Ce dossier n'existe pas."
+                })
                 return
             }
             setFolderToRename(folder);
@@ -103,7 +132,9 @@ export default function MediaFolderProjects({
         icon: "❌", name: " Supprimer", onClick(id?: number) {
             const folder: IMediaFolders | undefined = folders.find(f => f.id == id);
             if (!folder) {
-                alert("Ce dossier n'existe pas.")
+                app_notification({
+                    message: "Ce dossier n'existe pas."
+                })
                 return
             }
             setFolderToDelete(folder);
@@ -111,11 +142,31 @@ export default function MediaFolderProjects({
     }];
     const plalistActions: IDropdownItems[] = [{
         icon: "👁️",
-        name: "Aperçu"
+        name: "Aperçu",
+        onClick(id?: number) {
+            const playlist: IMediaPlaylist | undefined = playlists.find(p => p.id == id);
+            if (!playlist) {
+                app_notification({
+                    message: "Cette playlist n'existe pas."
+                })
+                return
+            }
+            setPlaylistToView(playlist)
+        },
     }, {
         icon: "🖊", name: "Renommer"
     }, {
-        icon: "❌", name: "Supprimer"
+        icon: "❌", name: "Supprimer",
+        onClick(id?: number) {
+            const playlist: IMediaPlaylist | undefined = playlists.find(p => p.id == id);
+            if (!playlist) {
+                app_notification({
+                    message: "Cette playlist n'existe pas."
+                })
+                return
+            }
+            setPlaylistToDelete(playlist)
+        },
     }];
 
 
@@ -195,7 +246,7 @@ export default function MediaFolderProjects({
                         }
                     </div>
             }
-            
+
             {
                 currentFolder &&
                 <React.Fragment>
@@ -203,6 +254,8 @@ export default function MediaFolderProjects({
                         title="🎵 Playlists"
                         setShowGrid={setShowPlayListGrid}
                         showGrid={showPlayListGrid}
+                        searchQuery={queryPlaylist}
+                        onChangeSearch={setQueryPlaylist}
                         actionButtonText="Nouvelle playlist"
                         actionButtonIcon={
                             <PlusCircle size={20} className='text-[var(--white)]' />
@@ -220,13 +273,13 @@ export default function MediaFolderProjects({
                             <div>
                                 {
                                     showPlayListGrid ?
-                                        playlists.map(playlist =>
+                                        filteredPlaylist.map(playlist =>
                                             <PlayListGridItem key={playlist.id} options={plalistActions}
                                                 playlist={playlist}
                                             />
                                         )
                                         :
-                                        playlists.map(playlist =>
+                                        filteredPlaylist.map(playlist =>
                                             <PlayListListItem key={playlist.id} actions={plalistActions}
                                                 playlist={playlist} />
                                         )
@@ -259,6 +312,37 @@ export default function MediaFolderProjects({
                     isOpen={addPlaylist}
                     onClose={() => setAddPlaylist(false)}
                     folder={currentFolder}
+                />
+            }
+
+            {
+                fileToPreview &&
+                <PreviewFileModal
+                    file={fileToPreview}
+                    isOpen={!!fileToPreview}
+                    onClose={() => setFileToPreview(null)}
+                />
+            }
+
+            {
+                fileToUpdate &&
+                <UpdateFileModal
+                    isOpen={!!fileToUpdate}
+                    onClose={() => setFileToUpdate(null)}
+                />
+            }
+            {
+                playlistToView &&
+                <ViewPlaylistModal
+                    isOpen={!!playlistToView}
+                    onClose={() => setPlaylistToView(null)}
+                />
+            }
+            {
+                playlistToDelete &&
+                <DeletePlaylistModal
+                    isOpen={!!playlistToDelete}
+                    onClose={() => setPlaylistToDelete(null)}
                 />
             }
         </div>

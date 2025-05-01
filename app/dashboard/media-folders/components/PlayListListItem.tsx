@@ -11,19 +11,19 @@ interface PlayListListItemProps {
 
 function PlayListListItem({
     actions,
-    playlist
+    playlist,
 }: PlayListListItemProps) {
     console.log("media_files", playlist)
     return (
         <div className='bg-[var(--card-bg)] rounded-[10px] px-6 py-4 mb-4 flex items-center justify-between'>
             <div className='flex-1'>
-                <div className='font-normal text-[20px] text-[var(--black)]'>{playlist.name}</div>
+                <div className='font-normal text-[20px] text-[var(--black)] cursor-pointer' onClick={() => actions[0]?.onClick && actions[0]?.onClick(playlist.id)}>{playlist.name}</div>
                 <div className='font-normal text-[16px] text-[var(--action-text-color)]'>
                     Durée totale :
                     <span className='text-[var(--primary-color)] ml-2'>{formatTotalDuration(playlist.media_files ?? [])}</span>
                 </div>
             </div>
-            <AppActions actions={actions} />
+            <AppActions actions={actions} id={playlist.id} />
         </div>
     )
 }

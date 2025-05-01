@@ -1,6 +1,8 @@
 import { AppImage } from '@/assets/images';
 import { AppModalContainer } from '@/components/AppModalContainer'
 import { IMediaFiles } from '@/constant/interphase';
+import { isValidHttpUrl } from '@/lib/utils';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
 import React from 'react'
 
@@ -15,7 +17,6 @@ function PreviewFileModal({
     onClose,
     file,
 }: PreviewFileModalProps) {
-    const fileUrl = encodeURIComponent(file.path ?? "");
 
     return (
         <AppModalContainer isOpen={isOpen} onClose={onClose} title={file.name} >
@@ -23,8 +24,12 @@ function PreviewFileModal({
                 file.type == "image" &&
                 <div className='col-center h-[70vh]'>
                     <Image
-                        src={file.path ? file.path : AppImage.TestImage}
-                        alt=''
+                        src={
+                            isValidHttpUrl(file?.path || "")
+                                ? (file.path as string)
+                                : (AppImage.TestImage as StaticImport)
+                        }
+                        alt=""
                         width={800}
                         height={600}
                         layout="intrinsic"
@@ -35,7 +40,7 @@ function PreviewFileModal({
                 (file.type == "url" || file.type == "document") &&
                 <div className='col-center h-[70vh]'>
                     <iframe
-                        src={file.type == "document" ? `https://view.officeapps.live.com/op/embed.aspx?src=${fileUrl}` : file.url}
+                        src={file.type == "document" ? `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(file.path ?? "")}` : file.url}
                         title={file.name}
                         width="100%"
                         height="600px"

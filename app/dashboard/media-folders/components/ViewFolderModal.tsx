@@ -13,6 +13,7 @@ import RapidActionButton from './RapidActionButton';
 import { ChevronLeft, CirclePlus, Link, PencilLine, Trash2 } from 'lucide-react';
 import AppInput from '@/components/AppInput';
 import { app_notification } from '../../utils/notification-center';
+import { useFile } from '@/contexts/FileContex';
 
 
 interface ViewFolderModalProps {
@@ -24,7 +25,8 @@ function ViewFolderModal({
     isOpen,
     onClose,
 }: ViewFolderModalProps) {
-    const { folderToView, addFileToFolder, setFolderToRename, setFolderToDelete, deleteFileFromFolder } = useMedia();
+    const { folderToView, addFileToFolder, setFolderToRename, setFolderToDelete, deleteFileFromFolder, setFileToUpdate } = useMedia();
+    const { setFileToPreview } = useFile()
     const [isDragging] = useState(false);
     const [addingFile, setAddingFile] = useState<boolean>(false);
     const [addingUrl, setAddingUrl] = useState<boolean>(false);
@@ -86,11 +88,25 @@ function ViewFolderModal({
     const fileAction: IDropdownItems[] = [{
         icon: "👁️",
         name: " Aperçu", onClick(id?: number) {
-            console.log(id)
+            const file: IMediaFiles | undefined = folderToView?.files.find(f => f.id == id);
+            if (!file) {
+                app_notification({
+                    message: "this file doesn't exist"
+                })
+                return
+            }
+            setFileToPreview(file);
         },
     }, {
-        icon: "🖊", name: " Renommer", onClick(id?: number) {
-            console.log("id", id)
+        icon: "🖊", name: " Modifier", onClick(id?: number) {
+            const file: IMediaFiles | undefined = folderToView?.files.find(f => f.id == id);
+            if (!file) {
+                app_notification({
+                    message: "this file doesn't exist"
+                })
+                return
+            }
+            setFileToUpdate(file);
         },
     }, {
         icon: "❌", name: " Supprimer", onClick(id?: number) {
@@ -314,7 +330,7 @@ function ViewFolderModal({
                             />
                         </div>
                         <div>
-                            <div className='text-[var(--black)] text-[18px] font-bold mb-2'>	🚀 Actions rapides</div>
+                            <div className='text-[var(--black)] text-[18px] font-bold mb-2'>🚀 Actions rapides</div>
                             <div className='grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4'>
                                 <RapidActionButton
                                     onClick={() => setAddingFile(true)}
@@ -353,9 +369,6 @@ function ViewFolderModal({
                         </div>
                     </div>
             }
-
-
-
         </AppModalContainer >
     )
 }
