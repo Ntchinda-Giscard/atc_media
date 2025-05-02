@@ -111,6 +111,7 @@ export default function ForgotPassword() {
                     Réinitialiser le mot de passe</Button>
                 </Group>
             </form>
+            
         </div>
     </div>
   );
