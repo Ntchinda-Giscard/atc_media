@@ -5,7 +5,7 @@ import { home_links } from '../links';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from 'lucide-react';
-import logo from "@/public/assets/top_bar_logo.svg";
+import logo from "@/public/assets/gmp_logo.png";
 import Image from "next/image";
 import { useCombobox, Combobox, Group } from '@mantine/core';
 import { IconTriangleFilled } from '@tabler/icons-react';
