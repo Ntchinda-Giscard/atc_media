@@ -97,10 +97,14 @@ export default function ForgotPassword() {
                     </Center>
                 </Anchor>
                 <Button 
+                    disabled = {isLoading}
                     type="submit"
                 //   className={classes.control}
                     className="w-full bg-red-600 hover:bg-transparent hover:text-inherit hover:shadow-none hover:ring-2"
                 >
+                    { isLoading &&
+              <Loader2 className="animate-spin" />
+            }
                     Réinitialiser le mot de passe</Button>
                 </Group>
             </form>

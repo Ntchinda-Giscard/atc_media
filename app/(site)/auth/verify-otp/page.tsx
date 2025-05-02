@@ -2,11 +2,12 @@
 "use client";
 
 import { useState } from "react";
-import { PinInput, Group, Button, Box, Text } from "@mantine/core"; 
+import { PinInput, Group, Box, Text } from "@mantine/core"; 
 import axios from 'axios'         // UI components
 // import axiosClient from "../lib/axiosClient";   
 //@ts-ignore
-import Cookies from 'js-cookie'                             // shared Axios instance
+import Cookies from 'js-cookie'  
+import { Button } from "@/components/ui/button"                           // shared Axios instance
 
 export default function OtpVerification() {
   const [otp, setOtp] = useState("");                                         // capture OTP
@@ -38,34 +39,39 @@ export default function OtpVerification() {
   };
 
   return (
-    <Box maw={360} mx="auto" mt="xl">
-      <Text size="sm" mb="xs">Enter the 6‑digit code sent to your email</Text>
-      <Group justify="center" mb="md">
-        <PinInput
-          length={6}                     // six boxes :contentReference[oaicite:4]{index=4}
-          type="number"                  // numeric only :contentReference[oaicite:5]{index=5}
-          placeholder="–"
-          oneTimeCode                    // enable SMS‑autocomplete on iOS/Android :contentReference[oaicite:6]{index=6}
-          value={otp}
-          onChange={setOtp}
-          inputMode="numeric"
-        />
-      </Group>
+    <div className="h-svh flex justify-center flex-col w-full">
+        <h1 className=" text-xl text-neutral-950 font-medium text-center">
+                🔐 Verify OTP
+            </h1>
+        <Box maw={470} mx="auto" mt="xl">
+        <Text size="sm" mb="xs" ta='center' >Enter the 6‑digit code sent to your email</Text>
+        <Group justify="center" mb="md">
+            <PinInput
+                size={'lg'}
+                length={6}                     // six boxes :contentReference[oaicite:4]{index=4}
+                type="number"                  // numeric only :contentReference[oaicite:5]{index=5}
+                placeholder="–"
+                oneTimeCode                    // enable SMS‑autocomplete on iOS/Android :contentReference[oaicite:6]{index=6}
+                value={otp}
+                onChange={setOtp}
+                inputMode="numeric"
+            />
+        </Group>
 
-      {error && (
-        <Text c="red" size="xs"  mb="sm">
-          {error}
-        </Text>
-      )}
+        {error && (
+            <Text c="red" size="xs"  mb="sm">
+            {error}
+            </Text>
+        )}
 
-      <Button
-        fullWidth
-        onClick={handleVerify}
-        loading={loading}
-        disabled={otp.length < 6}
-      >
-        Verify OTP
-      </Button>
-    </Box>
+        <Button 
+          disabled = {loading}
+          onClick={handleVerify}
+          type="submit" 
+          className="w-full bg-red-600 hover:bg-transparent hover:text-inherit hover:shadow-none hover:ring-2">
+            Verify OTP
+        </Button>
+        </Box>
+    </div>
   );
 }
