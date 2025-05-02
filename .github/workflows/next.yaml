@@ -46,7 +46,7 @@ name: ci
 on:
   push:
     branches:
-      - "dev"
+      - "devclone"
 
 jobs:
   build:
