@@ -128,7 +128,7 @@ export function ProfileForm() {
               </FormControl>
               <FormMessage />
               <Link 
-                href={"#"} 
+                href={"/auth/forgot-password"} 
                 className="text-sm font-light text-red-600 text-end">
                 Mot de passe oublié ?
             </Link>
