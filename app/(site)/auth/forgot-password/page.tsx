@@ -18,6 +18,8 @@ import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import {useRouter} from 'next/navigation'
+//@ts-ignore
+import Cookies from 'js-cookie'
 
 // import classes from './ForgotPassword.module.css';
 
@@ -44,7 +46,10 @@ export default function ForgotPassword() {
         try{
             setIsloading(true)
             const url= "http://ec2-54-147-13-74.compute-1.amazonaws.com/api/user/forgot-password"
-            const results = axios.post(url, body)
+            const res = axios.post(url, body);
+            //@ts-ignore
+            const token = res.data.data.token.value
+            Cookies.set('auth_token', token, { expires: 30 })
             setIsloading(false)
             router.push('/auth/verify-otp')
         }catch(err){
