@@ -1,6 +1,7 @@
 'use client'
 import { IconArrowLeft } from '@tabler/icons-react';
 import {
+    Alert,
   Anchor,
   Box,
   Center,
@@ -71,9 +72,11 @@ export default function ForgotPassword() {
             </p>
                     
         </div>
-        { isLoading &&
-                <Loader2 className="animate-spin" />
-              }
+        { errMessage &&
+          <Alert color='red' m={10}>
+            <p className="text-red-600"> {errMessage} </p>
+          </Alert>
+        }
         <div className="flex justify-center w-full">
             <form onSubmit={form.onSubmit((values) => console.log(values))}
             className="w-2/3 mt-5 space-y-8 md:w-1/3"

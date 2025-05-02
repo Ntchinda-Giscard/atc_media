@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { PinInput, Group, Box, Text } from "@mantine/core"; 
+import { PinInput, Group, Box, Text, Alert } from "@mantine/core"; 
 import axios from 'axios'         // UI components
 // import axiosClient from "../lib/axiosClient";   
 //@ts-ignore
@@ -24,7 +24,7 @@ export default function OtpVerification() {
         "pin": otp
     }
     try {
-      const res = await axios.post("http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/auth/verify-otp", data,{
+      const res = await axios.post("http://ec2-54-147-13-74.compute-1.amazonaws.com/api/activate-code-password", data,{
         headers:{
           'Authorization': `Bearer ${token}`
         }
@@ -45,6 +45,11 @@ export default function OtpVerification() {
             </h1>
         <Box maw={470} mx="auto" mt="xl">
         <Text size="sm" mb="xs" ta='center' >Enter the 6‑digit code sent to your email</Text>
+        { error &&
+          <Alert color='red'>
+            <p className="text-red-600"> {error} </p>
+          </Alert>
+        }
         <Group justify="center" mb="md">
             <PinInput
                 size={'lg'}
@@ -58,11 +63,11 @@ export default function OtpVerification() {
             />
         </Group>
 
-        {error && (
+        {/* {error && (
             <Text c="red" size="xs"  mb="sm">
             {error}
             </Text>
-        )}
+        )} */}
 
         <Button 
           disabled = {loading}
