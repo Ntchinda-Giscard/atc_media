@@ -3,10 +3,10 @@ import axios from "axios";
 const createClientSlice = (set) => ({
   clients: [],
 
-  fetchClients: async (token) => {
+  fetchClients: async (token, page) => {
     try {
       const res = await axios.get(
-        "http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/admin/manager",
+        `http://ec2-54-147-13-74.compute-1.amazonaws.com/api/v1/admin/manager?page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

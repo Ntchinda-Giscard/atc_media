@@ -1,8 +1,14 @@
 "use client"
 import { Pagination, Select } from '@mantine/core';
+import { number } from 'zod';
 
+interface TableFooterProps{
+    total_items: number,
+    per_page: number,
+    onPageChange: (p: number) => void
+}
 
-function TableFooter() {
+function TableFooter({total_items, per_page, onPageChange} : TableFooterProps) {
     return ( 
         <>
             <div className="flex flex-col md:flex-row justify-between gap-4 mt-5 items-center">
@@ -13,7 +19,11 @@ function TableFooter() {
                     defaultValue={'10'}
                     w={'70px'}
                 />
-                <Pagination total={1} size="sm" color='#EE0202' />;
+                <Pagination 
+                    total={Math.ceil(total_items/per_page)} 
+                    size="sm" color='#EE0202' 
+                    onChange={(p) => onPageChange(p)}
+                />;
 
             </div>
         </>

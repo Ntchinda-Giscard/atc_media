@@ -15,13 +15,23 @@ function AddAccountForm() {
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
+///////////////////////////////////////////////
+            // account_type: '',
+            ///////////////////////////
           email: '',
           name: '',
           phone: '',
           address: '',
           manager_name: '',
             manager_password: "",
-        screens_allowed: 5
+        screens_allowed: 5,
+                    /////////////////
+                    ville: '',
+        player_nb: 5,
+        code_postal: '',
+        customer_connexion_code: '',
+        familly_group: '',
+        manager_email: '',
 
         },
     
@@ -44,7 +54,13 @@ function AddAccountForm() {
             manager_name: values.manager_name,
             manager_email: values.email,
             manager_password: values.manager_password,
-            screens_allowed: values.screens_allowed
+            screens_allowed: values.screens_allowed,
+            ville: values?.ville,
+            player_nb: values?.player_nb,
+            code_postal: values?.code_postal,
+            customer_connexion_code: values?.customer_connexion_code,
+            familly_group: values?.familly_group,
+
           }
         try{
             setLoading(true)
@@ -61,12 +77,12 @@ function AddAccountForm() {
       }
     return ( 
         <>
-        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+        <form className='space-y-5' onSubmit={form.onSubmit((values) => handleSubmit(values))}>
             <div className="flex md:flex-row flex-col gap-3 justify-between">
                 <TextInput
                     radius="md"
                     w={'100%'}
-                    label="Nom"
+                    label="Nom de la  société"
                     placeholder=""
                     key={form.key('name')}
                     {...form.getInputProps('name')}
@@ -79,16 +95,15 @@ function AddAccountForm() {
                     key={form.key('email')}
                     {...form.getInputProps('email')}
                 /> 
+                <TextInput
+                    radius="md"
+                    w={'100%'}
+                    label="Téléphone"
+                    placeholder=""
+                    key={form.key('phone')}
+                    {...form.getInputProps('phone')}
+                />
             </div>
-
-            <TextInput
-                radius="md"
-                w={'100%'}
-                label="Numero de telephone"
-                placeholder=""
-                key={form.key('phone')}
-                {...form.getInputProps('phone')}
-            />
 
             <div className="flex md:flex-row flex-col gap-3 justify-between">
                 <TextInput
@@ -102,10 +117,57 @@ function AddAccountForm() {
                 <TextInput
                     radius="md"
                     w={'100%'}
-                    label="Nom du manager"
+                    label="Code postal"
                     placeholder=""
-                    key={form.key('manager_name')}
-                    {...form.getInputProps('manager_name')}
+                    key={form.key('code_postal')}
+                    {...form.getInputProps('code_postal')}
+                />
+                <TextInput
+                    radius="md"
+                    w={'100%'}
+                    label="Ville"
+                    placeholder=""
+                    key={form.key('ville')}
+                    {...form.getInputProps('ville')}
+                />
+                
+            </div>
+
+            <div className="flex md:flex-row flex-col gap-3 justify-between">
+                <TextInput
+                    radius="md"
+                    w={'100%'}
+                    label="Code de connexion du client"
+                    placeholder=""
+                    key={form.key('customer_connexion_code')}
+                    {...form.getInputProps('customer_connexion_code')}
+                /> 
+                <TextInput
+                    radius="md"
+                    w={'100%'}
+                    label="Famille groupe"
+                    placeholder=""
+                    key={form.key('familly_group')}
+                    {...form.getInputProps('familly_group')}
+                /> 
+            </div>
+
+            <div className="flex md:flex-row flex-col gap-3 justify-between">
+                <NumberInput
+                    radius="md"
+                    w={'100%'}
+                    label="Nombre de player"
+                    placeholder=""
+                    key={form.key('player_nb')}
+                    {...form.getInputProps('player_nb')}
+                /> 
+                <NumberInput
+                    radius="md"
+                    w={'100%'}
+                    label="Nombre d'écran"
+                    placeholder=""
+                    key={form.key('screens_allowed')}
+                    {...form.getInputProps('screens_allowed')}
                 /> 
             </div>
 
@@ -118,15 +180,24 @@ function AddAccountForm() {
                     key={form.key('manager_password')}
                     {...form.getInputProps('manager_password')}
                 />
-                <NumberInput
+                <TextInput
                     radius="md"
                     w={'100%'}
-                    label="Nombre d'ecran authoriser"
+                    label="Nom et Prénom du contact"
                     placeholder=""
-                    key={form.key('screens_allowed')}
-                    {...form.getInputProps('screens_allowed')}
-                /> 
+                    key={form.key('manager_name')}
+                    {...form.getInputProps('manager_name')}
+                />
+                <TextInput
+                    radius="md"
+                    w={'100%'}
+                    label="Émail du contact"
+                    placeholder=""
+                    key={form.key('manager_email')}
+                    {...form.getInputProps('manager_email')}
+                />  
             </div>
+            
 
             <Group justify="flex-start" mt="md">
                 <Button loading={loading} type="submit" color='#EE0202' radius={'md'} > Ajouter </Button>

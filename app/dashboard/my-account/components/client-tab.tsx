@@ -18,6 +18,7 @@ function ClientTab() {
     const { clients, fetchClients, updateClient, deleteClient } = useOtherStore();
     const [itemDelete, setItemDelete] = useState()
     const [itemEdit, setItemEdit] = useState()
+    const [page, setPage] = useState<number>(1)
     const token = Cookies.get('auth_token');
 
 
@@ -37,9 +38,9 @@ function ClientTab() {
     }
 
     useEffect(() =>{
-        fetchClients(token)
+        fetchClients(token, page)
         console.log("Clients", clients);
-    })
+    }, [])
     
     return ( 
         <>
@@ -67,7 +68,11 @@ function ClientTab() {
                         elements={clients}
                     /> : <Skeleton w={'100%'} h={300} />
                 }
-                    {/* <TableFooter /> */}
+                    <TableFooter
+                        total_items={clients?.total}
+                        per_page = {clients?.per_page}
+                        onPageChange={(p) => setPage(p)}
+                      />
                 </div>
 
                 <p className="text-2xl font-semilight my-5"> Ajouter un sous-compte </p>
