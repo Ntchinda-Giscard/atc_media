@@ -1,30 +1,34 @@
 import { forwardRef } from 'react';
 
-interface IAppInput {
+interface IAppTextarea {
     placeholder?: string;
-    type?: React.HTMLInputTypeAttribute | undefined;
     label?: string;
     name?: string;
     error?: boolean;
     value?: string;
     setValue?: (e: string) => void;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     readonly?: boolean;
     secondary?: boolean;
 }
 
-const AppInput = forwardRef<HTMLInputElement, IAppInput>(
-    ({ label, type = 'text', placeholder, error, value, setValue, readonly, secondary, onChange, name, ...rest }, ref) => {
+const AppTextarea = forwardRef<HTMLTextAreaElement, IAppTextarea>(
+    ({ label, placeholder, error, value, setValue, readonly, secondary, onChange, name, ...rest }, ref) => {
         return (
             <div className="relative w-full text-sm">
                 {label && <div className="mb-3 font-normal text-[16px] text-[var(--title-color)]">{label}</div>}
-                <input
+                <textarea
                     ref={ref}
-                    type={type}
                     placeholder={placeholder}
                     value={value}
                     readOnly={readonly}
                     name={name}
+                    rows={3}
+                    className={`w-full text-[16px] text-[var(--black)] rounded-[12px] p-4 focus:outline-0
+                                    ${secondary ? 'bg-[var(--white)] border-0' : 'border bg-transparent'} 
+                                    ${error ? 'border border-red-300' : 'border border-[var(--light-gray-background)]'} 
+                                `}
+                    {...rest}
                     onChange={(e) => {
                         if (setValue) {
                             setValue(e.target.value)
@@ -33,18 +37,13 @@ const AppInput = forwardRef<HTMLInputElement, IAppInput>(
                             onChange(e);
                         }
                     }}
-                    className={`h-[48px] w-full text-[16px] text-[var(--black)] rounded-[12px]   px-4 focus:outline-0
-                        ${secondary ? 'bg-[var(--white)] border-0' : 'border bg-transparent'} 
-                        ${error ? 'border border-red-300' : 'border border-[var(--light-gray-background)]'} 
-                    `}
-                    {...rest}
-                />
+                ></textarea>
             </div>
         );
     }
 );
 
-AppInput.displayName = 'AppInput';
+AppTextarea.displayName = 'AppTextarea';
 
-export default AppInput;
+export default AppTextarea;
 

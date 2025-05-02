@@ -1,60 +1,67 @@
-import { ChevronDown, ChevronLeft, ChevronRight, Play } from 'lucide-react'
+import { Ban, BookText, Link, Play } from 'lucide-react'
 import React from 'react'
 import AppActions from './AppActions'
-import { IDropdownItems } from '@/constant/interphase'
+import { IDropdownItems, IMediaFiles } from '@/constant/interphase'
 import Image from 'next/image'
 import { AppImage } from '@/assets/images'
+import { useFile } from '@/contexts/FileContex'
+import { app_notification } from '@/app/dashboard/utils/notification-center'
 
 interface FileGridDisplayProps {
-    fileAcation: IDropdownItems[]
+    file: IMediaFiles;
 }
 
-const FileGridDisplay = ({ fileAcation }: FileGridDisplayProps) => {
-    return (
-        <div>
-            <div className='flex w-full gap-4 pb-2 mb-2 overflow-x-auto'>
-                {[...Array(7)].map((_, index) => (
-                    <div
-                        key={index}
-                        className='w-[250px] h-[210px] bg-[var(--card-bg)] rounded-[40px] relative col-center flex-shrink-0'
-                    >
-                        {/* <Link size={100} /> */}
-                        <Play size={100} />
-                        <Image
-                            src={AppImage.TestImage}
-                            alt=''
-                            className='w-full h-full rounded-[40px]'
-                        />
-                        <div className='absolute bottom-0 w-full bg-[#ffffff90] rounded-b-[40px] p-2'>
-                            <AppActions actions={fileAcation} id={1} />
-                        </div>
-                    </div>
-                ))}
-            </div>
+const FileGridDisplay = ({ file }: FileGridDisplayProps) => {
+    const {
+        files,
+        setFileToPreview
+    } = useFile()
+    const fileAction: IDropdownItems[] = [{
+        icon: "👁️",
+        onClick: (id?: number) => {
+            const file: IMediaFiles | undefined = files.find(f => f.id == id);
+            if (!file) {
+                app_notification({
+                    message: "this file doesn't exist"
+                })
+                return
+            }
+            setFileToPreview(file);
+        }
+    }];
 
-            <div className="relative">
-                <div className="absolute gap-3 col-center">
-                    <div className="text-[var(--title-color)] font-normal text-[13px]">
-                        Montrer
-                    </div>
-                    <div className="text-[var(--title-color)] border border-[var(--fadded-border)] rounded-[5px] col-center gap-2 font-medium text-[15px] py-2 px-3">
-                        3
-                        <ChevronDown color="var(--title-color)" size={18} />
-                    </div>
-                </div>
-                <div className="flex gap-3 h-14 col-center">
-                    <div className="bg-[var(--secondary-background)] h-[34px] w-[34px] rounded-[5px] col-center cursor-pointer">
-                        <ChevronLeft size={15} color="var(--fadded-icon)" />
-                    </div>
-                    <div className="bg-[var(--primary-color)] h-[34px] w-[34px] rounded-[5px] text-[13px] text-[var(--white)] col-center">
-                        1
-                    </div>
-                    <div className="bg-[var(--secondary-background)] h-[34px] w-[34px] rounded-[5px] col-center cursor-pointer">
-                        <ChevronRight size={15} color="var(--fadded-icon)" />
-                    </div>
-                </div>
+    return (
+        <div
+            className='w-[250px] h-[210px] bg-[var(--card-bg)] rounded-[40px] relative col-center flex-shrink-0 border'
+        >
+            {
+                file?.type == "url" ?
+                    <Link size={100} />
+                    :
+                    file?.type == "video" ?
+                        <Play size={100} />
+                        :
+                        file?.type == "image" ?
+                            <Image
+                                src={file.path ? file.path : AppImage.TestImage}
+                                alt=''
+                                className='w-full h-full rounded-[40px]'
+                                fill
+                            />
+                            :
+                            file?.type == "document" ?
+                                <BookText size={100} />
+                                :
+                                <Ban size={100} />
+            }
+            <div className='absolute bottom-0 w-full bg-[#ffffff90] rounded-b-[40px] p-2'>
+                <AppActions actions={fileAction} id={file.id} />
+            </div>
+            <div className='absolute top-0 w-full bg-[#ffffff90] rounded-t-[40px] p-2 text-center'>
+                {file.name}
             </div>
         </div>
+
     )
 }
 

@@ -1,4 +1,4 @@
-import { IAddFileToFolderApiProps } from "@/constant/interphase";
+import { IAddFileToFolderApiProps, IAddPlaylistToFolderApiProps, IUpdateFileInFolderApiProps } from "@/constant/interphase";
 import api from "./useApi";
 
 const useMediaService = () => {
@@ -51,7 +51,7 @@ const useMediaService = () => {
     }
     const addFileToFolderApi = async (payload: IAddFileToFolderApiProps) => {
         try {
-            const response = await api.post('files/upload', payload);
+            const response = await api.post('files/upload', { ...payload, multipart: true });
             return response;
         } catch (error) {
             console.log('error', error)
@@ -67,6 +67,33 @@ const useMediaService = () => {
             throw error;
         }
     }
-    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, addFileToFolderApi, removeFileFromFolderApi }
+    const addPlaylistToFolderApi = async (payload: IAddPlaylistToFolderApiProps) => {
+        try {
+            const response = await api.post('playlists', payload);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    const updateFileInFolderApi = async (payload: IUpdateFileInFolderApiProps) => {
+        try {
+            const response = await api.put('files/' + payload.file_id.toString(), payload);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    const deletePlaylistApi = async (id: number) => {
+        try {
+            const response = await api.delete('playlists/' + id);
+            return response;
+        } catch (error) {
+            console.log('error', error)
+            throw error;
+        }
+    }
+    return { getFolders, getFolder, renameFolderApi, addFolderApi, deleteFolderApi, deletePlaylistApi, addFileToFolderApi, removeFileFromFolderApi, addPlaylistToFolderApi, updateFileInFolderApi }
 }
 export default useMediaService;

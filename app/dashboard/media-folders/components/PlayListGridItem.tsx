@@ -11,13 +11,14 @@ function PlayListGridItem({ options, playlist }: PlayListGridItemProps) {
   return (
     <div className='bg-[var(--card-bg)] rounded-[10px] px-6 py-4 flex mb-4 flex-col items-center justify-between gap-4'>
       <div className='flex items-center justify-between w-full'>
-        <div className='font-normal text-[20px] text-[var(--black)]'>{playlist.name}</div>
+        <div className='font-normal text-[20px] text-[var(--black)] cursor-pointer'onClick={() => options[0]?.onClick && options[0]?.onClick(playlist.id)}>{playlist.name}</div>
         <OptionDropdown
           options={options}
+          id={playlist.id}
         />
       </div>
       <div className='border rounded-[10px] w-full'>
-        {
+        {/* {
           playlist.files.map((file, index) => {
             let icon = '🎬'
             switch (file.type) {
@@ -32,7 +33,7 @@ function PlayListGridItem({ options, playlist }: PlayListGridItemProps) {
             }
             return (<div key={file.id} className={`p-4 ${index != playlist.files.length - 1 ? ' border-b' : ''}`}>{icon} {file.name}</div>)
           })
-        }
+        } */}
       </div>
     </div>
   )

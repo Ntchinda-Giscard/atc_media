@@ -2,8 +2,8 @@ import { Check } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 interface CheckboxProps {
-  check: Dispatch<SetStateAction<boolean>>;
-  isChecked: boolean;
+  check?: Dispatch<SetStateAction<boolean>>;
+  isChecked?: boolean;
 }
 
 export default function AppCheckbox({
@@ -12,12 +12,12 @@ export default function AppCheckbox({
 }: CheckboxProps) {
 
   return (
-    <div className="">
+    <div className="rounded border-1">
       <label className="flex flex-row items-center w-full text-sm cursor-pointer">
         <input
           type="checkbox"
           checked={isChecked}
-          onChange={() => check(!isChecked)}
+          onChange={() => check && check(!isChecked)}
           className="hidden"
         />
         <div

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import '@/app/(site)/globals.css';
 import { MediaProvider } from '@/contexts/MediaContex';
 import useStore from '@/stores/store';
+import { FileProvider } from '@/contexts/FileContex';
 
 
 export default function Providers({
@@ -27,10 +28,12 @@ export default function Providers({
     <>
       <ColorSchemeScript defaultColorScheme="light" />
       <MantineProvider>
-        <MediaProvider>
-          <Notifications />
-          {children}
-        </MediaProvider>
+        <FileProvider>
+          <MediaProvider>
+            <Notifications />
+            {children}
+          </MediaProvider>
+        </FileProvider>
       </MantineProvider>
     </>
   );

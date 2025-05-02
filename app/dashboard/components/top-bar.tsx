@@ -1,5 +1,5 @@
 "use client"
-import logo from "@/public/assets/top_bar_logo.svg";
+import logo from "@/public/assets/gmp_logo.png";
 import Image from "next/image"
 import { IconBell, IconChevronDown, IconLogout, IconSearch, IconUser, IconWorld } from "@tabler/icons-react";
 import { TextInput, Avatar, Group, Indicator, Menu, Skeleton } from "@mantine/core";
